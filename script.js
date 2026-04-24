@@ -893,8 +893,10 @@ function renderArticle() {
   const reading = document.getElementById('articleReading');
   const body = document.getElementById('articleBody');
   const related = document.getElementById('relatedList');
+  const nav = document.getElementById('articleNav');
+  const readCountEl = document.getElementById('readCount');
 
-  if (!title || !tag || !date || !reading || !body || !related) return;
+  if (!title || !tag || !date || !reading || !body) return;
 
   title.textContent = article.title;
   tag.textContent = article.source || article.tag;
@@ -902,16 +904,52 @@ function renderArticle() {
   reading.textContent = article.reading;
   body.innerHTML = article.body.map(paragraph => `<p>${paragraph}</p>`).join('');
 
-  posts.filter(item => item.id !== article.id).slice(0, 5).forEach(post => {
-    const item = document.createElement('a');
-    item.className = 'related-item';
-    item.href = getPostUrl(post);
-    item.innerHTML = `
-      <h4 class="related-item-title">${post.title}</h4>
-      <p class="related-item-meta">${post.tag} · ${post.date}</p>
+  if (related) {
+    posts.filter(item => item.id !== article.id).slice(0, 5).forEach(post => {
+      const item = document.createElement('a');
+      item.className = 'related-item';
+      item.href = getPostUrl(post);
+      item.innerHTML = `
+        <h4 class="related-item-title">${post.title}</h4>
+        <p class="related-item-meta">${post.tag} · ${post.date}</p>
+      `;
+      related.appendChild(item);
+    });
+  }
+
+  // 上一篇 / 下一篇导航
+  if (nav) {
+    const currentIndex = posts.findIndex(p => String(p.id) === String(article.id));
+    const prevPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
+    const nextPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
+
+    nav.innerHTML = `
+      <div class="article-nav">
+        ${prevPost ? `<a href="${getPostUrl(prevPost)}">
+          <span class="article-nav-label">← 上一篇</span>
+          <span class="article-nav-title">${prevPost.title}</span>
+        </a>` : '<span></span>'}
+        ${nextPost ? `<a href="${getPostUrl(nextPost)}" class="article-nav-next">
+          <span class="article-nav-label">下一篇 →</span>
+          <span class="article-nav-title">${nextPost.title}</span>
+        </a>` : '<span></span>'}
+      </div>
     `;
-    related.appendChild(item);
-  });
+  }
+
+  // 阅读量统计
+  if (readCountEl) {
+    (async () => {
+      try {
+        const ns = 'junny-blog-reads';
+        const key = `article-${article.id}`;
+        const res = await fetch(`https://api.countapi.xyz/hit/${ns}/${key}`).then(r => r.json());
+        readCountEl.textContent = `阅读量 ${res.value}`;
+      } catch (e) {
+        console.log('Read count unavailable');
+      }
+    })();
+  }
 }
 
 function renderNotes() {
@@ -1063,6 +1101,22 @@ function renderNotes() {
   }
 }
 
+/* ===== 全局搜索入口（自动注入到所有页面导航） ===== */
+(function () {
+  const nav = document.querySelector('.nav-links');
+  if (!nav) return;
+  if (nav.querySelector('a[href="search.html"]')) return;
+  const adminLink = nav.querySelector('a[href="admin.html"]');
+  const searchLink = document.createElement('a');
+  searchLink.href = 'search.html';
+  searchLink.textContent = '搜索';
+  if (adminLink) {
+    nav.insertBefore(searchLink, adminLink);
+  } else {
+    nav.appendChild(searchLink);
+  }
+})();
+
 /* ===== 返回顶部按钮 ===== */
 (function () {
   const btn = document.createElement('button');
@@ -1151,6 +1205,47 @@ function renderNotes() {
   })();
 })();
 
+function renderSearch() {
+  const input = document.getElementById('searchInput');
+  const results = document.getElementById('searchResults');
+  const info = document.getElementById('searchInfo');
+  if (!input || !results) return;
+
+  function doSearch(query) {
+    const q = query.toLowerCase().trim();
+    if (!q) {
+      results.innerHTML = '';
+      if (info) info.textContent = '';
+      return;
+    }
+    const filtered = posts.filter(p => {
+      return (
+        p.title.toLowerCase().includes(q) ||
+        (p.summary || '').toLowerCase().includes(q) ||
+        (p.source || '').toLowerCase().includes(q) ||
+        (p.body || []).some(b => b.toLowerCase().includes(q))
+      );
+    });
+
+    results.innerHTML = '';
+    if (info) info.textContent = `找到 ${filtered.length} 篇相关文章`;
+
+    if (!filtered.length) {
+      results.innerHTML = `
+        <div class="search-empty">
+          <h3>未找到相关文章</h3>
+          <p>试试其他关键词</p>
+        </div>
+      `;
+      return;
+    }
+    filtered.forEach(post => results.appendChild(createArticleCard(post)));
+  }
+
+  input.addEventListener('input', (e) => doSearch(e.target.value));
+  input.focus();
+}
+
 async function initPage() {
   await loadRemotePosts();
   const page = document.body.dataset.page;
@@ -1159,5 +1254,6 @@ async function initPage() {
   else if (page === 'daily') renderDaily();
   else if (page === 'daily-posts') renderDailyPosts();
   else if (page === 'notes') renderNotes();
+  else if (page === 'search') renderSearch();
 }
 initPage();

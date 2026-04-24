@@ -301,7 +301,7 @@ function copyExport() {
 // 生成完整的 script.js 代码
 async function generateScriptJs() {
   try {
-    const response = await fetch('script.js?v=19');
+    const response = await fetch('script.js?v=20');
     let code = await response.text();
 
     // 生成新的 posts 数组代码

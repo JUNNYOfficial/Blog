@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <title>搜索 · JUNNYOfficial Blog</title>
+  <meta name="description" content="搜索 JUNNYOfficial Blog 的全部文章。" />
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="feed.xml" />
+  <link rel="stylesheet" href="styles.css?v=20" />
+  <style>
+    .search-hero {
+      text-align: center;
+      padding: 32px 0 40px;
+    }
+    .search-hero h2 {
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      margin: 0 0 8px;
+    }
+    .search-hero p {
+      color: #8f8f8f;
+      margin: 0;
+    }
+    .search-box-wrap {
+      position: relative;
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+    .search-box-input {
+      width: 100%;
+      padding: 16px 20px 16px 48px;
+      border: 1px solid #e5e5e5;
+      border-radius: 16px;
+      font-size: 1.05rem;
+      background: #fafafa;
+      outline: none;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+    .search-box-input:focus {
+      border-color: #111;
+      background: #fff;
+    }
+    .search-box-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #aaa;
+      pointer-events: none;
+    }
+    .search-results-info {
+      font-size: 0.9rem;
+      color: #8f8f8f;
+      margin-bottom: 20px;
+    }
+    .search-results-grid {
+      display: grid;
+      gap: 20px;
+    }
+    .search-empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: #8f8f8f;
+    }
+    .search-empty h3 {
+      margin: 0 0 8px;
+      font-size: 1.2rem;
+      color: #111;
+    }
+    .search-empty p {
+      margin: 0;
+    }
+    @media (max-width: 600px) {
+      .search-hero {
+        padding: 20px 0 28px;
+      }
+    }
+  </style>
+</head>
+<body data-page="search">
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand">
+        <img class="brand-mark" src="avatar.jpg" alt="JUNNYOfficial" />
+        <div>
+          <p class="eyebrow">JUNNYOfficial</p>
+          <h1>搜索文章</h1>
+        </div>
+      </div>
+      <nav class="nav-links" aria-label="主导航">
+        <a href="index.html">首页</a>
+        <a href="notes.html">论文笔记</a>
+        <a href="daily.html">日常</a>
+        <a href="daily-posts.html">动态</a>
+        <a href="library.html">资料库</a>
+        <a href="admin.html">管理</a>
+        <a href="about.html">关于</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="search-hero">
+        <h2>🔍 搜索</h2>
+        <p>输入关键词，查找标题、摘要或正文内容</p>
+      </section>
+
+      <section class="panel-section" style="max-width:720px;margin:0 auto 40px;">
+        <div class="search-box-wrap">
+          <svg class="search-box-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="search" class="search-box-input" id="searchInput" placeholder="搜索文章..." autocomplete="off" />
+        </div>
+        <p class="search-results-info" id="searchInfo"></p>
+        <div class="search-results-grid" id="searchResults"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>JUNNYOfficial Blog • 2026 • 慎用色彩，善用空间</p>
+    </footer>
+  </div>
+
+  <script src="script.js?v=20"></script>
+</body>
+</html>
