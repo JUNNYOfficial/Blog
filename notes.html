@@ -51,27 +51,17 @@
       <section class="notes-section panel-section">
         <div class="section-header">
           <div>
-            <p class="eyebrow">精选笔记</p>
-            <h3>近期论文摘录</h3>
+            <p class="eyebrow">论文库</p>
+            <h3>全部论文笔记</h3>
+          </div>
+          <div class="filter-row" id="notesFilter">
+            <span class="pill active">全部</span>
+            <span class="pill">Nature Neuroscience</span>
+            <span class="pill">Nature Reviews</span>
+            <span class="pill">Nature</span>
           </div>
         </div>
-        <div class="notes-grid">
-          <a class="note-card" href="article.html?id=6">
-            <p class="eyebrow">2026 · Nature Neuroscience</p>
-            <h4>视觉层次与记忆编码</h4>
-            <p>从实验设计到数据解释，分解视觉注意和记忆形成之间的关系。</p>
-          </a>
-          <a class="note-card" href="article.html?id=7">
-            <p class="eyebrow">2025 · Neuron</p>
-            <h4>前额叶网络与决策过程</h4>
-            <p>提炼决策模型中的关键变量，形成适用于后续实验的对照框架。</p>
-          </a>
-          <a class="note-card" href="article.html?id=8">
-            <p class="eyebrow">2024 · eLife</p>
-            <h4>记忆巩固与睡眠节律</h4>
-            <p>记录该文的实验步骤与可复制点，为自己的实验设计提供参考。</p>
-          </a>
-        </div>
+        <div class="notes-grid" id="notesGrid"></div>
       </section>
 
       <section class="topic-section panel-section">
@@ -97,5 +87,6 @@
       <p>JUNNYOfficial Blog • 论文笔记页 • 2026</p>
     </footer>
   </div>
+  <script src="script.js?v=3"></script>
 </body>
 </html>

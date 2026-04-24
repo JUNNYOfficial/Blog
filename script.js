@@ -558,7 +558,7 @@ function renderArticle() {
   reading.textContent = article.reading;
   body.innerHTML = article.body.map(paragraph => `<p>${paragraph}</p>`).join('');
 
-  posts.filter(item => item.id !== article.id).forEach(post => {
+  posts.filter(item => item.id !== article.id).slice(0, 5).forEach(post => {
     const item = document.createElement('a');
     item.className = 'related-item';
     item.href = `article.html?id=${post.id}`;
@@ -570,6 +570,56 @@ function renderArticle() {
   });
 }
 
+function renderNotes() {
+  const grid = document.getElementById('notesGrid');
+  const filterRow = document.getElementById('notesFilter');
+  if (!grid) return;
+
+  const papers = posts.filter(post => post.tag === '论文');
+
+  function render(list) {
+    grid.innerHTML = '';
+    if (!list.length) {
+      grid.innerHTML = '<p class="empty-state">暂无论文</p>';
+      return;
+    }
+    list.forEach(post => {
+      const card = document.createElement('a');
+      card.className = 'note-card';
+      card.href = `article.html?id=${post.id}`;
+      card.innerHTML = `
+        <p class="eyebrow">${post.source || post.tag}</p>
+        <h4>${post.title}</h4>
+        <p>${post.summary || ''}</p>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  render(papers);
+
+  if (filterRow) {
+    filterRow.addEventListener('click', (e) => {
+      const pill = e.target.closest('.pill');
+      if (!pill) return;
+      const selected = pill.textContent.trim();
+
+      filterRow.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+
+      if (selected === '全部') {
+        render(papers);
+      } else if (selected === 'Nature Neuroscience') {
+        render(papers.filter(p => p.source && p.source.includes('Nature Neuroscience') && !p.source.includes('Reviews')));
+      } else if (selected === 'Nature Reviews') {
+        render(papers.filter(p => p.source && p.source.includes('Nature Reviews')));
+      } else if (selected === 'Nature') {
+        render(papers.filter(p => p.source && p.source.includes('Nature') && !p.source.includes('Neuroscience')));
+      }
+    });
+  }
+}
+
 const page = document.body.dataset.page;
 if (page === 'home') {
   renderHome();
@@ -577,4 +627,6 @@ if (page === 'home') {
   renderArticle();
 } else if (page === 'daily-posts') {
   renderDailyPosts();
+} else if (page === 'notes') {
+  renderNotes();
 }

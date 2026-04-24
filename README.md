@@ -30,12 +30,13 @@
 |---|---|---|
 | 首页 | `index.html` | 文章列表、个人简介、论文笔记、日常日志、专题卡片、社交链接 |
 | 文章详情 | `article.html?id={id}` | 单篇文章阅读，含分享功能与推荐阅读 |
-| 论文笔记 | `notes.html` | 结构化文献摘录与研究片段 |
+| 论文库 | `notes.html` | 全部论文笔记，支持按期刊分类过滤（Nature Neuroscience / Reviews / 主刊） |
 | 日常记录 | `daily.html` | 实验日志与研究灵感笔记 |
 | 日常动态 | `daily-posts.html` | 按时间排列的动态日志与统计 |
 | 关于 | `about.html` | 研究理念与个人介绍 |
 | 资料库 | `library.html` | 研究博客、工具、模板与外部链接 |
 | 文献数据库 | `literature.html` | 按主题分类整理的文献资料入口 |
+| 飞书论文 | `papers/paper-xxx.html` | 从飞书文档自动同步生成的独立论文页面 |
 
 ---
 
@@ -79,10 +80,19 @@ python3 -m http.server 8000
 
 ```
 Blog/
-├── .github/workflows/pages.yml   # GitHub Pages 自动部署
+├── .github/workflows/
+│   ├── pages.yml                 # GitHub Pages 自动部署
+│   └── sync-feishu.yml           # 飞书文档自动同步
+├── scripts/
+│   ├── sync-feishu.js            # 飞书 API 同步脚本
+│   └── generate-papers.js        # 本地生成论文页面
+├── papers/
+│   ├── paper-001.html            # 飞书同步论文页面
+│   ├── paper-002.html
+│   └── ...
 ├── index.html                    # 首页
 ├── article.html                  # 文章详情页
-├── notes.html                    # 论文笔记页
+├── notes.html                    # 论文库（支持期刊分类过滤）
 ├── daily.html                    # 日常记录页
 ├── daily-posts.html              # 日常动态页
 ├── about.html                    # 关于页
@@ -90,8 +100,25 @@ Blog/
 ├── literature.html               # 文献数据库页
 ├── styles.css                    # 全局样式表
 ├── script.js                     # 数据与渲染逻辑
+├── script-feishu.js              # 飞书论文数据文件
 └── README.md                     # 本文件
 ```
+
+---
+
+## 飞书文档自动同步
+
+博客支持从飞书云文档自动同步论文笔记：
+
+1. 在飞书文档中按 `## 二级标题` 分隔每篇论文
+2. 在仓库 **Actions** 标签页手动触发「Sync Feishu Papers」工作流
+3. 或设置定时同步（默认每天凌晨 2 点）
+4. 同步后的论文自动拆分为独立页面，并合并到论文库中
+
+**需要配置的环境变量**（GitHub Secrets）：
+- `FEISHU_APP_ID` — 飞书自建应用 App ID
+- `FEISHU_APP_SECRET` — 飞书自建应用 App Secret
+- `FEISHU_DOC_URL` — 飞书文档链接
 
 ---
 
@@ -100,6 +127,7 @@ Blog/
 - 文章数据集中维护在 `script.js` 的 `posts` 数组中
 - 新增页面时请保持统一的 `page-shell` + `topbar` + `main` + `footer` 结构
 - 样式修改请在 `styles.css` 中完成，确保不影响其他页面
+- 论文库数据可通过飞书同步自动生成，也可手动在 `script.js` 中添加
 
 ---
 
