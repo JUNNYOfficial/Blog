@@ -355,6 +355,78 @@ function formatToday() {
   return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
 }
 
+/* ===== 手机同步 ===== */
+let currentSyncUrl = '';
+
+function generateSyncQR() {
+  const stored = localStorage.getItem(POSTS_KEY) || '[]';
+  const data = JSON.parse(stored);
+
+  if (!data.length) {
+    alert('当前没有可同步的文章，请先在「文章管理」中添加文章。');
+    return;
+  }
+
+  // LZString 压缩数据
+  const compressed = LZString.compressToEncodedURIComponent(stored);
+
+  // 构建同步 URL（基于当前页面路径）
+  const base = location.href.replace('admin.html', 'sync.html');
+  currentSyncUrl = `${base}?d=${compressed}`;
+
+  const qrArea = document.getElementById('syncQRArea');
+  const qrContainer = document.getElementById('syncQrcode');
+  qrContainer.innerHTML = '';
+  qrArea.style.display = 'block';
+
+  // 显示链接长度提示
+  const lenEl = document.getElementById('syncUrlLength');
+  const urlLen = currentSyncUrl.length;
+  if (urlLen > 2000) {
+    lenEl.innerHTML = `链接长度 ${urlLen} 字符，二维码可能较密。<br><strong>建议优先使用「复制链接」发送到手机打开。</strong>`;
+    lenEl.style.color = '#b45309';
+  } else if (urlLen > 1000) {
+    lenEl.textContent = `链接长度 ${urlLen} 字符，请将手机靠近扫码。`;
+    lenEl.style.color = '#8f8f8f';
+  } else {
+    lenEl.textContent = `链接长度 ${urlLen} 字符，扫码即可同步。`;
+    lenEl.style.color = '#8f8f8f';
+  }
+
+  // 重置复制提示
+  document.getElementById('syncCopyMsg').textContent = '';
+
+  // 生成二维码
+  try {
+    new QRCode(qrContainer, {
+      text: currentSyncUrl,
+      width: 220,
+      height: 220,
+      colorDark: '#111111',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  } catch (e) {
+    qrContainer.innerHTML = '<p style="color:#c00;">二维码生成失败，请使用「复制链接」方式</p>';
+  }
+}
+
+function copySyncUrl() {
+  if (!currentSyncUrl) {
+    alert('请先生成同步二维码');
+    return;
+  }
+  navigator.clipboard.writeText(currentSyncUrl).then(() => {
+    const msg = document.getElementById('syncCopyMsg');
+    msg.textContent = '✅ 已复制到剪贴板，请通过微信/邮件发送到手机打开';
+    msg.style.color = '#166534';
+  }).catch(() => {
+    const msg = document.getElementById('syncCopyMsg');
+    msg.textContent = '复制失败，请手动选中链接复制';
+    msg.style.color = '#991b1b';
+  });
+}
+
 // 回车登录
 document.addEventListener('DOMContentLoaded', () => {
   init();

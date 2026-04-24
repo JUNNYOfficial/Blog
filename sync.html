@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <title>数据同步 · JUNNYOfficial Blog</title>
+  <link rel="stylesheet" href="styles.css?v=16" />
+  <script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
+  <style>
+    .sync-container {
+      max-width: 480px;
+      margin: 80px auto;
+      padding: 40px 32px;
+      border: 1px solid #e9e9e9;
+      border-radius: 24px;
+      background: #ffffff;
+      text-align: center;
+    }
+    .sync-container h2 {
+      margin: 0 0 12px;
+      font-size: 1.5rem;
+    }
+    .sync-container > p {
+      color: #8f8f8f;
+      margin: 0 0 28px;
+    }
+    .sync-status {
+      font-size: 1.05rem;
+      margin: 24px 0;
+      padding: 20px;
+      border-radius: 16px;
+      line-height: 1.6;
+    }
+    .sync-status.success {
+      background: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+    .sync-status.error {
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+    .sync-detail {
+      font-size: 0.9rem;
+      margin-top: 8px;
+      opacity: 0.85;
+    }
+    .sync-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 28px;
+    }
+    .sync-actions a,
+    .sync-actions button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: 1px solid #e9e9e9;
+      background: #fff;
+      color: #111;
+      transition: all 0.2s ease;
+    }
+    .sync-actions a:hover,
+    .sync-actions button:hover {
+      border-color: #8f8f8f;
+      background: #f7f7f7;
+    }
+    .sync-actions a.primary,
+    .sync-actions button.primary {
+      background: #111;
+      color: #fff;
+      border-color: #111;
+    }
+    .sync-actions a.primary:hover,
+    .sync-actions button.primary:hover {
+      background: #333;
+    }
+    @media (max-width: 600px) {
+      .sync-container {
+        margin: 40px 16px;
+        padding: 32px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <div class="sync-container">
+      <h2>📱 数据同步</h2>
+      <p>正在将电脑端的文章数据同步到本设备...</p>
+      <div id="syncStatus" class="sync-status" style="display:none;"></div>
+      <div class="sync-actions" id="syncActions" style="display:none;">
+        <a href="index.html" class="primary">前往首页</a>
+        <a href="admin.html">进入后台</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const statusEl = document.getElementById('syncStatus');
+      const actionsEl = document.getElementById('syncActions');
+
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const compressed = params.get('d');
+
+        if (!compressed) {
+          throw new Error('同步链接无效，缺少数据参数。请重新在电脑端后台生成二维码。');
+        }
+
+        const json = LZString.decompressFromEncodedURIComponent(compressed);
+        if (!json) {
+          throw new Error('数据解压失败，链接可能已损坏或过期。');
+        }
+
+        const data = JSON.parse(json);
+        if (!Array.isArray(data)) {
+          throw new Error('数据格式不正确。');
+        }
+
+        // 保存到 localStorage
+        localStorage.setItem('blog-admin-posts', json);
+
+        const localCount = data.filter(p => !String(p.id).startsWith('f')).length;
+        const feishuCount = data.filter(p => String(p.id).startsWith('f')).length;
+
+        statusEl.innerHTML = `
+          <div>✅ 同步成功！</div>
+          <div class="sync-detail">共 ${data.length} 篇文章已保存到本设备<br>
+          （本地文章 ${localCount} 篇 · 飞书论文 ${feishuCount} 篇）</div>
+        `;
+        statusEl.className = 'sync-status success';
+      } catch (e) {
+        statusEl.innerHTML = `
+          <div>❌ 同步失败</div>
+          <div class="sync-detail">${e.message}</div>
+        `;
+        statusEl.className = 'sync-status error';
+      }
+
+      statusEl.style.display = 'block';
+      actionsEl.style.display = 'flex';
+    })();
+  </script>
+</body>
+</html>
