@@ -147,7 +147,7 @@ async function main() {
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <title>${escapeHtml(cleanTitle)} · JUNNYOfficial Blog</title>
   <meta name="description" content="${escapeHtml(cleanTitle)}" />
-  <link rel="stylesheet" href="../styles.css?v=17" />
+  <link rel="stylesheet" href="../styles.css?v=18" />
   <style>
     .article-body h4 { font-size: 1.15rem; font-weight: 600; margin: 28px 0 14px; color: #111; }
     .article-body h5 { font-size: 1rem; font-weight: 600; margin: 20px 0 10px; color: #333; }

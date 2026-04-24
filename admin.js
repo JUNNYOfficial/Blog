@@ -301,7 +301,7 @@ function copyExport() {
 // 生成完整的 script.js 代码
 async function generateScriptJs() {
   try {
-    const response = await fetch('script.js?v=17');
+    const response = await fetch('script.js?v=18');
     let code = await response.text();
 
     // 生成新的 posts 数组代码
@@ -453,10 +453,30 @@ function copySyncUrl() {
 
 /* ===== GitHub 发布 ===== */
 const GITHUB_TOKEN_KEY = 'blog-github-token';
-const GITHUB_OWNER = 'JUNNYOfficial';
-const GITHUB_REPO = 'Blog';
-const GITHUB_PATH = 'posts.json';
-const GITHUB_BRANCH = 'main';
+const GITHUB_CONFIG_KEY = 'blog-github-config';
+
+function getGitHubConfig() {
+  const defaults = { owner: 'JUNNYOfficial', repo: 'Blog', path: 'posts.json', branch: 'main' };
+  try {
+    const saved = JSON.parse(localStorage.getItem(GITHUB_CONFIG_KEY) || '{}');
+    return { ...defaults, ...saved };
+  } catch (e) {
+    return defaults;
+  }
+}
+
+function saveGitHubConfig() {
+  const cfg = {
+    owner: document.getElementById('githubOwner').value.trim() || 'JUNNYOfficial',
+    repo: document.getElementById('githubRepo').value.trim() || 'Blog',
+    path: document.getElementById('githubPath').value.trim() || 'posts.json',
+    branch: document.getElementById('githubBranch').value.trim() || 'main'
+  };
+  localStorage.setItem(GITHUB_CONFIG_KEY, JSON.stringify(cfg));
+  const msg = document.getElementById('configMsg');
+  msg.textContent = '✅ 仓库配置已保存';
+  msg.style.color = '#166534';
+}
 
 function saveGitHubToken() {
   const token = document.getElementById('githubToken').value.trim();
@@ -495,12 +515,13 @@ async function publishToGitHub() {
   }
 
   try {
+    const cfg = getGitHubConfig();
     const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
 
     // 获取现有文件 sha（如果文件已存在）
     let sha = null;
     const getRes = await fetch(
-      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_PATH}?ref=${GITHUB_BRANCH}`,
+      `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path}?ref=${cfg.branch}`,
       {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -514,9 +535,17 @@ async function publishToGitHub() {
       sha = fileData.sha;
     }
 
+    // 构建请求体：创建新文件时不传 sha
+    const body = {
+      message: 'Update posts from admin',
+      content: content,
+      branch: cfg.branch
+    };
+    if (sha) body.sha = sha;
+
     // 提交/更新文件
     const putRes = await fetch(
-      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_PATH}`,
+      `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path}`,
       {
         method: 'PUT',
         headers: {
@@ -525,12 +554,7 @@ async function publishToGitHub() {
           'X-GitHub-Api-Version': '2022-11-28',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          message: 'Update posts from admin',
-          content: content,
-          sha: sha,
-          branch: GITHUB_BRANCH
-        })
+        body: JSON.stringify(body)
       }
     );
 
@@ -538,7 +562,7 @@ async function publishToGitHub() {
       alert('✅ 发布成功！\n\n约 1-3 分钟后 GitHub Pages 会自动重新部署，所有设备刷新页面即可看到最新文章。');
     } else {
       const err = await putRes.json();
-      alert('❌ 发布失败：' + (err.message || '未知错误'));
+      alert(`❌ 发布失败（HTTP ${putRes.status}）：${err.message || '未知错误'}\n\n请检查：\n1. Token 是否勾选了 repo 权限\n2. 仓库路径是否正确（设置里可修改）\n3. 分支名是否正确`);
     }
   } catch (e) {
     alert('❌ 发布失败：' + e.message);
@@ -560,6 +584,17 @@ document.addEventListener('DOMContentLoaded', () => {
   if (savedToken && tokenInput) {
     tokenInput.value = savedToken;
   }
+
+  // 加载已保存的仓库配置
+  const cfg = getGitHubConfig();
+  const ownerInput = document.getElementById('githubOwner');
+  const repoInput = document.getElementById('githubRepo');
+  const pathInput = document.getElementById('githubPath');
+  const branchInput = document.getElementById('githubBranch');
+  if (ownerInput) ownerInput.value = cfg.owner;
+  if (repoInput) repoInput.value = cfg.repo;
+  if (pathInput) pathInput.value = cfg.path;
+  if (branchInput) branchInput.value = cfg.branch;
 
   const pwInput = document.getElementById('loginPassword');
   if (pwInput) {
