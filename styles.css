@@ -280,56 +280,6 @@ h3 {
   background: #ffffff;
 }
 
-.article-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 20px 0 24px;
-  color: #6a6a6a;
-  font-size: 0.95rem;
-}
-
-.article-body p {
-  margin-bottom: 1.5rem;
-  color: #333333;
-}
-
-.related-panel {
-  border: 1px solid #e5e5e5;
-  border-radius: 28px;
-  padding: 28px;
-  background: #fafafa;
-  min-width: 260px;
-}
-
-.related-panel p {
-  margin-bottom: 20px;
-}
-
-.related-item {
-  display: block;
-  border-top: 1px solid #e8e8e8;
-  padding: 16px 0;
-  color: inherit;
-}
-
-.related-item:first-child {
-  border-top: none;
-}
-
-.related-item-title {
-  margin: 0 0 10px;
-  font-size: 1rem;
-  line-height: 1.35;
-  color: #111111;
-}
-
-.related-item-meta {
-  margin: 0;
-  font-size: 0.92rem;
-  color: #666666;
-}
-
 .article-card {
   display: block;
   border: 1px solid #e9e9e9;
@@ -362,34 +312,6 @@ h3 {
   margin-top: 22px;
   font-size: 0.95rem;
   color: #6b6b6b;
-}
-
-.article-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-}
-
-.pill {
-  display: inline-flex;
-  padding: 10px 14px;
-  border-radius: 999px;
-  border: 1px solid #dcdcdc;
-  color: #575757;
-  cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-}
-
-.pill.active,
-.pill:hover {
-  color: #111111;
-  border-color: #b7b7b7;
-  background: #f2f2f2;
-}
-
-.empty-state {
-  color: #555555;
-  font-size: 1rem;
 }
 
 .nav-links a {
@@ -918,13 +840,24 @@ h3 {
 .article-meta {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
   margin-top: 18px;
+  color: #6a6a6a;
+  font-size: 0.95rem;
 }
 
 .related-panel {
-  padding-top: 32px;
+  border: 1px solid #e5e5e5;
+  border-radius: 28px;
+  padding: 32px 28px 28px;
   margin-top: 32px;
+  background: #fafafa;
+  min-width: 260px;
+}
+
+.related-panel p {
+  margin-bottom: 20px;
 }
 
 .related-item {
@@ -986,18 +919,5 @@ h3 {
 
   .hero {
     grid-template-columns: 1fr;
-  }
-}
-
-  .topbar,
-  .article-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
   }
 }
