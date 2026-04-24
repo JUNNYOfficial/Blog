@@ -5,7 +5,7 @@ const feishuPapers = [
     "title": "小脑编码时间统计先验知识",
     "summary": "英文标题： Neural circuits encode prior knowledge of temporal statistics作者： Julius Koppen, Ilse Klinkhame...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第一部分：Nature Neuroscience 研究论文",
     "date": "2026年4月24日",
     "reading": "7 分钟阅读",
     "body": [
@@ -44,7 +44,7 @@ const feishuPapers = [
     "title": "人脑神经肽系统全脑图谱",
     "summary": "英文标题： Organization of neuropeptide systems in the human brain作者： Eric G. Ceballos, Ahmad Farahani, Z...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第一部分：Nature Neuroscience 研究论文",
     "date": "2026年4月24日",
     "reading": "9 分钟阅读",
     "body": [
@@ -89,7 +89,7 @@ const feishuPapers = [
     "title": "干扰素信号驱动关节炎疼痛的持续化",
     "summary": "英文标题： Persistent interferon signaling causes sensory neuron plasticity and pain before and during ar...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第一部分：Nature Neuroscience 研究论文",
     "date": "2026年4月24日",
     "reading": "9 分钟阅读",
     "body": [
@@ -135,7 +135,7 @@ const feishuPapers = [
     "title": "星形胶质细胞钙依赖谷氨酸释放",
     "summary": "英文标题： Astrocyte Ca2+-dependent glutamate release期刊： Nature NeuroscienceDOI： 10.1038/s41593-026-02251...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第一部分：Nature Neuroscience 研究论文",
     "date": "2026年4月24日",
     "reading": "8 分钟阅读",
     "body": [
@@ -176,7 +176,7 @@ const feishuPapers = [
     "title": "胶质母细胞瘤恶性细胞群落空间结构",
     "summary": "英文标题： Spatial and single-cell characterization of human glioblastoma tumor microenvironment reveals ...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第一部分：Nature Neuroscience 研究论文",
     "date": "2026年4月24日",
     "reading": "10 分钟阅读",
     "body": [
@@ -224,7 +224,7 @@ const feishuPapers = [
     "title": "语言理解中的成分约束词预测",
     "summary": "英文标题： Constituent-constrained word prediction during language comprehension作者： Jiajie Zou, David Poe...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第一部分：Nature Neuroscience 研究论文",
     "date": "2026年4月24日",
     "reading": "9 分钟阅读",
     "body": [
@@ -269,7 +269,7 @@ const feishuPapers = [
     "title": "神经肽Y调控恐惧记忆建立与消退",
     "summary": "英文标题： Neuropeptide Y co-opts neuronal ensembles for memory lability and stability作者： 吴延娇#、谷雪#、孔雅蕾、杨朔...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第一部分：Nature Neuroscience 研究论文",
     "date": "2026年4月24日",
     "reading": "8 分钟阅读",
     "body": [
@@ -312,7 +312,7 @@ const feishuPapers = [
     "title": "HSV-1 H129株跨突触传播分子机制",
     "summary": "英文标题： （Nature Neuroscience, 2026年4月14日）作者： 罗敏华团队机构： 中国科学院武汉病毒研究所",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第一部分：Nature Neuroscience 研究论文",
     "date": "2026年4月24日",
     "reading": "7 分钟阅读",
     "body": [
@@ -348,7 +348,7 @@ const feishuPapers = [
     "title": "分类是大脑的内在计算策略",
     "summary": "英文标题： Categorization is 'baked' into the brain作者： Lisa Feldman Barrett, Michael Miller发表日期： 2026年3月",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第二部分：Nature Reviews Neuroscience 综述",
     "date": "2026年4月24日",
     "reading": "5 分钟阅读",
     "body": [
@@ -378,7 +378,7 @@ const feishuPapers = [
     "title": "重新定义脊椎动物运动的中央模式发生器",
     "summary": "英文标题： Redefining the central pattern generator for vertebrate locomotion作者： Abdeljabbar El Manira发表日...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第二部分：Nature Reviews Neuroscience 综述",
     "date": "2026年4月24日",
     "reading": "5 分钟阅读",
     "body": [
@@ -409,7 +409,7 @@ const feishuPapers = [
     "title": "神经科学中的表征概念维度",
     "summary": "英文标题： Clarifying the conceptual dimensions of representation in neuroscience作者： Stephan Pohl, Edgar ...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第二部分：Nature Reviews Neuroscience 综述",
     "date": "2026年4月24日",
     "reading": "5 分钟阅读",
     "body": [
@@ -440,7 +440,7 @@ const feishuPapers = [
     "title": "线粒体动态与神经发育障碍",
     "summary": "英文标题： Mitochondrial dynamics in neurodevelopment and neurodevelopmental disorders作者： Carissa L. Siro...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第二部分：Nature Reviews Neuroscience 综述",
     "date": "2026年4月24日",
     "reading": "7 分钟阅读",
     "body": [
@@ -476,7 +476,7 @@ const feishuPapers = [
     "title": "气候变化中的神经适应",
     "summary": "英文标题： Neural adaptation to climate change: mechanisms, limits and opportunities作者： Jan Siemens, Patr...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第二部分：Nature Reviews Neuroscience 综述",
     "date": "2026年4月24日",
     "reading": "6 分钟阅读",
     "body": [
@@ -510,7 +510,7 @@ const feishuPapers = [
     "title": "百万级人群研究：重复扩增与脑萎缩",
     "summary": "英文标题： Population-scale repeat expansions elucidate disease risk and brain atrophy作者： Sahar Gelfman 等...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第三部分：Nature 主刊研究论文",
     "date": "2026年4月24日",
     "reading": "8 分钟阅读",
     "body": [

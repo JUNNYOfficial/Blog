@@ -48,21 +48,19 @@
         </div>
       </section>
 
-      <section class="notes-section panel-section">
-        <div class="section-header">
-          <div>
-            <p class="eyebrow">论文库</p>
-            <h3>全部论文笔记</h3>
-          </div>
-          <div class="filter-row" id="notesFilter">
-            <span class="pill active">全部</span>
-            <span class="pill">Nature Neuroscience</span>
-            <span class="pill">Nature Reviews</span>
-            <span class="pill">Nature</span>
-          </div>
+      <div class="wiki-layout">
+        <aside class="wiki-sidebar">
+          <p class="eyebrow">分类导航</p>
+          <h4>期刊来源</h4>
+          <nav class="wiki-nav" id="notesSidebarNav">
+            <!-- JS 动态生成分类链接 -->
+          </nav>
+        </aside>
+
+        <div class="wiki-content" id="notesContent">
+          <!-- JS 按分类分组渲染 -->
         </div>
-        <div class="notes-grid" id="notesGrid"></div>
-      </section>
+      </div>
 
       <section class="topic-section panel-section">
         <div class="topic-card">
@@ -87,6 +85,6 @@
       <p>JUNNYOfficial Blog • 论文笔记页 • 2026</p>
     </footer>
   </div>
-  <script src="script.js?v=3"></script>
+  <script src="script.js?v=4"></script>
 </body>
 </html>

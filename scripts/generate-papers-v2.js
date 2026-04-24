@@ -87,19 +87,24 @@ async function main() {
 
   const papers = [];
   let currentPaper = null;
+  let currentCategory = '论文库';
 
   for (const block of blocks) {
     const type = block.block_type;
     
     // heading2 = 分类
-    if (type === 4) continue;
+    if (type === 4) {
+      const catText = extractText(block);
+      if (catText) currentCategory = catText.replace(/^\s*[一二三四五六七八九十]+、\s*/, '').trim();
+      continue;
+    }
     
     // heading3 = 新论文开始
     if (type === 5) {
       if (currentPaper && !currentPaper.title.match(/阅读统计|推荐阅读|进度/)) {
         papers.push(currentPaper);
       }
-      currentPaper = { title: extractText(block), bodyHtml: [] };
+      currentPaper = { title: extractText(block), bodyHtml: [], source: currentCategory };
       continue;
     }
     
@@ -195,7 +200,7 @@ async function main() {
       title: p.title.replace(/^论文\s*\d+\s*\|\s*/, ''),
       summary: summaryText.slice(0, 100) + (summaryText.length > 100 ? '...' : ''),
       tag: '论文',
-      source: '论文库',
+      source: p.source || '论文库',
       date: '2026年4月24日',
       reading: `${Math.max(5, Math.ceil(p.bodyHtml.length / 4))} 分钟阅读`,
       body: p.bodyHtml.map(h => h.replace(/<[^>]+>/g, '').replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&')).filter(t => t.trim())

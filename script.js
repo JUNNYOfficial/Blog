@@ -1,6 +1,5 @@
-// DEBUG v4
 const posts = [
-  {
+{
     id: '1',
     title: '视觉注意力与脑科学阅读方式',
     summary: '用黑白灰搭配记录文献、实验和思考，避免视觉干扰让内容更清晰。',
@@ -157,7 +156,7 @@ const posts = [
     "title": "小脑编码时间统计先验知识",
     "summary": "英文标题： Neural circuits encode prior knowledge of temporal statistics作者： Julius Koppen, Ilse Klinkhame...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第一部分：Nature Neuroscience 研究论文",
     "date": "2026年4月24日",
     "reading": "7 分钟阅读",
     "body": [
@@ -196,7 +195,7 @@ const posts = [
     "title": "人脑神经肽系统全脑图谱",
     "summary": "英文标题： Organization of neuropeptide systems in the human brain作者： Eric G. Ceballos, Ahmad Farahani, Z...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第一部分：Nature Neuroscience 研究论文",
     "date": "2026年4月24日",
     "reading": "9 分钟阅读",
     "body": [
@@ -241,7 +240,7 @@ const posts = [
     "title": "干扰素信号驱动关节炎疼痛的持续化",
     "summary": "英文标题： Persistent interferon signaling causes sensory neuron plasticity and pain before and during ar...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第一部分：Nature Neuroscience 研究论文",
     "date": "2026年4月24日",
     "reading": "9 分钟阅读",
     "body": [
@@ -287,7 +286,7 @@ const posts = [
     "title": "星形胶质细胞钙依赖谷氨酸释放",
     "summary": "英文标题： Astrocyte Ca2+-dependent glutamate release期刊： Nature NeuroscienceDOI： 10.1038/s41593-026-02251...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第一部分：Nature Neuroscience 研究论文",
     "date": "2026年4月24日",
     "reading": "8 分钟阅读",
     "body": [
@@ -328,7 +327,7 @@ const posts = [
     "title": "胶质母细胞瘤恶性细胞群落空间结构",
     "summary": "英文标题： Spatial and single-cell characterization of human glioblastoma tumor microenvironment reveals ...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第一部分：Nature Neuroscience 研究论文",
     "date": "2026年4月24日",
     "reading": "10 分钟阅读",
     "body": [
@@ -376,7 +375,7 @@ const posts = [
     "title": "语言理解中的成分约束词预测",
     "summary": "英文标题： Constituent-constrained word prediction during language comprehension作者： Jiajie Zou, David Poe...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第一部分：Nature Neuroscience 研究论文",
     "date": "2026年4月24日",
     "reading": "9 分钟阅读",
     "body": [
@@ -421,7 +420,7 @@ const posts = [
     "title": "神经肽Y调控恐惧记忆建立与消退",
     "summary": "英文标题： Neuropeptide Y co-opts neuronal ensembles for memory lability and stability作者： 吴延娇#、谷雪#、孔雅蕾、杨朔...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第一部分：Nature Neuroscience 研究论文",
     "date": "2026年4月24日",
     "reading": "8 分钟阅读",
     "body": [
@@ -464,7 +463,7 @@ const posts = [
     "title": "HSV-1 H129株跨突触传播分子机制",
     "summary": "英文标题： （Nature Neuroscience, 2026年4月14日）作者： 罗敏华团队机构： 中国科学院武汉病毒研究所",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第一部分：Nature Neuroscience 研究论文",
     "date": "2026年4月24日",
     "reading": "7 分钟阅读",
     "body": [
@@ -500,7 +499,7 @@ const posts = [
     "title": "分类是大脑的内在计算策略",
     "summary": "英文标题： Categorization is 'baked' into the brain作者： Lisa Feldman Barrett, Michael Miller发表日期： 2026年3月",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第二部分：Nature Reviews Neuroscience 综述",
     "date": "2026年4月24日",
     "reading": "5 分钟阅读",
     "body": [
@@ -530,7 +529,7 @@ const posts = [
     "title": "重新定义脊椎动物运动的中央模式发生器",
     "summary": "英文标题： Redefining the central pattern generator for vertebrate locomotion作者： Abdeljabbar El Manira发表日...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第二部分：Nature Reviews Neuroscience 综述",
     "date": "2026年4月24日",
     "reading": "5 分钟阅读",
     "body": [
@@ -561,7 +560,7 @@ const posts = [
     "title": "神经科学中的表征概念维度",
     "summary": "英文标题： Clarifying the conceptual dimensions of representation in neuroscience作者： Stephan Pohl, Edgar ...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第二部分：Nature Reviews Neuroscience 综述",
     "date": "2026年4月24日",
     "reading": "5 分钟阅读",
     "body": [
@@ -592,7 +591,7 @@ const posts = [
     "title": "线粒体动态与神经发育障碍",
     "summary": "英文标题： Mitochondrial dynamics in neurodevelopment and neurodevelopmental disorders作者： Carissa L. Siro...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第二部分：Nature Reviews Neuroscience 综述",
     "date": "2026年4月24日",
     "reading": "7 分钟阅读",
     "body": [
@@ -628,7 +627,7 @@ const posts = [
     "title": "气候变化中的神经适应",
     "summary": "英文标题： Neural adaptation to climate change: mechanisms, limits and opportunities作者： Jan Siemens, Patr...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第二部分：Nature Reviews Neuroscience 综述",
     "date": "2026年4月24日",
     "reading": "6 分钟阅读",
     "body": [
@@ -662,7 +661,7 @@ const posts = [
     "title": "百万级人群研究：重复扩增与脑萎缩",
     "summary": "英文标题： Population-scale repeat expansions elucidate disease risk and brain atrophy作者： Sahar Gelfman 等...",
     "tag": "论文",
-    "source": "论文库",
+    "source": "第三部分：Nature 主刊研究论文",
     "date": "2026年4月24日",
     "reading": "8 分钟阅读",
     "body": [
@@ -697,7 +696,8 @@ const posts = [
       "☐ 遗传咨询的精细化： 重复长度检测可以提供个性化的风险预测，而非简单的\"携带/不携带\"",
       "☐ 理解疾病机制： 重复扩增导致的神经退行性变是一个缓慢过程，这提示早期干预（甚至在症状前）可能最有效"
     ]
-  }];
+  }
+];
 
 function createArticleCard(post) {
   const card = document.createElement('a');
@@ -724,7 +724,6 @@ function getPostUrl(post) {
 }
 
 function renderArticleCards(list) {
-  console.log("[DEBUG] renderArticleCards called, list length:", list.length);
   const grid = document.getElementById('articleGrid');
   if (!grid) return;
   grid.innerHTML = '';
@@ -841,7 +840,6 @@ function renderDailyPosts() {
 }
 
 function renderHome() {
-  console.log("[DEBUG] renderHome called, posts count:", posts.length);
   renderArticleCards(posts.slice(0, 2));
 
   const filterRow = document.querySelector('.filter-row');
@@ -910,53 +908,67 @@ function renderArticle() {
 }
 
 function renderNotes() {
-  const grid = document.getElementById('notesGrid');
-  const filterRow = document.getElementById('notesFilter');
-  if (!grid) return;
+  const sidebarNav = document.getElementById('notesSidebarNav');
+  const content = document.getElementById('notesContent');
+  if (!sidebarNav || !content) return;
 
   const papers = posts.filter(post => post.tag === '论文');
 
-  function render(list) {
-    grid.innerHTML = '';
-    if (!list.length) {
-      grid.innerHTML = '<p class="empty-state">暂无论文</p>';
-      return;
-    }
-    list.forEach(post => {
+  // 按 source 分组
+  const groups = {};
+  papers.forEach(p => {
+    const key = p.source || '论文库';
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(p);
+  });
+
+  const categories = Object.keys(groups);
+
+  // 渲染侧边栏导航
+  sidebarNav.innerHTML = '';
+  categories.forEach(cat => {
+    const anchor = document.createElement('a');
+    anchor.href = `#cat-${cat.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, '-')}`;
+    anchor.textContent = cat;
+    sidebarNav.appendChild(anchor);
+  });
+
+  // 渲染内容区：每个分类一个区域，只展示前3篇
+  content.innerHTML = '';
+  categories.forEach(cat => {
+    const section = document.createElement('section');
+    section.className = 'notes-category-section panel-section';
+    section.id = `cat-${cat.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, '-')}`;
+
+    const header = document.createElement('div');
+    header.className = 'notes-category-header';
+    header.innerHTML = `
+      <p class="eyebrow">${groups[cat].length} 篇</p>
+      <h3>${cat}</h3>
+    `;
+    section.appendChild(header);
+
+    const grid = document.createElement('div');
+    grid.className = 'notes-category-grid';
+
+    groups[cat].slice(0, 3).forEach(post => {
       const card = document.createElement('a');
       card.className = 'note-card';
       card.href = getPostUrl(post);
       card.innerHTML = `
-        <p class="eyebrow">${post.source || post.tag}</p>
         <h4>${post.title}</h4>
         <p>${post.summary || ''}</p>
+        <div class="note-card-footer">
+          <span>${post.date}</span>
+          <span>${post.reading}</span>
+        </div>
       `;
       grid.appendChild(card);
     });
-  }
 
-  render(papers);
-
-  if (filterRow) {
-    filterRow.addEventListener('click', (e) => {
-      const pill = e.target.closest('.pill');
-      if (!pill) return;
-      const selected = pill.textContent.trim();
-
-      filterRow.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-
-      if (selected === '全部') {
-        render(papers);
-      } else if (selected === 'Nature Neuroscience') {
-        render(papers.filter(p => p.source && p.source.includes('Nature Neuroscience') && !p.source.includes('Reviews')));
-      } else if (selected === 'Nature Reviews') {
-        render(papers.filter(p => p.source && p.source.includes('Nature Reviews')));
-      } else if (selected === 'Nature') {
-        render(papers.filter(p => p.source && p.source.includes('Nature') && !p.source.includes('Neuroscience')));
-      }
-    });
-  }
+    section.appendChild(grid);
+    content.appendChild(section);
+  });
 }
 
 const page = document.body.dataset.page;

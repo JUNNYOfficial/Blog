@@ -209,6 +209,45 @@ h3 {
   gap: 20px;
 }
 
+/* 论文库分类区域 */
+.notes-category-section {
+  margin-bottom: 32px;
+}
+
+.notes-category-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.notes-category-header .eyebrow {
+  margin: 0;
+  color: #8f8f8f;
+  font-size: 0.8rem;
+}
+
+.notes-category-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.notes-category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.note-card-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+  font-size: 0.8rem;
+  color: #8f8f8f;
+}
+
 .link-card {
   display: block;
   border: 1px solid #e9e9e9;
@@ -911,6 +950,10 @@ h3 {
 
   .wiki-sidebar {
     position: static;
+  }
+
+  .notes-category-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .section-header {
