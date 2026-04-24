@@ -944,6 +944,7 @@ h3 {
   }
 
   .pill {
+    display: block;
     width: 100%;
     padding: 14px 16px;
     text-align: center;
