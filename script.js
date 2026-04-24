@@ -214,7 +214,6 @@ const posts = [{
     "date": "2026年4月24日",
     "reading": "7 分钟阅读",
     "body": [
-      "[x] 已读",
       "英文标题： Neural circuits encode prior knowledge of temporal statistics作者： Julius Koppen, Ilse Klinkhamer, Marit Runge, Lucas Bayones, Devika Narain机构： 荷兰伊拉斯谟大学医学中心发表日期： 2026年4月7日DOI： 10.1038/s41593-026-02255-7",
       "研究背景与核心问题",
       "我们生活在一个充满不确定性的世界。当你听到远处传来汽车喇叭声，大脑需要判断\"这辆车大概多久会到\"；当你接球时，需要预判球到达的时间和位置。这些判断都不是精确的——感官信息总有噪声，但大脑依然能做出合理预测。",
@@ -253,7 +252,6 @@ const posts = [{
     "date": "2026年4月24日",
     "reading": "9 分钟阅读",
     "body": [
-      "[x] 已读",
       "英文标题： Organization of neuropeptide systems in the human brain作者： Eric G. Ceballos, Ahmad Farahani, Zhen-Qi Liu 等机构： 蒙特利尔神经科学研究所（McGill University）发表日期： 2026年3月17日（2026年4月持续影响）DOI： 10.1038/s41593-026-02236-w",
       "研究背景与核心问题",
       "神经肽是大脑中一类特殊的化学信使。与快速作用的神经递质（如多巴胺、谷氨酸）不同，神经肽的释放需要较强的神经活动触发，它们在组织中扩散较慢，作用时间更长，影响的范围也更广。如果把神经递质比作点对点的电话通话，神经肽更像是广播电台——同时影响大片脑区。",
@@ -298,7 +296,6 @@ const posts = [{
     "date": "2026年4月24日",
     "reading": "9 分钟阅读",
     "body": [
-      "[x] 已读",
       "英文标题： Persistent interferon signaling causes sensory neuron plasticity and pain before and during arthritis作者： Jie Su, Ming-Dong Zhang, Jussi Kupari, Dongoh Kwak 等通讯作者： Patrik Ernfors机构： 瑞典卡罗林斯卡医学院发表日期： 2026年3月10日DOI： 10.1038/s41593-026-02234-y",
       "研究背景与核心问题",
       "类风湿性关节炎（RA）患者经历一种特殊而痛苦的矛盾：关节炎症消退后，疼痛依然持续。临床上常见这样的场景：血液检查显示炎症指标已恢复正常，关节肿胀已消退，但患者仍然报告剧烈疼痛，甚至对轻微触碰都无法忍受。",
@@ -344,7 +341,6 @@ const posts = [{
     "date": "2026年4月24日",
     "reading": "8 分钟阅读",
     "body": [
-      "[x] 已读",
       "英文标题： Astrocyte Ca2+-dependent glutamate release期刊： Nature NeuroscienceDOI： 10.1038/s41593-026-02251-x",
       "研究背景与核心问题",
       "星形胶质细胞（astrocytes）是大脑中最丰富的胶质细胞类型，长久以来被认为是神经元的\"支持细胞\"——提供营养、维持离子平衡、清除废物。但过去20年的研究逐渐揭示，星形胶质细胞主动参与信息处理。",
@@ -385,7 +381,6 @@ const posts = [{
     "date": "2026年4月24日",
     "reading": "10 分钟阅读",
     "body": [
-      "[x] 已读",
       "英文标题： Spatial and single-cell characterization of human glioblastoma tumor microenvironment reveals malignant cellular communities作者： 林俊#、陈春鹏#、瞿昆*、唐爱辉*、程传东*、李守振*（#共同一作，*共同通讯）机构： 中国科学技术大学发表日期： 2026年4月16日DOI： 10.1038/s41593-026-02265-5",
       "研究背景与核心问题",
       "胶质母细胞瘤（Glioblastoma, GBM）是最常见、最致命的成人脑肿瘤。患者确诊后中位生存期仅12-18个月。为什么这么难治？",
@@ -433,7 +428,6 @@ const posts = [{
     "date": "2026年4月24日",
     "reading": "9 分钟阅读",
     "body": [
-      "[x] 已读",
       "英文标题： Constituent-constrained word prediction during language comprehension作者： Jiajie Zou, David Poeppel, Nai Ding（丁鼐）机构： 浙江大学、纽约大学发表日期： 2026年4月21日",
       "研究背景与核心问题",
       "当你听到\"The cat sat on the...\"，你的大脑会立刻预测下一个词可能是\"mat\"或\"chair\"。这种\"下一个词预测\"被认为是人类语言系统的核心计算目标，也是当代大型语言模型（LLM）的基本训练范式。",
@@ -478,7 +472,6 @@ const posts = [{
     "date": "2026年4月24日",
     "reading": "8 分钟阅读",
     "body": [
-      "[x] 已读",
       "英文标题： Neuropeptide Y co-opts neuronal ensembles for memory lability and stability作者： 吴延娇#、谷雪#、孔雅蕾、杨朔、徐天乐*、李伟广*（#共同一作，*共同通讯）机构： 上海交通大学医学院松江研究院、复旦大学脑科学转化研究院发表日期： 2026年3月31日",
       "研究背景与核心问题",
       "恐惧记忆是生命适应的核心机制。被火烧过的孩子学会远离火焰，被狗咬过的人对犬类保持警惕。但恐惧记忆必须同时满足两个看似矛盾的要求：",
@@ -521,7 +514,6 @@ const posts = [{
     "date": "2026年4月24日",
     "reading": "7 分钟阅读",
     "body": [
-      "[x] 已读",
       "英文标题： （Nature Neuroscience, 2026年4月14日）作者： 罗敏华团队机构： 中国科学院武汉病毒研究所",
       "研究背景与核心问题",
       "神经环路示踪是理解大脑连接图谱的核心技术。其中，顺向跨突触示踪（从突触前到突触后追踪）尤其珍贵，因为它能揭示信息流动的方向。",
@@ -557,7 +549,6 @@ const posts = [{
     "date": "2026年4月24日",
     "reading": "5 分钟阅读",
     "body": [
-      "[x] 已读",
       "英文标题： Categorization is 'baked' into the brain作者： Lisa Feldman Barrett, Michael Miller发表日期： 2026年3月",
       "核心问题",
       "大脑如何知道\"这是一只狗\"？传统观点认为：感觉系统先提取特征（毛茸茸、四条腿、汪汪叫），然后分类系统将这些特征组合成\"狗\"这个概念。分类是感知的终点。",
@@ -587,7 +578,6 @@ const posts = [{
     "date": "2026年4月24日",
     "reading": "5 分钟阅读",
     "body": [
-      "[x] 已读",
       "英文标题： Redefining the central pattern generator for vertebrate locomotion作者： Abdeljabbar El Manira发表日期： 2026年3月4日",
       "核心问题",
       "你走路时不需要思考\"先抬左腿、再迈右腿\"——这种节律性运动由脊髓中的神经网络自动生成。这个网络被称为中央模式发生器（Central Pattern Generator, CPG）。",
@@ -618,7 +608,6 @@ const posts = [{
     "date": "2026年4月24日",
     "reading": "5 分钟阅读",
     "body": [
-      "[x] 已读",
       "英文标题： Clarifying the conceptual dimensions of representation in neuroscience作者： Stephan Pohl, Edgar Y. Walker, Wei Ji Ma发表日期： 2026年3月20日",
       "核心问题",
       "神经科学家每天都在谈论\"表征（representation）\"：海马位置细胞\"表征\"空间位置，视觉皮层\"表征\"边缘方向，前额叶\"表征\"决策变量。但\"表征\"到底是什么意思？",
@@ -649,7 +638,6 @@ const posts = [{
     "date": "2026年4月24日",
     "reading": "7 分钟阅读",
     "body": [
-      "[x] 已读",
       "英文标题： Mitochondrial dynamics in neurodevelopment and neurodevelopmental disorders作者： Carissa L. Sirois, Jiyoun Lee, Xinyu Zhao发表日期： 2026年3月4日",
       "核心问题",
       "线粒体是细胞的\"能量工厂\"，但它在神经元中的作用远不止产生ATP。神经元是身体中最耗能的细胞之一——人脑仅占体重2%，却消耗20%的能量。",
@@ -685,7 +673,6 @@ const posts = [{
     "date": "2026年4月24日",
     "reading": "6 分钟阅读",
     "body": [
-      "[x] 已读",
       "英文标题： Neural adaptation to climate change: mechanisms, limits and opportunities作者： Jan Siemens, Patrick Haggard发表日期： 2026年3月17日",
       "核心问题",
       "全球变暖不只是环境问题，也是神经科学问题：",
@@ -719,7 +706,6 @@ const posts = [{
     "date": "2026年4月24日",
     "reading": "8 分钟阅读",
     "body": [
-      "[x] 已读",
       "英文标题： Population-scale repeat expansions elucidate disease risk and brain atrophy作者： Sahar Gelfman 等机构： Regeneron再生基因中心发表日期： 2026年4月8日DOI： 10.1038/s41586-026-10345-6",
       "研究背景与核心问题",
       "一些神经系统疾病（如亨廷顿病、肌萎缩侧索硬化症ALS、脆性X综合征）由DNA中的**短串联重复序列（Short Tandem Repeats, STRs）**异常扩增引起。正常人有这些重复序列，但患者某个基因的特定重复区域长度异常增加，导致蛋白质功能失常。",
@@ -1079,7 +1065,7 @@ function renderNotes() {
       const grid = document.createElement('div');
       grid.className = 'notes-category-grid';
 
-      groups[cat].slice(0, query ? undefined : 1).forEach(post => {
+      groups[cat].slice(0, query ? undefined : 3).forEach(post => {
         const card = document.createElement('a');
         card.className = 'note-card';
         card.href = getPostUrl(post);
