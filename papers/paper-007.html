@@ -6,7 +6,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <title>神经肽Y调控恐惧记忆建立与消退 · JUNNYOfficial Blog</title>
   <meta name="description" content="神经肽Y调控恐惧记忆建立与消退" />
-  <link rel="stylesheet" href="../styles.css?v=8" />
+  <link rel="stylesheet" href="../styles.css?v=9" />
   <style>
     .article-body h4 { font-size: 1.15rem; font-weight: 600; margin: 28px 0 14px; color: #111; }
     .article-body h5 { font-size: 1rem; font-weight: 600; margin: 20px 0 10px; color: #333; }
@@ -100,6 +100,26 @@
           }
         } catch(e) {}
       }
+
+      // 返回顶部按钮
+      const btn = document.createElement('button');
+      btn.className = 'back-to-top';
+      btn.setAttribute('aria-label', '返回顶部');
+      btn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      document.body.appendChild(btn);
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            btn.classList.toggle('visible', window.scrollY > 400);
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+      btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
     })();
   </script>
 </body>
