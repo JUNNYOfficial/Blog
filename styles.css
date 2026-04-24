@@ -935,4 +935,16 @@ h3 {
     gap: 16px;
     flex-wrap: wrap;
   }
+
+  .filter-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .pill {
+    width: 100%;
+    padding: 14px 16px;
+  }
 }
