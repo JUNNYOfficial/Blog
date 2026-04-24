@@ -2,12 +2,16 @@
 (function () {
   const body = document.body;
 
-  // 入场：先隐藏，下一帧恢复正常，触发 CSS transition
   function playEnter() {
-    body.classList.add('page-enter');
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => body.classList.remove('page-enter'));
-    });
+    body.classList.add('page-transition', 'page-enter');
+    // 延时 50ms 确保浏览器先渲染 opacity:0 的初始帧
+    setTimeout(() => {
+      body.classList.remove('page-enter');
+    }, 50);
+    // 动画结束后移除 transition 类，避免干扰后续样式变化
+    setTimeout(() => {
+      body.classList.remove('page-transition');
+    }, 600);
   }
 
   playEnter();
@@ -42,10 +46,10 @@
     if (link.target === '_blank') return;
 
     e.preventDefault();
-    body.classList.add('page-exit');
+    body.classList.add('page-transition', 'page-exit');
     setTimeout(() => {
       window.location.href = href;
-    }, 320);
+    }, 500);
   });
 })();
 
