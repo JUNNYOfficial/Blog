@@ -940,11 +940,11 @@ h3 {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
+    width: 100%;
   }
 
   .pill {
-    flex: 1 1 calc(50% - 6px);
-    min-width: 0;
+    width: calc(50% - 6px);
     padding: 14px 16px;
     text-align: center;
   }
