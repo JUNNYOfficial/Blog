@@ -921,32 +921,162 @@ h3 {
 
 @media (max-width: 600px) {
   .page-shell {
-    padding: 24px 18px 60px;
+    padding: 16px 16px 48px;
   }
 
   .topbar,
   .article-header {
     flex-direction: column;
     align-items: flex-start;
+    gap: 12px;
+    padding-bottom: 20px;
+  }
+
+  .brand {
+    gap: 12px;
+  }
+
+  .brand-mark {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+  }
+
+  h1 {
+    font-size: 1.45rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  h3 {
+    font-size: 1.15rem;
   }
 
   .nav-links {
     display: flex;
-    gap: 16px;
+    gap: 10px;
     flex-wrap: wrap;
   }
 
-  .filter-row {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr;
+  .nav-links a {
+    font-size: 0.85rem;
+    padding: 6px 10px;
+    border: 1px solid #e5e5e5;
+    border-radius: 999px;
+  }
+
+  .panel-section {
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .section-header {
     gap: 12px;
-    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .filter-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
   }
 
   .pill {
     display: block;
     width: 100%;
-    padding: 14px 16px;
+    padding: 10px 12px;
+    font-size: 0.85rem;
     text-align: center;
+  }
+
+  .article-card {
+    border-radius: 16px;
+    padding: 18px;
+    min-height: auto;
+    gap: 14px;
+  }
+
+  .article-card-title {
+    font-size: 1.05rem;
+  }
+
+  .article-card-summary {
+    font-size: 0.9rem;
+  }
+
+  .article-card-footer {
+    font-size: 0.85rem;
+  }
+
+  .topic-card,
+  .note-card,
+  .daily-card {
+    border-radius: 16px;
+    padding: 18px;
+  }
+
+  .topic-card h4,
+  .note-card h4,
+  .daily-card h4 {
+    font-size: 1rem;
+    margin: 10px 0 8px;
+  }
+
+  .link-card {
+    border-radius: 16px;
+    padding: 18px;
+  }
+
+  .hero {
+    padding: 20px 0 28px;
+    gap: 20px;
+  }
+
+  .hero-copy h2 {
+    font-size: 1.25rem;
+  }
+
+  .hero-text {
+    font-size: 0.9rem;
+  }
+
+  .hero-meta,
+  .meta-panel {
+    max-width: 100%;
+  }
+
+  .profile-section {
+    gap: 16px;
+  }
+
+  .profile-card {
+    padding: 20px;
+  }
+
+  .profile-card h3 {
+    font-size: 1.3rem;
+  }
+
+  .profile-meta span {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+
+  .habit-card {
+    padding: 18px;
+  }
+
+  .site-footer {
+    font-size: 0.8rem;
+    padding-top: 24px;
+    margin-top: 24px;
   }
 }
