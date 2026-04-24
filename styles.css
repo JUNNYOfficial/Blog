@@ -41,9 +41,9 @@ button {
 }
 
 .page-shell {
-  max-width: 1080px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 36px 24px 80px;
+  padding: 36px 40px 80px;
 }
 
 .topbar,
@@ -828,7 +828,7 @@ h3 {
 }
 
 .article-shell {
-  max-width: 1080px;
+  max-width: 1280px;
   padding-top: 28px;
 }
 
