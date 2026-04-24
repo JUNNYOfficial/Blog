@@ -752,6 +752,22 @@ const posts = [{
     ]
   }];
 
+// 管理后台：从 localStorage 读取覆盖数据
+(function() {
+  try {
+    const stored = localStorage.getItem('blog-admin-posts');
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed) && parsed.length) {
+        posts.length = 0;
+        parsed.forEach(p => posts.push(p));
+      }
+    }
+  } catch (e) {
+    console.error('Admin posts override failed:', e);
+  }
+})();
+
 function createArticleCard(post) {
   const card = document.createElement('a');
   card.className = 'article-card';

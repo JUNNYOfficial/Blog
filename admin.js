@@ -1,0 +1,367 @@
+// ===== 管理后台 =====
+
+const AUTH_KEY = 'blog-admin-auth';
+const PASSWORD_KEY = 'blog-admin-password';
+const POSTS_KEY = 'blog-admin-posts';
+const DEFAULT_PASSWORD = 'junny2026';
+
+let adminPosts = [];
+let feishuPosts = [];
+let editingId = null;
+
+// 初始化
+function init() {
+  const isAuthed = localStorage.getItem(AUTH_KEY) === '1';
+  if (isAuthed) {
+    showAdmin();
+  }
+}
+
+// 登录
+function handleLogin() {
+  const input = document.getElementById('loginPassword');
+  const error = document.getElementById('loginError');
+  const storedPassword = localStorage.getItem(PASSWORD_KEY) || DEFAULT_PASSWORD;
+
+  if (input.value === storedPassword) {
+    localStorage.setItem(AUTH_KEY, '1');
+    error.style.display = 'none';
+    showAdmin();
+  } else {
+    error.style.display = 'block';
+    input.value = '';
+  }
+}
+
+// 退出
+function handleLogout() {
+  localStorage.removeItem(AUTH_KEY);
+  location.reload();
+}
+
+// 显示管理界面
+function showAdmin() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminScreen').classList.add('is-active');
+  loadData();
+}
+
+// 加载数据
+function loadData() {
+  // 优先从 localStorage 读取
+  const stored = localStorage.getItem(POSTS_KEY);
+  if (stored) {
+    try {
+      adminPosts = JSON.parse(stored);
+    } catch (e) {
+      console.error('parse stored posts failed', e);
+    }
+  }
+
+  // 如果没有存储数据，从 script.js 的 posts 获取
+  if (!adminPosts.length && typeof posts !== 'undefined') {
+    adminPosts = JSON.parse(JSON.stringify(posts));
+  }
+
+  // 分离本地文章和飞书论文
+  const local = adminPosts.filter(p => !String(p.id).startsWith('f'));
+  feishuPosts = adminPosts.filter(p => String(p.id).startsWith('f'));
+
+  // 更新统计
+  document.getElementById('statTotal').textContent = adminPosts.length;
+  document.getElementById('statLocal').textContent = local.length;
+  document.getElementById('statFeishu').textContent = feishuPosts.length;
+  document.getElementById('statDaily').textContent = local.filter(p => p.tag === '日常').length;
+
+  renderArticlesTable(local);
+  renderPapersTable(feishuPosts);
+}
+
+// 渲染文章列表
+function renderArticlesTable(list) {
+  const tbody = document.getElementById('articlesTableBody');
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="6" class="empty-state">暂无文章</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = list.map(post => `
+    <tr>
+      <td>${escapeHtml(String(post.id))}</td>
+      <td>${escapeHtml(post.title)}</td>
+      <td><span class="tag-badge">${escapeHtml(post.tag || '')}</span></td>
+      <td>${escapeHtml(post.date || '')}</td>
+      <td>${escapeHtml(post.source || '本地')}</td>
+      <td class="actions">
+        <button onclick="openEditor('${post.id}')">编辑</button>
+        <button class="danger" onclick="deleteArticle('${post.id}')">删除</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// 渲染论文列表
+function renderPapersTable(list) {
+  const tbody = document.getElementById('papersTableBody');
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="5" class="empty-state">暂无论文</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = list.map(post => `
+    <tr>
+      <td>${escapeHtml(String(post.id))}</td>
+      <td>${escapeHtml(post.title)}</td>
+      <td>${escapeHtml(post.source || '')}</td>
+      <td>${escapeHtml(post.date || '')}</td>
+      <td class="actions">
+        <button onclick="openEditor('${post.id}')">编辑摘要</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// 搜索过滤文章
+function filterArticles(query) {
+  const q = query.toLowerCase().trim();
+  const local = adminPosts.filter(p => !String(p.id).startsWith('f'));
+  const filtered = q ? local.filter(p => p.title.toLowerCase().includes(q)) : local;
+  renderArticlesTable(filtered);
+}
+
+// 搜索过滤论文
+function filterPapers(query) {
+  const q = query.toLowerCase().trim();
+  const filtered = q ? feishuPosts.filter(p => p.title.toLowerCase().includes(q)) : feishuPosts;
+  renderPapersTable(filtered);
+}
+
+// 切换标签页
+function switchTab(name) {
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.toggle('is-active', t.dataset.tab === name));
+  document.querySelectorAll('.admin-panel').forEach(p => p.classList.toggle('is-active', p.id === 'panel-' + name));
+}
+
+// 打开编辑器
+function openEditor(id) {
+  const isNew = !id;
+  const post = isNew ? null : adminPosts.find(p => String(p.id) === String(id));
+
+  editingId = isNew ? null : String(id);
+  document.getElementById('editorTitle').textContent = isNew ? '新增文章' : '编辑文章';
+  document.getElementById('editId').value = isNew ? '' : String(post.id);
+  document.getElementById('editTitle').value = post ? post.title : '';
+  document.getElementById('editTag').value = post ? (post.tag || '日常') : '日常';
+  document.getElementById('editDate').value = post ? (post.date || '') : formatToday();
+  document.getElementById('editReading').value = post ? (post.reading || '') : '5 分钟阅读';
+  document.getElementById('editSummary').value = post ? (post.summary || '') : '';
+  document.getElementById('editSource').value = post ? (post.source || '') : '';
+
+  // 渲染正文段落输入
+  const container = document.getElementById('bodyContainer');
+  container.innerHTML = '';
+  if (post && post.body && post.body.length) {
+    post.body.forEach((text, i) => addBodyField(text, i));
+  } else {
+    addBodyField('', 0);
+  }
+
+  document.getElementById('editorModal').classList.add('is-open');
+}
+
+// 关闭编辑器
+function closeEditor() {
+  document.getElementById('editorModal').classList.remove('is-open');
+  editingId = null;
+}
+
+// 添加正文段落输入框
+function addBodyField(value, index) {
+  const container = document.getElementById('bodyContainer');
+  const div = document.createElement('div');
+  div.className = 'body-array-item';
+  div.innerHTML = `
+    <input type="text" value="${escapeHtml(value || '')}" placeholder="段落内容" data-body-index="${index ?? container.children.length}" />
+    <button type="button" onclick="this.parentElement.remove()">删除</button>
+  `;
+  container.appendChild(div);
+}
+
+// 保存文章
+function saveArticle() {
+  const title = document.getElementById('editTitle').value.trim();
+  if (!title) {
+    alert('请输入标题');
+    return;
+  }
+
+  const tag = document.getElementById('editTag').value;
+  const date = document.getElementById('editDate').value.trim();
+  const reading = document.getElementById('editReading').value.trim();
+  const summary = document.getElementById('editSummary').value.trim();
+  const source = document.getElementById('editSource').value.trim();
+
+  // 收集正文段落
+  const body = [];
+  document.querySelectorAll('#bodyContainer input').forEach(input => {
+    const text = input.value.trim();
+    if (text) body.push(text);
+  });
+
+  let post;
+  if (editingId) {
+    // 编辑现有文章
+    const idx = adminPosts.findIndex(p => String(p.id) === editingId);
+    if (idx === -1) return;
+    post = adminPosts[idx];
+    post.title = title;
+    post.tag = tag;
+    post.date = date;
+    post.reading = reading;
+    post.summary = summary;
+    post.source = source || undefined;
+    post.body = body;
+  } else {
+    // 新增文章
+    const maxId = adminPosts
+      .filter(p => !String(p.id).startsWith('f'))
+      .reduce((max, p) => Math.max(max, parseInt(p.id) || 0), 0);
+    post = {
+      id: String(maxId + 1),
+      title,
+      summary,
+      tag,
+      date,
+      reading,
+      body
+    };
+    if (source) post.source = source;
+    adminPosts.push(post);
+  }
+
+  // 保存到 localStorage
+  localStorage.setItem(POSTS_KEY, JSON.stringify(adminPosts));
+
+  // 刷新显示
+  loadData();
+  closeEditor();
+}
+
+// 删除文章
+function deleteArticle(id) {
+  if (!confirm('确定要删除这篇文章吗？')) return;
+  adminPosts = adminPosts.filter(p => String(p.id) !== String(id));
+  localStorage.setItem(POSTS_KEY, JSON.stringify(adminPosts));
+  loadData();
+}
+
+// 修改密码
+function changePassword() {
+  const newPw = document.getElementById('newPassword').value;
+  const confirmPw = document.getElementById('confirmPassword').value;
+  const msg = document.getElementById('passwordMsg');
+
+  if (!newPw) {
+    msg.textContent = '请输入新密码';
+    msg.style.color = '#c00';
+    return;
+  }
+  if (newPw !== confirmPw) {
+    msg.textContent = '两次输入的密码不一致';
+    msg.style.color = '#c00';
+    return;
+  }
+
+  localStorage.setItem(PASSWORD_KEY, newPw);
+  msg.textContent = '密码已保存';
+  msg.style.color = '#2a2';
+  document.getElementById('newPassword').value = '';
+  document.getElementById('confirmPassword').value = '';
+}
+
+// 显示导出弹窗
+async function showExport() {
+  document.getElementById('exportCode').value = '正在生成代码，请稍候...';
+  document.getElementById('exportModal').classList.add('is-open');
+  const code = await generateScriptJs();
+  document.getElementById('exportCode').value = code;
+}
+
+function closeExport() {
+  document.getElementById('exportModal').classList.remove('is-open');
+}
+
+function copyExport() {
+  const textarea = document.getElementById('exportCode');
+  textarea.select();
+  document.execCommand('copy');
+  alert('已复制到剪贴板');
+}
+
+// 生成完整的 script.js 代码
+async function generateScriptJs() {
+  try {
+    const response = await fetch('script.js?v=15');
+    let code = await response.text();
+
+    // 生成新的 posts 数组代码
+    const localPosts = adminPosts.filter(p => !String(p.id).startsWith('f'));
+    const feishu = adminPosts.filter(p => String(p.id).startsWith('f'));
+
+    let postsCode = 'const posts = [\n';
+
+    // 本地文章
+    localPosts.forEach((post, i) => {
+      const bodyLines = (post.body || []).map(b => `      '${b.replace(/'/g, "\\'")}'`).join(',\n');
+      const sourceLine = post.source ? `\n    source: '${post.source.replace(/'/g, "\\'")}',` : '';
+      postsCode += `  {\n    id: '${post.id}',\n    title: '${post.title.replace(/'/g, "\\'")}',\n    summary: '${(post.summary || '').replace(/'/g, "\\'")}',\n    tag: '${post.tag || '日常'}',\n    date: '${post.date || ''}',\n    reading: '${post.reading || ''}',${sourceLine}\n    body: [\n${bodyLines}\n    ]\n  }${i < localPosts.length - 1 || feishu.length ? ',' : ''}\n`;
+    });
+
+    // 飞书论文
+    feishu.forEach((post, i) => {
+      const bodyLines = (post.body || []).map(b => `      "${b.replace(/"/g, '\\"')}"`).join(',\n');
+      const sourceLine = post.source ? `\n    "source": "${post.source.replace(/"/g, '\\"')}",` : '';
+      postsCode += `  {\n    "id": "${post.id}",\n    "title": "${post.title.replace(/"/g, '\\"')}",\n    "summary": "${(post.summary || '').replace(/"/g, '\\"')}",\n    "tag": "${post.tag || '论文'}",${sourceLine}\n    "date": "${post.date || ''}",\n    "reading": "${post.reading || ''}",\n    "body": [\n${bodyLines}\n    ]\n  }${i < feishu.length - 1 ? ',' : ''}\n`;
+    });
+
+    postsCode += '];\n';
+
+    // 替换 posts 数组定义
+    const startIdx = code.indexOf('const posts = [');
+    const endIdx = code.indexOf('];', startIdx) + 2;
+    if (startIdx !== -1 && endIdx > startIdx) {
+      code = code.slice(0, startIdx) + postsCode + code.slice(endIdx);
+    }
+
+    return code;
+  } catch (e) {
+    console.error('生成代码失败:', e);
+    return '// 生成失败，请刷新后重试';
+  }
+}
+
+// 工具函数
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function formatToday() {
+  const d = new Date();
+  return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
+}
+
+// 回车登录
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+  const pwInput = document.getElementById('loginPassword');
+  if (pwInput) {
+    pwInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleLogin();
+    });
+  }
+});
