@@ -3,7 +3,7 @@
 const AUTH_KEY = 'blog-admin-auth';
 const PASSWORD_KEY = 'blog-admin-password';
 const POSTS_KEY = 'blog-admin-posts';
-const DEFAULT_PASSWORD = 'junny2026';
+const DEFAULT_PASSWORD = 'JunnyOfficial2026';
 
 let adminPosts = [];
 let feishuPosts = [];
