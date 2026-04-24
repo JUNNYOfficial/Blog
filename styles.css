@@ -1124,3 +1124,74 @@ h3 {
     margin-top: 24px;
   }
 }
+
+/* ===== 页面切换过渡动画 ===== */
+
+/* body 级淡入淡出 */
+body {
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.page-exit {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+body.page-enter {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* 内容块 stagger 入场 */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.topbar {
+  animation: fadeUp 0.45s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.panel-section {
+  animation: fadeUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.panel-section:nth-child(1) { animation-delay: 0.04s; }
+.panel-section:nth-child(2) { animation-delay: 0.10s; }
+.panel-section:nth-child(3) { animation-delay: 0.16s; }
+.panel-section:nth-child(4) { animation-delay: 0.22s; }
+.panel-section:nth-child(5) { animation-delay: 0.28s; }
+.panel-section:nth-child(6) { animation-delay: 0.34s; }
+
+/* 网格卡片额外延迟 */
+.article-card,
+.note-card,
+.daily-post-card,
+.topic-card,
+.link-card {
+  animation: fadeUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* 降低偏好：尊重用户系统设置 */
+@media (prefers-reduced-motion: reduce) {
+  body,
+  .topbar,
+  .panel-section,
+  .article-card,
+  .note-card,
+  .daily-post-card,
+  .topic-card,
+  .link-card {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

@@ -1,3 +1,54 @@
+/* ===== 页面切换过渡动画 ===== */
+(function () {
+  const body = document.body;
+
+  // 入场：先隐藏，下一帧恢复正常，触发 CSS transition
+  function playEnter() {
+    body.classList.add('page-enter');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => body.classList.remove('page-enter'));
+    });
+  }
+
+  playEnter();
+
+  // 浏览器返回/前进（从 bfcache 恢复）时重新入场
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) {
+      body.classList.remove('page-exit');
+      playEnter();
+    }
+  });
+
+  // 拦截同域链接点击，播放退场后跳转
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (!link) return;
+
+    const href = link.getAttribute('href');
+    if (!href) return;
+
+    // 跳过外部链接、锚点、mailto、tel、下载
+    if (
+      href.startsWith('http') ||
+      href.startsWith('#') ||
+      href.startsWith('mailto:') ||
+      href.startsWith('tel:') ||
+      link.hasAttribute('download')
+    ) return;
+
+    // 跳过新标签页/新窗口打开
+    if (e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) return;
+    if (link.target === '_blank') return;
+
+    e.preventDefault();
+    body.classList.add('page-exit');
+    setTimeout(() => {
+      window.location.href = href;
+    }, 320);
+  });
+})();
+
 const posts = [
 {
     id: '1',
