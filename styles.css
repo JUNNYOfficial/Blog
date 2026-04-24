@@ -828,7 +828,7 @@ h3 {
 }
 
 .article-shell {
-  max-width: 860px;
+  max-width: 1080px;
   padding-top: 28px;
 }
 
@@ -897,7 +897,9 @@ h3 {
   .notes-grid,
   .daily-grid,
   .links-grid,
-  .literature-grid {
+  .literature-grid,
+  .hero,
+  .article-hero {
     grid-template-columns: 1fr;
   }
 
@@ -934,9 +936,5 @@ h3 {
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
-  }
-
-  .hero {
-    grid-template-columns: 1fr;
   }
 }
