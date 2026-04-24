@@ -1465,3 +1465,188 @@ body.page-enter {
     font-size: 0.95rem;
   }
 }
+
+/* ===== 暗色模式（跟随系统） ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    background: #111111;
+    color: #e5e5e5;
+  }
+
+  body {
+    background: #111111;
+    color: #e5e5e5;
+  }
+
+  .panel-section {
+    border-color: #2a2a2a;
+    background: #1a1a1a;
+  }
+
+  .article-card,
+  .note-card,
+  .topic-card,
+  .link-card,
+  .daily-card {
+    border-color: #2a2a2a;
+    background: #1a1a1a;
+  }
+
+  .article-card:hover,
+  .note-card:hover,
+  .daily-card:hover {
+    border-color: #3a3a3a;
+    background-color: #222222;
+  }
+
+  .topbar {
+    border-bottom-color: #2a2a2a;
+  }
+
+  .nav-links a {
+    color: #999999;
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active {
+    color: #e5e5e5;
+  }
+
+  .pill {
+    border-color: #3a3a3a;
+    color: #999999;
+  }
+
+  .pill:hover,
+  .pill.active {
+    border-color: #666666;
+    color: #e5e5e5;
+  }
+
+  .wiki-nav a {
+    border-color: #2a2a2a;
+    color: #999999;
+  }
+
+  .wiki-nav a:hover {
+    background-color: #222222;
+    border-color: #3a3a3a;
+    color: #e5e5e5;
+  }
+
+  .back-to-top {
+    border-color: #2a2a2a;
+    background: #1a1a1a;
+    color: #999999;
+  }
+
+  .back-to-top:hover {
+    border-color: #3a3a3a;
+    background-color: #222222;
+  }
+
+  .paper-nav-prev,
+  .paper-nav-next,
+  .paper-nav-home {
+    border-color: #2a2a2a;
+  }
+
+  .paper-nav-prev:hover,
+  .paper-nav-next:hover,
+  .paper-nav-home:hover {
+    border-color: #3a3a3a;
+    background-color: #222222;
+  }
+
+  .paper-nav-title {
+    color: #e5e5e5;
+  }
+
+  .paper-nav-label {
+    color: #777777;
+  }
+
+  .search-bar input[type="search"] {
+    color: #e5e5e5;
+  }
+
+  .search-bar input[type="search"]::placeholder {
+    color: #666666;
+  }
+
+  .search-bar .search-icon {
+    color: #666666;
+  }
+
+  .eyebrow {
+    color: #777777;
+  }
+
+  .meta-label {
+    color: #777777;
+  }
+
+  .hero-text,
+  .topic-card p,
+  .note-card p,
+  .article-card-summary,
+  .daily-post-summary {
+    color: #999999;
+  }
+
+  .article-card-footer,
+  .note-card-footer,
+  .daily-post-meta {
+    color: #666666;
+    border-top-color: #2a2a2a;
+  }
+
+  .site-footer {
+    border-top-color: #2a2a2a;
+    color: #666666;
+  }
+
+  .related-item {
+    border-bottom-color: #2a2a2a;
+  }
+
+  .related-item:hover {
+    background-color: #1a1a1a;
+  }
+
+  .empty-state {
+    color: #666666;
+  }
+
+  .article-body blockquote {
+    border-left-color: #3a3a3a;
+    background: #1a1a1a;
+  }
+
+  .article-body blockquote p {
+    color: #999999;
+  }
+
+  .article-body hr {
+    border-top-color: #2a2a2a;
+  }
+
+  .icon-link {
+    border-color: #2a2a2a;
+  }
+
+  .icon-link:hover {
+    border-color: #3a3a3a;
+    background-color: #1a1a1a;
+  }
+
+  .read-badge {
+    background: #2a2a2a;
+    color: #777777;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #e5e5e5;
+  }
+}
