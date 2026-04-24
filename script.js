@@ -1209,24 +1209,50 @@ function renderNotes() {
 (function initDarkMode() {
   const saved = localStorage.getItem('theme');
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  if (saved === 'dark' || (!saved && prefersDark)) {
+  const isDark = saved === 'dark' || (!saved && prefersDark);
+  if (isDark) {
     document.body.dataset.theme = 'dark';
   }
 
-  const header = document.querySelector('.topbar') || document.querySelector('.article-header');
-  if (!header) return;
+  const topbar = document.querySelector('.topbar');
+  if (!topbar) return;
 
-  const btn = document.createElement('button');
-  btn.className = 'theme-toggle';
-  btn.setAttribute('aria-label', '切换深色模式');
-  btn.innerHTML = document.body.dataset.theme === 'dark' ? '☀️' : '🌙';
-  btn.addEventListener('click', () => {
-    const isDark = document.body.dataset.theme === 'dark';
-    document.body.dataset.theme = isDark ? '' : 'dark';
-    localStorage.setItem('theme', isDark ? '' : 'dark');
-    btn.innerHTML = isDark ? '🌙' : '☀️';
+  const brand = topbar.querySelector('.brand');
+  const nav = topbar.querySelector('.nav-links');
+  if (!brand || !nav) return;
+
+  // 重新组织 topbar 为两行式
+  const row1 = document.createElement('div');
+  row1.className = 'topbar-row';
+
+  const row2 = document.createElement('div');
+  row2.className = 'nav-row';
+
+  row1.appendChild(brand);
+
+  // 创建深浅胶囊
+  const pill = document.createElement('div');
+  pill.className = 'theme-pill';
+  pill.innerHTML = `
+    <button class="${isDark ? 'active' : ''}" data-mode="dark">🌙 深</button>
+    <button class="${isDark ? '' : 'active'}" data-mode="light">☀️ 浅</button>
+  `;
+  pill.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mode = btn.dataset.mode;
+      const dark = mode === 'dark';
+      document.body.dataset.theme = dark ? 'dark' : '';
+      localStorage.setItem('theme', dark ? 'dark' : '');
+      pill.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+    });
   });
-  header.appendChild(btn);
+  row1.appendChild(pill);
+
+  row2.appendChild(nav);
+
+  topbar.innerHTML = '';
+  topbar.appendChild(row1);
+  topbar.appendChild(row2);
 })();
 
 /* ===== 图片点击放大 ===== */
