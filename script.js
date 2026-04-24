@@ -1065,7 +1065,12 @@ function renderNotes() {
       const grid = document.createElement('div');
       grid.className = 'notes-category-grid';
 
-      groups[cat].forEach(post => {
+      const groupPapers = groups[cat];
+      const previewCount = 2;
+      const hasMore = groupPapers.length > previewCount;
+
+      // 渲染预览卡片（前2篇）
+      groupPapers.slice(0, previewCount).forEach(post => {
         const card = document.createElement('a');
         card.className = 'note-card';
         card.href = getPostUrl(post);
@@ -1081,6 +1086,41 @@ function renderNotes() {
       });
 
       section.appendChild(grid);
+
+      // 如果有更多，添加展开区域和按钮
+      if (hasMore) {
+        const expandGrid = document.createElement('div');
+        expandGrid.className = 'notes-category-grid notes-category-expand';
+        expandGrid.style.display = 'none';
+
+        groupPapers.slice(previewCount).forEach(post => {
+          const card = document.createElement('a');
+          card.className = 'note-card';
+          card.href = getPostUrl(post);
+          card.innerHTML = `
+            <h4>${post.title}</h4>
+            <p>${post.summary || ''}</p>
+            <div class="note-card-footer">
+              <span>${post.date}</span>
+              <span>${post.reading}</span>
+            </div>
+          `;
+          expandGrid.appendChild(card);
+        });
+
+        section.appendChild(expandGrid);
+
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'notes-expand-btn';
+        toggleBtn.textContent = `查看全部 ${groupPapers.length} 篇`;
+        toggleBtn.addEventListener('click', () => {
+          const isExpanded = expandGrid.style.display !== 'none';
+          expandGrid.style.display = isExpanded ? 'none' : 'grid';
+          toggleBtn.textContent = isExpanded ? `查看全部 ${groupPapers.length} 篇` : '收起';
+        });
+        section.appendChild(toggleBtn);
+      }
+
       content.appendChild(section);
     });
   }
