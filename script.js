@@ -968,7 +968,7 @@ function renderNotes() {
   const searchInput = document.getElementById('paperSearch');
   if (!sidebarNav || !content) return;
 
-  const allPapers = posts.filter(post => post.tag === '论文');
+  const allPapers = posts.filter(post => post.id.startsWith('f'));
   let currentQuery = '';
 
   function render(query) {
