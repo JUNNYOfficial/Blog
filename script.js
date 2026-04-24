@@ -829,6 +829,29 @@ function setSectionObserver() {
   sections.forEach(section => observer.observe(section));
 }
 
+function renderDaily() {
+  const dailyPosts = posts.filter(post => post.tag === '日常');
+  const grid = document.getElementById('dailyGrid');
+  if (!grid) return;
+
+  grid.innerHTML = '';
+  if (!dailyPosts.length) {
+    grid.innerHTML = '<p style="color:#8f8f8f;text-align:center;padding:24px;">暂无记录</p>';
+    return;
+  }
+
+  dailyPosts.forEach(post => {
+    const card = document.createElement('a');
+    card.className = 'daily-card';
+    card.href = `article.html?id=${post.id}`;
+    card.innerHTML = `
+      <h4>${post.title}</h4>
+      <p>${post.summary || ''}</p>
+    `;
+    grid.appendChild(card);
+  });
+}
+
 function renderDailyPosts() {
   const dailyPosts = posts.filter(post => post.tag === '日常');
   const grid = document.getElementById('dailyPostsGrid');
@@ -1104,6 +1127,8 @@ if (page === 'home') {
   renderHome();
 } else if (page === 'article') {
   renderArticle();
+} else if (page === 'daily') {
+  renderDaily();
 } else if (page === 'daily-posts') {
   renderDailyPosts();
 } else if (page === 'notes') {
