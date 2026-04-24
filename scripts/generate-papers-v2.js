@@ -4,7 +4,7 @@ const path = require('path');
 
 const FEISHU_APP_ID = 'cli_a961a7a5277bdcc0';
 const FEISHU_APP_SECRET = 'FEOrrzYAxLA9nGinTDpfrb8Z2kABCXpL';
-const DOC_TOKEN = 'I6nFdUQ68oQ8gFxiaKLcATyonEc';
+const DOC_TOKEN = 'BYhYdtzRBo9Q2fxTKSxcbZDgnff';
 
 async function getToken() {
   const res = await fetch('https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal', {
@@ -144,7 +144,7 @@ async function main() {
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <title>${escapeHtml(cleanTitle)} · JUNNYOfficial Blog</title>
   <meta name="description" content="${escapeHtml(cleanTitle)}" />
-  <link rel="stylesheet" href="../styles.css?v=11" />
+  <link rel="stylesheet" href="../styles.css?v=12" />
   <style>
     .article-body h4 { font-size: 1.15rem; font-weight: 600; margin: 28px 0 14px; color: #111; }
     .article-body h5 { font-size: 1rem; font-weight: 600; margin: 20px 0 10px; color: #333; }
@@ -195,20 +195,6 @@ async function main() {
   </div>
   <script>
     (function() {
-      const match = location.pathname.match(/paper-(\d{3})\.html$/);
-      if (match) {
-        const id = 'f' + parseInt(match[1], 10);
-        try {
-          const key = 'junny_reading_tracker';
-          const ids = JSON.parse(localStorage.getItem(key)) || [];
-          if (!ids.includes(id)) {
-            ids.push(id);
-            localStorage.setItem(key, JSON.stringify(ids));
-          }
-        } catch(e) {}
-      }
-
-      // 返回顶部按钮
       const btn = document.createElement('button');
       btn.className = 'back-to-top';
       btn.setAttribute('aria-label', '返回顶部');

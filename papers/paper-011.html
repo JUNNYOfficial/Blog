@@ -6,7 +6,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <title>神经科学中的表征概念维度 · JUNNYOfficial Blog</title>
   <meta name="description" content="神经科学中的表征概念维度" />
-  <link rel="stylesheet" href="../styles.css?v=11" />
+  <link rel="stylesheet" href="../styles.css?v=12" />
   <style>
     .article-body h4 { font-size: 1.15rem; font-weight: 600; margin: 28px 0 14px; color: #111; }
     .article-body h5 { font-size: 1rem; font-weight: 600; margin: 20px 0 10px; color: #333; }
@@ -31,7 +31,7 @@
         <article>
           <p class="eyebrow">论文笔记</p>
           <h1>神经科学中的表征概念维度</h1>
-          <div class="article-body"><p>[ ] 未读</p>
+          <div class="article-body"><p>[x] 已读</p>
 <p>英文标题： Clarifying the conceptual dimensions of representation in neuroscience作者： Stephan Pohl, Edgar Y. Walker, Wei Ji Ma发表日期： 2026年3月20日</p>
 <h4>核心问题</h4>
 <p>神经科学家每天都在谈论&quot;表征（representation）&quot;：海马位置细胞&quot;表征&quot;空间位置，视觉皮层&quot;表征&quot;边缘方向，前额叶&quot;表征&quot;决策变量。但&quot;表征&quot;到底是什么意思？</p>
@@ -76,20 +76,6 @@
   </div>
   <script>
     (function() {
-      const match = location.pathname.match(/paper-(d{3}).html$/);
-      if (match) {
-        const id = 'f' + parseInt(match[1], 10);
-        try {
-          const key = 'junny_reading_tracker';
-          const ids = JSON.parse(localStorage.getItem(key)) || [];
-          if (!ids.includes(id)) {
-            ids.push(id);
-            localStorage.setItem(key, JSON.stringify(ids));
-          }
-        } catch(e) {}
-      }
-
-      // 返回顶部按钮
       const btn = document.createElement('button');
       btn.className = 'back-to-top';
       btn.setAttribute('aria-label', '返回顶部');

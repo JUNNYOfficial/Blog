@@ -180,7 +180,7 @@ const feishuPapers = [
     "date": "2026年4月24日",
     "reading": "10 分钟阅读",
     "body": [
-      "[ ] 未读",
+      "[x] 已读",
       "英文标题： Spatial and single-cell characterization of human glioblastoma tumor microenvironment reveals malignant cellular communities作者： 林俊#、陈春鹏#、瞿昆*、唐爱辉*、程传东*、李守振*（#共同一作，*共同通讯）机构： 中国科学技术大学发表日期： 2026年4月16日DOI： 10.1038/s41593-026-02265-5",
       "研究背景与核心问题",
       "胶质母细胞瘤（Glioblastoma, GBM）是最常见、最致命的成人脑肿瘤。患者确诊后中位生存期仅12-18个月。为什么这么难治？",
@@ -228,7 +228,7 @@ const feishuPapers = [
     "date": "2026年4月24日",
     "reading": "9 分钟阅读",
     "body": [
-      "[ ] 未读",
+      "[x] 已读",
       "英文标题： Constituent-constrained word prediction during language comprehension作者： Jiajie Zou, David Poeppel, Nai Ding（丁鼐）机构： 浙江大学、纽约大学发表日期： 2026年4月21日",
       "研究背景与核心问题",
       "当你听到\"The cat sat on the...\"，你的大脑会立刻预测下一个词可能是\"mat\"或\"chair\"。这种\"下一个词预测\"被认为是人类语言系统的核心计算目标，也是当代大型语言模型（LLM）的基本训练范式。",
@@ -273,7 +273,7 @@ const feishuPapers = [
     "date": "2026年4月24日",
     "reading": "8 分钟阅读",
     "body": [
-      "[ ] 未读",
+      "[x] 已读",
       "英文标题： Neuropeptide Y co-opts neuronal ensembles for memory lability and stability作者： 吴延娇#、谷雪#、孔雅蕾、杨朔、徐天乐*、李伟广*（#共同一作，*共同通讯）机构： 上海交通大学医学院松江研究院、复旦大学脑科学转化研究院发表日期： 2026年3月31日",
       "研究背景与核心问题",
       "恐惧记忆是生命适应的核心机制。被火烧过的孩子学会远离火焰，被狗咬过的人对犬类保持警惕。但恐惧记忆必须同时满足两个看似矛盾的要求：",
@@ -316,7 +316,7 @@ const feishuPapers = [
     "date": "2026年4月24日",
     "reading": "7 分钟阅读",
     "body": [
-      "[ ] 未读",
+      "[x] 已读",
       "英文标题： （Nature Neuroscience, 2026年4月14日）作者： 罗敏华团队机构： 中国科学院武汉病毒研究所",
       "研究背景与核心问题",
       "神经环路示踪是理解大脑连接图谱的核心技术。其中，顺向跨突触示踪（从突触前到突触后追踪）尤其珍贵，因为它能揭示信息流动的方向。",
@@ -382,7 +382,7 @@ const feishuPapers = [
     "date": "2026年4月24日",
     "reading": "5 分钟阅读",
     "body": [
-      "[ ] 未读",
+      "[x] 已读",
       "英文标题： Redefining the central pattern generator for vertebrate locomotion作者： Abdeljabbar El Manira发表日期： 2026年3月4日",
       "核心问题",
       "你走路时不需要思考\"先抬左腿、再迈右腿\"——这种节律性运动由脊髓中的神经网络自动生成。这个网络被称为中央模式发生器（Central Pattern Generator, CPG）。",
@@ -413,7 +413,7 @@ const feishuPapers = [
     "date": "2026年4月24日",
     "reading": "5 分钟阅读",
     "body": [
-      "[ ] 未读",
+      "[x] 已读",
       "英文标题： Clarifying the conceptual dimensions of representation in neuroscience作者： Stephan Pohl, Edgar Y. Walker, Wei Ji Ma发表日期： 2026年3月20日",
       "核心问题",
       "神经科学家每天都在谈论\"表征（representation）\"：海马位置细胞\"表征\"空间位置，视觉皮层\"表征\"边缘方向，前额叶\"表征\"决策变量。但\"表征\"到底是什么意思？",
@@ -444,7 +444,7 @@ const feishuPapers = [
     "date": "2026年4月24日",
     "reading": "7 分钟阅读",
     "body": [
-      "[ ] 未读",
+      "[x] 已读",
       "英文标题： Mitochondrial dynamics in neurodevelopment and neurodevelopmental disorders作者： Carissa L. Sirois, Jiyoun Lee, Xinyu Zhao发表日期： 2026年3月4日",
       "核心问题",
       "线粒体是细胞的\"能量工厂\"，但它在神经元中的作用远不止产生ATP。神经元是身体中最耗能的细胞之一——人脑仅占体重2%，却消耗20%的能量。",
@@ -480,7 +480,7 @@ const feishuPapers = [
     "date": "2026年4月24日",
     "reading": "6 分钟阅读",
     "body": [
-      "[ ] 未读",
+      "[x] 已读",
       "英文标题： Neural adaptation to climate change: mechanisms, limits and opportunities作者： Jan Siemens, Patrick Haggard发表日期： 2026年3月17日",
       "核心问题",
       "全球变暖不只是环境问题，也是神经科学问题：",
@@ -514,8 +514,8 @@ const feishuPapers = [
     "date": "2026年4月24日",
     "reading": "8 分钟阅读",
     "body": [
-      "[ ] 未读",
-      "英文标题： Population-scale repeat expansions elucidate disease risk and brain atrophy作者： Sahar Gelfman 等机构： Regeneron再生基因中心发表日期： 2026年4月8日",
+      "[x] 已读",
+      "英文标题： Population-scale repeat expansions elucidate disease risk and brain atrophy作者： Sahar Gelfman 等机构： Regeneron再生基因中心发表日期： 2026年4月8日DOI： 10.1038/s41586-026-10345-6",
       "研究背景与核心问题",
       "一些神经系统疾病（如亨廷顿病、肌萎缩侧索硬化症ALS、脆性X综合征）由DNA中的**短串联重复序列（Short Tandem Repeats, STRs）**异常扩增引起。正常人有这些重复序列，但患者某个基因的特定重复区域长度异常增加，导致蛋白质功能失常。",
       "已知的有37个STR位点与疾病相关。但长期以来的问题是：",

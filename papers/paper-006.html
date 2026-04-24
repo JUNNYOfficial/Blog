@@ -6,7 +6,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <title>语言理解中的成分约束词预测 · JUNNYOfficial Blog</title>
   <meta name="description" content="语言理解中的成分约束词预测" />
-  <link rel="stylesheet" href="../styles.css?v=11" />
+  <link rel="stylesheet" href="../styles.css?v=12" />
   <style>
     .article-body h4 { font-size: 1.15rem; font-weight: 600; margin: 28px 0 14px; color: #111; }
     .article-body h5 { font-size: 1rem; font-weight: 600; margin: 20px 0 10px; color: #333; }
@@ -31,7 +31,7 @@
         <article>
           <p class="eyebrow">论文笔记</p>
           <h1>语言理解中的成分约束词预测</h1>
-          <div class="article-body"><p>[ ] 未读</p>
+          <div class="article-body"><p>[x] 已读</p>
 <p>英文标题： Constituent-constrained word prediction during language comprehension作者： Jiajie Zou, David Poeppel, Nai Ding（丁鼐）机构： 浙江大学、纽约大学发表日期： 2026年4月21日</p>
 <h4>研究背景与核心问题</h4>
 <p>当你听到&quot;The cat sat on the...&quot;，你的大脑会立刻预测下一个词可能是&quot;mat&quot;或&quot;chair&quot;。这种&quot;下一个词预测&quot;被认为是人类语言系统的核心计算目标，也是当代大型语言模型（LLM）的基本训练范式。</p>
@@ -90,20 +90,6 @@
   </div>
   <script>
     (function() {
-      const match = location.pathname.match(/paper-(d{3}).html$/);
-      if (match) {
-        const id = 'f' + parseInt(match[1], 10);
-        try {
-          const key = 'junny_reading_tracker';
-          const ids = JSON.parse(localStorage.getItem(key)) || [];
-          if (!ids.includes(id)) {
-            ids.push(id);
-            localStorage.setItem(key, JSON.stringify(ids));
-          }
-        } catch(e) {}
-      }
-
-      // 返回顶部按钮
       const btn = document.createElement('button');
       btn.className = 'back-to-top';
       btn.setAttribute('aria-label', '返回顶部');

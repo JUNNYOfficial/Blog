@@ -1342,40 +1342,6 @@ body.page-enter {
   }
 }
 
-/* ===== 阅读状态标记 ===== */
-.note-card-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.note-card-header h4 {
-  margin: 0;
-  flex: 1;
-}
-
-.read-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: #f0f0f0;
-  color: #8f8f8f;
-  font-size: 0.72rem;
-  font-weight: 500;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.note-card.is-read {
-  border-color: #e5e5e5;
-}
-
-.note-card.is-read:hover {
-  border-color: #d0d0d0;
-}
-
 /* ===== 返回顶部按钮 ===== */
 .back-to-top {
   position: fixed;
