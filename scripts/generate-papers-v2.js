@@ -60,7 +60,10 @@ function blockToHtml(block) {
   const type = block.block_type;
   const text = extractText(block);
   if (!text.trim()) return '';
-  
+
+  // 跳过阅读状态行 [x] 已读 / [ ] 未读
+  if (/^\s*\[[x\s]\]\s*(已读|未读)/.test(text)) return '';
+
   // h4 小节标题
   if (type === 6) return `<h4>${escapeHtml(text)}</h4>`;
   // h5
