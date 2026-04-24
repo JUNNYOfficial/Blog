@@ -81,12 +81,15 @@ function loadData() {
 function renderArticlesTable(list) {
   const tbody = document.getElementById('articlesTableBody');
   if (!list.length) {
-    tbody.innerHTML = '<tr><td colspan="6" class="empty-state">暂无文章</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="8" class="empty-state">暂无文章</td></tr>';
+    updateBatchCount();
     return;
   }
 
-  tbody.innerHTML = list.map(post => `
-    <tr>
+  tbody.innerHTML = list.map((post, index) => `
+    <tr draggable="true" data-id="${escapeHtml(String(post.id))}" data-index="${index}">
+      <td><input type="checkbox" class="row-check" value="${escapeHtml(String(post.id))}" onchange="updateBatchCount()" /></td>
+      <td class="drag-handle" title="拖拽排序" style="cursor:grab;color:#ccc;font-size:1.1rem;">⋮⋮</td>
       <td>${escapeHtml(String(post.id))}</td>
       <td>${escapeHtml(post.title)}</td>
       <td><span class="tag-badge">${escapeHtml(post.tag || '')}</span></td>
@@ -98,6 +101,100 @@ function renderArticlesTable(list) {
       </td>
     </tr>
   `).join('');
+
+  // 绑定拖拽事件
+  bindDragEvents(tbody);
+  updateBatchCount();
+}
+
+// 拖拽排序
+function bindDragEvents(tbody) {
+  let dragSrcEl = null;
+  const rows = tbody.querySelectorAll('tr');
+
+  rows.forEach(row => {
+    row.addEventListener('dragstart', (e) => {
+      dragSrcEl = row;
+      row.style.opacity = '0.4';
+      e.dataTransfer.effectAllowed = 'move';
+    });
+
+    row.addEventListener('dragend', () => {
+      rows.forEach(r => r.style.opacity = '1');
+      dragSrcEl = null;
+    });
+
+    row.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      return false;
+    });
+
+    row.addEventListener('dragenter', (e) => {
+      if (row !== dragSrcEl) row.style.borderTop = '2px solid #111';
+    });
+
+    row.addEventListener('dragleave', () => {
+      row.style.borderTop = '';
+    });
+
+    row.addEventListener('drop', (e) => {
+      e.stopPropagation();
+      row.style.borderTop = '';
+      if (dragSrcEl && dragSrcEl !== row) {
+        const fromIndex = parseInt(dragSrcEl.dataset.index);
+        const toIndex = parseInt(row.dataset.index);
+        const item = adminPosts.splice(fromIndex, 1)[0];
+        adminPosts.splice(toIndex, 0, item);
+        localStorage.setItem(POSTS_KEY, JSON.stringify(adminPosts));
+        loadData();
+      }
+      return false;
+    });
+  });
+}
+
+// 批量操作
+function toggleSelectAll(checkbox) {
+  document.querySelectorAll('#articlesTableBody .row-check').forEach(cb => {
+    cb.checked = checkbox.checked;
+  });
+  updateBatchCount();
+}
+
+function getSelectedIds() {
+  return Array.from(document.querySelectorAll('#articlesTableBody .row-check:checked')).map(cb => cb.value);
+}
+
+function updateBatchCount() {
+  const ids = getSelectedIds();
+  const batchActions = document.getElementById('batchActions');
+  const batchCount = document.getElementById('batchCount');
+  if (batchCount) batchCount.textContent = ids.length;
+  if (batchActions) batchActions.style.display = ids.length > 0 ? 'flex' : 'none';
+}
+
+function batchDelete() {
+  const ids = getSelectedIds();
+  if (!ids.length) return;
+  if (!confirm(`确定要删除选中的 ${ids.length} 篇文章吗？此操作不可恢复。`)) return;
+  adminPosts = adminPosts.filter(p => !ids.includes(String(p.id)));
+  localStorage.setItem(POSTS_KEY, JSON.stringify(adminPosts));
+  document.getElementById('selectAll').checked = false;
+  loadData();
+}
+
+function batchChangeTag() {
+  const ids = getSelectedIds();
+  if (!ids.length) return;
+  const newTag = prompt('请输入新标签（论文 / 日常 / 设计）：', '日常');
+  if (!newTag) return;
+  adminPosts.forEach(p => {
+    if (ids.includes(String(p.id))) p.tag = newTag;
+  });
+  localStorage.setItem(POSTS_KEY, JSON.stringify(adminPosts));
+  document.getElementById('selectAll').checked = false;
+  loadData();
 }
 
 // 渲染论文列表
@@ -255,6 +352,33 @@ function deleteArticle(id) {
   loadData();
 }
 
+// 预览文章
+function previewArticle() {
+  const title = document.getElementById('editTitle').value.trim() || '无标题';
+  const tag = document.getElementById('editTag').value;
+  const date = document.getElementById('editDate').value.trim() || formatToday();
+  const reading = document.getElementById('editReading').value.trim() || '5 分钟阅读';
+  const source = document.getElementById('editSource').value.trim();
+
+  const body = [];
+  document.querySelectorAll('#bodyContainer input').forEach(input => {
+    const text = input.value.trim();
+    if (text) body.push(text);
+  });
+
+  document.getElementById('previewTitle').textContent = title;
+  document.getElementById('previewTag').textContent = source || tag;
+  document.getElementById('previewDate').textContent = date;
+  document.getElementById('previewReading').textContent = reading;
+  document.getElementById('previewBody').innerHTML = body.map(p => `<p>${p}</p>`).join('') || '<p style="color:#999;">（暂无正文内容）</p>';
+
+  document.getElementById('previewModal').classList.add('is-open');
+}
+
+function closePreview() {
+  document.getElementById('previewModal').classList.remove('is-open');
+}
+
 // 修改密码
 function changePassword() {
   const newPw = document.getElementById('newPassword').value;
@@ -301,7 +425,7 @@ function copyExport() {
 // 生成完整的 script.js 代码
 async function generateScriptJs() {
   try {
-    const response = await fetch('script.js?v=21');
+    const response = await fetch('script.js?v=22');
     let code = await response.text();
 
     // 生成新的 posts 数组代码
