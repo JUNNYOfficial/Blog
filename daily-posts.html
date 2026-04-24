@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>日常动态 · JUNNYOfficial Blog</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="daily-posts">
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">J</span>
+        <div>
+          <p class="eyebrow">JUNNYOfficial</p>
+          <h1>日常动态 · 研究日志</h1>
+        </div>
+      </div>
+      <nav class="nav-links" aria-label="页面导航">
+        <a href="index.html">首页</a>
+        <a href="notes.html">论文笔记</a>
+        <a href="daily.html">日常</a>
+        <a href="daily-posts.html" class="active">动态</a>
+        <a href="library.html">资料库</a>
+        <a href="about.html">关于</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero panel-section">
+        <div class="hero-copy">
+          <p class="eyebrow">日常动态</p>
+          <h2>实时更新的研究日志与灵感记录</h2>
+          <p class="hero-text">这里动态展示最新的日常观察、实验笔记和研究思考，按时间顺序排列。</p>
+        </div>
+        <div class="hero-meta">
+          <div class="meta-panel">
+            <p class="meta-label">动态更新</p>
+            <p>每当有新的日常记录时，这里会自动更新并展示最新的内容。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="daily-posts-section panel-section">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">最新动态</p>
+            <h3>日常研究记录</h3>
+          </div>
+          <div class="posts-stats">
+            <span class="stats-item">
+              <span class="stats-number" id="totalPosts">0</span>
+              <span class="stats-label">篇记录</span>
+            </span>
+            <span class="stats-item">
+              <span class="stats-number" id="todayPosts">0</span>
+              <span class="stats-label">今日更新</span>
+            </span>
+          </div>
+        </div>
+        <div class="daily-posts-container">
+          <div id="dailyPostsGrid" class="daily-posts-grid"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>JUNNYOfficial Blog • 日常动态页 • 2026</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

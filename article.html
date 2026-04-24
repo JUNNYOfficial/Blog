@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>文章详情 · JUNNYOfficial Blog</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="article">
+  <div class="page-shell article-shell">
+    <header class="article-header">
+      <a class="icon-link back-link" href="index.html" aria-label="返回上一级" title="返回上一级">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <div class="article-actions">
+        <button class="icon-button" aria-label="分享文章">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 12l3-3 3 3 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M17 15v4H7v-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="article-content">
+      <div class="article-hero">
+        <div class="article-intro">
+          <p class="eyebrow">神经科学记录</p>
+          <h2>每篇内容都以条理化结构呈现，便于复盘与延续研究。</h2>
+          <p class="hero-text">在这个私密的研究空间中，结论、方法与日常思路并列，保持冷静与清晰。</p>
+        </div>
+        <div class="article-badge-panel">
+          <div class="meta-panel">
+            <p class="meta-label">研究笔记风格</p>
+            <p>纯粹的黑白灰视觉框架，去掉干扰，保留对知识的尊重与清晰结构。</p>
+          </div>
+        </div>
+      </div>
+
+      <section class="article-frame">
+        <article>
+          <p class="eyebrow" id="articleTag"></p>
+          <h1 id="articleTitle">加载中...</h1>
+          <div class="article-meta">
+            <span id="articleDate"></span>
+            <span>·</span>
+            <span id="articleReading"></span>
+          </div>
+          <div class="article-body" id="articleBody"></div>
+        </article>
+      </section>
+    </main>
+
+    <aside class="related-panel">
+      <p class="eyebrow">推荐阅读</p>
+      <div id="relatedList"></div>
+    </aside>
+
+    <footer class="site-footer article-footer">
+      <p>继续阅读 · 保持设计纯粹 · JUNNYOfficial</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
