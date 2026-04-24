@@ -504,14 +504,19 @@ function renderDailyPosts() {
 
 function renderHome() {
   renderArticleCards(posts.slice(0, 2));
-  document.querySelectorAll('.pill').forEach(pill => {
-    pill.addEventListener('click', () => {
+
+  const filterRow = document.querySelector('.filter-row');
+  if (filterRow) {
+    filterRow.addEventListener('click', (e) => {
+      const pill = e.target.closest('.pill');
+      if (!pill) return;
       const selected = pill.textContent.trim();
       const filtered = (selected === '全部' ? posts : posts.filter(post => post.tag === selected)).slice(0, 2);
       setActiveFilter(selected);
       renderArticleCards(filtered);
     });
-  });
+  }
+
   setSectionObserver();
 }
 
