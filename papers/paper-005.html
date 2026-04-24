@@ -7,11 +7,19 @@
   <title>胶质母细胞瘤恶性细胞群落空间结构 · JUNNYOfficial Blog</title>
   <meta name="description" content="胶质母细胞瘤恶性细胞群落空间结构" />
   <link rel="stylesheet" href="../styles.css?v=3" />
+  <style>
+    .article-body h4 { font-size: 1.15rem; font-weight: 600; margin: 28px 0 14px; color: #111; }
+    .article-body h5 { font-size: 1rem; font-weight: 600; margin: 20px 0 10px; color: #333; }
+    .article-body blockquote { border-left: 3px solid #d4d4d4; margin: 16px 0; padding: 12px 18px; background: #fafafa; border-radius: 0 12px 12px 0; }
+    .article-body blockquote p { margin: 0; color: #555; }
+    .article-body .todo-item, .article-body .list-item { margin: 8px 0; color: #444; padding-left: 4px; }
+    .article-body hr { border: none; border-top: 1px solid #e8e8e8; margin: 24px 0; }
+  </style>
 </head>
 <body data-page="article">
   <div class="page-shell article-shell">
     <header class="article-header">
-      <a class="icon-link back-link" href="../index.html" aria-label="返回首页">
+      <a class="icon-link back-link" href="../notes.html" aria-label="返回论文库">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
@@ -21,13 +29,45 @@
     <main class="article-content">
       <section class="article-frame">
         <article>
-          <p class="eyebrow">一、Nature Neuroscience 研究论文</p>
+          <p class="eyebrow">论文笔记</p>
           <h1>胶质母细胞瘤恶性细胞群落空间结构</h1>
           <div class="article-body"><p>[ ] 未读</p>
-<p>原标题: Spatial and single-cell characterization of human glioblastoma tumor microenvironment reveals malignant cellular communities作者: 瞿昆/唐爱辉/程传东/李守振等（中科大）期刊: Nature Neuroscience发表日期: 2026-04-16DOI: 10.1038/s41593-026-02265-5</p>
-<p>研究背景与问题：  胶质母细胞瘤（GBM）微环境复杂，肿瘤内异质性高，缺乏对细胞空间组织及互作机制的系统解析。</p>
-<p>实验操作：  100例GBM患者的121个组学数据（空间转录组、单细胞RNA/ATAC、原位杂交、空间蛋白质组、Patch-seq）</p>
-<p>主要结论：  定义四种恶性细胞群落（CC-1缺氧核心、CC-2血管富集、CC-3神经元富集、CC-4 AC样），揭示不同群落内肿瘤细胞与微环境细胞的独特互作模式。</p></div>
+<p>英文标题： Spatial and single-cell characterization of human glioblastoma tumor microenvironment reveals malignant cellular communities作者： 林俊#、陈春鹏#、瞿昆*、唐爱辉*、程传东*、李守振*（#共同一作，*共同通讯）机构： 中国科学技术大学发表日期： 2026年4月16日DOI： 10.1038/s41593-026-02265-5</p>
+<h4>研究背景与核心问题</h4>
+<p>胶质母细胞瘤（Glioblastoma, GBM）是最常见、最致命的成人脑肿瘤。患者确诊后中位生存期仅12-18个月。为什么这么难治？</p>
+<p>一个核心原因是极端异质性：即使在同一个肿瘤内部，不同区域的细胞也表现出完全不同的分子特征、生长速度和药物敏感性。更棘手的是，GBM的肿瘤微环境（tumor microenvironment, TME）极其复杂——包括血管、免疫细胞、神经元、胶质细胞等，它们与肿瘤细胞形成动态的&quot;共生&quot;关系。</p>
+<p>然而，传统的研究通常将肿瘤组织捣碎后做单细胞测序，完全丢失了空间信息。我们不知道：</p>
+<blockquote><p>哪些细胞类型在空间上聚集在一起？</p></blockquote>
+<blockquote><p>它们之间如何物理接触和信号交流？</p></blockquote>
+<blockquote><p>这种空间组织如何驱动肿瘤进展和治疗抵抗？</p></blockquote>
+<p>中科大的这项研究用空间组学技术回答这些问题。</p>
+<h4>实验设计</h4>
+<p>样本规模： 100例原发GBM患者的121个组学样本——这是迄今最大规模的GBM空间图谱。</p>
+<p>多模态技术整合：</p>
+<p class="todo-item">☐ 空间转录组（Visium/ Stereo-seq）： 在组织切片上定位基因表达的空间位置，分辨率接近单细胞水平</p>
+<p class="todo-item">☐ 单细胞RNA测序（scRNA-seq）： 解析细胞类型组成和状态</p>
+<p class="todo-item">☐ 单细胞ATAC测序（scATAC-seq）： 分析染色质可及性，推断基因调控状态</p>
+<p class="todo-item">☐ 多轮原位杂交（MERFISH/ seqFISH）： 高分辨率验证关键基因的空间表达</p>
+<p class="todo-item">☐ 空间蛋白质组（CODEX/ MIBI）： 蛋白质水平的空间分布</p>
+<p class="todo-item">☐ Patch-seq： 同时对单个细胞进行电生理记录和转录组测序，关联功能与分子特征</p>
+<h4>核心发现</h4>
+<p>发现一：四种保守的恶性&quot;细胞群落&quot;（Cellular Communities, CCs）研究首次定义了在患者间高度保守的四种恶性细胞群落：</p>
+<p>发现二：两种间充质样（MES-like）肿瘤亚群的功能分化研究进一步将MES样肿瘤细胞分为两个功能亚群：</p>
+<blockquote><p>MES-Hyp（缺氧相关）： 与CC-1共定位，通过分泌VEGFA诱导TAMs向促肿瘤表型转化</p></blockquote>
+<blockquote><p>MES-Ast（血管相关）： 与CC-2共定位，通过TGFβ2促进血管重塑和肿瘤血供</p></blockquote>
+<p>发现三：神经元-肿瘤突触连接Patch-seq分析首次证实：在CC-3区域，神经元与少突胶质前体样（OPC-like）肿瘤细胞之间形成了功能性突触连接。这意味着肿瘤细胞直接接收来自正常神经网络的电信号输入——这可能是肿瘤生长和侵袭的神经依赖机制。</p>
+<p>发现四：群落特异性细胞间通讯通过配体-受体分析，研究预测并验证了每个群落中特异的信号交流：</p>
+<blockquote><p>CC-1：缺氧信号（HIF-1α）→ 巨噬细胞招募</p></blockquote>
+<blockquote><p>CC-2：血管生成因子（VEGF、Angiopoietin）→ 血管新生</p></blockquote>
+<blockquote><p>CC-3：神经导向因子（Semaphorin、Ephrin）→ 突触形成</p></blockquote>
+<blockquote><p>CC-4：基质重塑信号（MMP、TGF-β）→ 侵袭前沿推进</p></blockquote>
+<p>发现五：空间梯度与进化动力学肿瘤内部存在从CC-1（核心）到CC-4（前沿）的空间梯度，这种梯度不是随机的，而是反映了肿瘤的进化轨迹——缺氧核心驱动细胞死亡和炎症，血管区提供营养，神经区 hijack 正常功能，前沿区推进侵袭。</p>
+<h4>科学意义</h4>
+<p>这项研究的意义远超GBM领域本身：</p>
+<p class="todo-item">☐ 空间组学的范式建立： 证明多模态空间组学能揭示传统单细胞方法完全错过的生物学规律</p>
+<p class="todo-item">☐ 精准治疗的新靶点： 不同群落可能需要完全不同的治疗策略。例如，针对CC-1的免疫治疗、针对CC-2的抗血管生成、针对CC-3的突触阻断</p>
+<p class="todo-item">☐ 肿瘤生态学概念： 肿瘤不是均质的&quot;细胞团&quot;，而是高度组织化的&quot;恶性生态系统&quot;，包含不同功能分区的群落</p>
+<p class="todo-item">☐ 神经-肿瘤互作的临床转化： 神经元-肿瘤突触的发现提示，抗癫痫药物或神经活性药物可能具有意想不到的抗肿瘤效果</p></div>
         </article>
       </section>
     </main>

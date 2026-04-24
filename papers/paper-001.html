@@ -7,11 +7,19 @@
   <title>小脑编码时间统计先验知识 · JUNNYOfficial Blog</title>
   <meta name="description" content="小脑编码时间统计先验知识" />
   <link rel="stylesheet" href="../styles.css?v=3" />
+  <style>
+    .article-body h4 { font-size: 1.15rem; font-weight: 600; margin: 28px 0 14px; color: #111; }
+    .article-body h5 { font-size: 1rem; font-weight: 600; margin: 20px 0 10px; color: #333; }
+    .article-body blockquote { border-left: 3px solid #d4d4d4; margin: 16px 0; padding: 12px 18px; background: #fafafa; border-radius: 0 12px 12px 0; }
+    .article-body blockquote p { margin: 0; color: #555; }
+    .article-body .todo-item, .article-body .list-item { margin: 8px 0; color: #444; padding-left: 4px; }
+    .article-body hr { border: none; border-top: 1px solid #e8e8e8; margin: 24px 0; }
+  </style>
 </head>
 <body data-page="article">
   <div class="page-shell article-shell">
     <header class="article-header">
-      <a class="icon-link back-link" href="../index.html" aria-label="返回首页">
+      <a class="icon-link back-link" href="../notes.html" aria-label="返回论文库">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
@@ -21,13 +29,36 @@
     <main class="article-content">
       <section class="article-frame">
         <article>
-          <p class="eyebrow">一、Nature Neuroscience 研究论文</p>
+          <p class="eyebrow">论文笔记</p>
           <h1>小脑编码时间统计先验知识</h1>
           <div class="article-body"><p>[x] 已读</p>
-<p>原标题: Neural circuits encode prior knowledge of temporal statistics作者: Koppen et al., Devika Narain 团队期刊: Nature Neuroscience发表日期: 2026-04-07DOI: —</p>
-<p>研究背景与问题：  大脑在感觉输入不确定时依赖先验知识进行贝叶斯推理，但神经回路如何编码环境统计规律的直接证据有限。小脑是否参与先验知识的学习和表征？</p>
-<p>实验操作：  小鼠眨眼条件反射 + 浦肯野细胞电生理记录 + 计算建模</p>
-<p>主要结论：  小脑浦肯野细胞学习时间变量的先验概率分布，并编码为简单/复杂尖峰信号。计算模型表明对抗性长期可塑性机制形成先验知识。</p></div>
+<p>英文标题： Neural circuits encode prior knowledge of temporal statistics作者： Julius Koppen, Ilse Klinkhamer, Marit Runge, Lucas Bayones, Devika Narain机构： 荷兰伊拉斯谟大学医学中心发表日期： 2026年4月7日DOI： 10.1038/s41593-026-02255-7</p>
+<h4>研究背景与核心问题</h4>
+<p>我们生活在一个充满不确定性的世界。当你听到远处传来汽车喇叭声，大脑需要判断&quot;这辆车大概多久会到&quot;；当你接球时，需要预判球到达的时间和位置。这些判断都不是精确的——感官信息总有噪声，但大脑依然能做出合理预测。</p>
+<p>贝叶斯推理理论告诉我们：在不确定条件下，大脑会结合&quot;先验知识&quot;（过去经验的统计规律）和&quot;当前感官证据&quot;来做最优推断。问题是：这种先验知识到底存储在大脑的哪个部位？以什么形式编码？</p>
+<p>传统观点认为小脑主要负责运动协调，但这篇论文提出了更深刻的见解：小脑可能是大脑中专门&quot;学习世界概率分布&quot;的器官。</p>
+<h4>实验设计详解</h4>
+<p>研究团队设计了一个精妙的小鼠眨眼条件反射实验：</p>
+<p>训练阶段： 小鼠面对一个视觉提示（条件刺激，CS），随后眼部会受到轻微气流吹拂（非条件刺激，US）。关键在于——CS和US之间的时间间隔不是固定的，而是从三种不同的概率分布中随机抽取：</p>
+<blockquote><p>窄分布： 时间间隔高度可预测（不确定性低）</p></blockquote>
+<blockquote><p>中等分布： 时间间隔有一定变化</p></blockquote>
+<blockquote><p>宽分布： 时间间隔高度不确定</p></blockquote>
+<p>小鼠需要学会：根据CS出现的时间，预测US何时到来，并在US到达前闭眼保护眼睛。</p>
+<p>测试阶段： 在某些试次中取消US，只呈现CS，观察小鼠的预测性眨眼行为如何随时间分布的统计特性而变化。</p>
+<h4>技术手段</h4>
+<p class="todo-item">☐ 大规模电生理记录： 在小脑皮层（特别是lobules IV/V和Simplex区域）同时记录数百个神经元的活动</p>
+<p class="todo-item">☐ 浦肯野细胞分型： 使用LFADS（Latent Factor Analysis via Dynamical Systems）深度学习技术，从群体神经活动中解码单个神经元的试次级活动</p>
+<p class="todo-item">☐ 光遗传学干预： 用光精确操控浦肯野细胞的活动，验证因果关系</p>
+<p class="todo-item">☐ 计算建模： 建立小脑-下橄榄核回路的计算模型，解释先验知识如何通过突触可塑性编码</p>
+<h4>核心发现</h4>
+<p>发现一：行为层面的统计学习小鼠的眨眼行为完美反映了训练分布的统计特性。当时间间隔服从窄分布时，小鼠的眨眼时机非常精准；当分布变宽（不确定性增加）时，眨眼行为变得更加保守，提前量更大——这正是贝叶斯最优策略的表现。</p>
+<p>发现二：浦肯野细胞编码先验分布小脑皮层的主要输出神经元——浦肯野细胞（Purkinje cells）的活动统计特性与行为同步变化。它们的简单棘波（simple spikes）发放模式直接映射了时间间隔的概率分布。</p>
+<p>发现三：全新信号——&quot;分布起始标记&quot;研究团队发现了一种前所未见的复杂棘波（complex spikes）信号模式：经过高不确定性环境长期训练后，浦肯野细胞会在概率分布的最早可能时刻产生特殊的复杂棘波。这相当于一个&quot;警报信号&quot;——提醒大脑&quot;最糟糕的情况可能现在就发生&quot;。</p>
+<p>发现四：因果验证当研究者用光遗传学暂时抑制浦肯野细胞活动时，小鼠基于先验知识的预测性眨眼完全消失，但本能反射（对实际气流的反应）仍然保留。这证明浦肯野细胞专门负责&quot;预测性&quot;行为，而非简单的反射弧。</p>
+<p>发现五：计算机制计算模型揭示：先验知识通过小脑皮层中两种对抗性可塑性机制的并置来编码——长时程抑制（LTD）和长时程增强（LTP）在小脑平行纤维-浦肯野细胞突触上形成动态平衡，最终稳定存储了概率分布的统计参数。</p>
+<h4>科学意义</h4>
+<p>这项研究首次提供了神经回路直接编码环境统计规律的实验证据，将抽象的贝叶斯计算理论锚定到了具体的神经硬件上。更重要的是，它重新定义了小脑的功能：小脑不仅仅是&quot;运动协调器&quot;，更是&quot;概率学习机&quot;——专门负责从经验中提取统计规律，并将其内化为预测行为的先验知识。</p>
+<p>这对理解人类的时间感知、节奏学习、甚至音乐能力都有深远启示。当你能准确跟上音乐节拍，或是预判交通状况时，你的小脑正在默默进行复杂的概率计算。</p></div>
         </article>
       </section>
     </main>

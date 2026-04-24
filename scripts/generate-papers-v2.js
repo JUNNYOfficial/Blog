@@ -1,0 +1,216 @@
+#!/usr/bin/env node
+const fs = require('fs');
+const path = require('path');
+
+const FEISHU_APP_ID = 'cli_a961a7a5277bdcc0';
+const FEISHU_APP_SECRET = 'FEOrrzYAxLA9nGinTDpfrb8Z2kABCXpL';
+const DOC_TOKEN = 'I6nFdUQ68oQ8gFxiaKLcATyonEc';
+
+async function getToken() {
+  const res = await fetch('https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ app_id: FEISHU_APP_ID, app_secret: FEISHU_APP_SECRET })
+  });
+  const data = await res.json();
+  if (data.code !== 0) throw new Error(`Token failed: ${data.msg}`);
+  return data.tenant_access_token;
+}
+
+async function getAllBlocks(token, blockId) {
+  const allItems = [];
+  let pageToken = '';
+  
+  while (true) {
+    const url = `https://open.feishu.cn/open-apis/docx/v1/documents/${DOC_TOKEN}/blocks/${blockId}/children?page_size=500${pageToken ? '&page_token=' + pageToken : ''}`;
+    const res = await fetch(url, { headers: { 'Authorization': 'Bearer ' + token } });
+    const data = await res.json();
+    if (data.code !== 0) throw new Error(`Read failed: ${data.msg}`);
+    
+    const items = data.data?.items || [];
+    allItems.push(...items);
+    
+    if (!data.data?.has_more) break;
+    pageToken = data.data.page_token;
+  }
+  
+  return allItems;
+}
+
+function extractText(block) {
+  if (block.heading1) return block.heading1.elements?.map(e => e.text_run?.content).join('');
+  if (block.heading2) return block.heading2.elements?.map(e => e.text_run?.content).join('');
+  if (block.heading3) return block.heading3.elements?.map(e => e.text_run?.content).join('');
+  if (block.heading4) return block.heading4.elements?.map(e => e.text_run?.content).join('');
+  if (block.heading5) return block.heading5.elements?.map(e => e.text_run?.content).join('');
+  if (block.text) return block.text.elements?.map(e => e.text_run?.content).join('');
+  if (block.quote) return block.quote.elements?.map(e => e.text_run?.content).join('');
+  if (block.todo) return block.todo.elements?.map(e => e.text_run?.content).join('');
+  if (block.bullet) return block.bullet.elements?.map(e => e.text_run?.content).join('');
+  if (block.ordered) return block.ordered.elements?.map(e => e.text_run?.content).join('');
+  return '';
+}
+
+function escapeHtml(text) {
+  if (!text) return '';
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function blockToHtml(block) {
+  const type = block.block_type;
+  const text = extractText(block);
+  if (!text.trim()) return '';
+  
+  // h4 小节标题
+  if (type === 6) return `<h4>${escapeHtml(text)}</h4>`;
+  // h5
+  if (type === 7) return `<h5>${escapeHtml(text)}</h5>`;
+  // quote
+  if (type === 12) return `<blockquote><p>${escapeHtml(text)}</p></blockquote>`;
+  // todo
+  if (type === 13) return `<p class="todo-item">☐ ${escapeHtml(text)}</p>`;
+  // bullet
+  if (type === 9) return `<p class="list-item">• ${escapeHtml(text)}</p>`;
+  // ordered
+  if (type === 10) return `<p class="list-item">${escapeHtml(text)}</p>`;
+  // divider
+  if (type === 22) return '<hr />';
+  // default text
+  return `<p>${escapeHtml(text)}</p>`;
+}
+
+async function main() {
+  console.log('🚀 读取飞书文档...');
+  const token = await getToken();
+  const blocks = await getAllBlocks(token, DOC_TOKEN);
+  console.log(`📄 共 ${blocks.length} 个 blocks`);
+
+  const papers = [];
+  let currentPaper = null;
+
+  for (const block of blocks) {
+    const type = block.block_type;
+    
+    // heading2 = 分类
+    if (type === 4) continue;
+    
+    // heading3 = 新论文开始
+    if (type === 5) {
+      if (currentPaper && !currentPaper.title.match(/阅读统计|推荐阅读|进度/)) {
+        papers.push(currentPaper);
+      }
+      currentPaper = { title: extractText(block), bodyHtml: [] };
+      continue;
+    }
+    
+    if (!currentPaper) continue;
+    
+    // 跳过阅读统计等非论文部分
+    if (currentPaper.title.includes('阅读统计') || currentPaper.title.includes('推荐') || currentPaper.title.includes('进度')) continue;
+    
+    const html = blockToHtml(block);
+    if (html) currentPaper.bodyHtml.push(html);
+  }
+  
+  if (currentPaper && !currentPaper.title.match(/阅读统计|推荐阅读|进度/)) {
+    papers.push(currentPaper);
+  }
+  
+  console.log(`📝 共解析出 ${papers.length} 篇论文`);
+  papers.forEach((p, i) => {
+    console.log(`  ${i + 1}. ${p.title}`);
+  });
+
+  // 创建输出目录
+  const papersDir = path.join(__dirname, '..', 'papers');
+  if (!fs.existsSync(papersDir)) fs.mkdirSync(papersDir, { recursive: true });
+
+  // 生成每篇论文的 HTML
+  papers.forEach((paper, i) => {
+    const id = String(i + 1).padStart(3, '0');
+    const bodyHtml = paper.bodyHtml.join('\n');
+    const cleanTitle = paper.title.replace(/^论文\s*\d+\s*\|\s*/, '');
+    
+    const html = `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <title>${escapeHtml(cleanTitle)} · JUNNYOfficial Blog</title>
+  <meta name="description" content="${escapeHtml(cleanTitle)}" />
+  <link rel="stylesheet" href="../styles.css?v=3" />
+  <style>
+    .article-body h4 { font-size: 1.15rem; font-weight: 600; margin: 28px 0 14px; color: #111; }
+    .article-body h5 { font-size: 1rem; font-weight: 600; margin: 20px 0 10px; color: #333; }
+    .article-body blockquote { border-left: 3px solid #d4d4d4; margin: 16px 0; padding: 12px 18px; background: #fafafa; border-radius: 0 12px 12px 0; }
+    .article-body blockquote p { margin: 0; color: #555; }
+    .article-body .todo-item, .article-body .list-item { margin: 8px 0; color: #444; padding-left: 4px; }
+    .article-body hr { border: none; border-top: 1px solid #e8e8e8; margin: 24px 0; }
+  </style>
+</head>
+<body data-page="article">
+  <div class="page-shell article-shell">
+    <header class="article-header">
+      <a class="icon-link back-link" href="../notes.html" aria-label="返回论文库">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </header>
+
+    <main class="article-content">
+      <section class="article-frame">
+        <article>
+          <p class="eyebrow">论文笔记</p>
+          <h1>${escapeHtml(cleanTitle)}</h1>
+          <div class="article-body">${bodyHtml}</div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="site-footer article-footer">
+      <p>论文笔记 · JUNNYOfficial</p>
+    </footer>
+  </div>
+</body>
+</html>`;
+    
+    fs.writeFileSync(path.join(papersDir, `paper-${id}.html`), html, 'utf-8');
+  });
+
+  // 生成数据文件供 script.js 使用
+  const papersData = papers.map((p, i) => {
+    // 提取纯文本摘要（取第一个非空文本段落）
+    const firstText = p.bodyHtml.find(h => h.startsWith('<p>') && !h.includes('todo-item') && !h.includes('list-item'));
+    const summaryText = firstText ? firstText.replace(/<\/?p>/g, '').replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&') : '';
+    
+    return {
+      id: `f${i + 1}`,
+      title: p.title.replace(/^论文\s*\d+\s*\|\s*/, ''),
+      summary: summaryText.slice(0, 100) + (summaryText.length > 100 ? '...' : ''),
+      tag: '论文',
+      source: '论文库',
+      date: '2026年4月24日',
+      reading: `${Math.max(5, Math.ceil(p.bodyHtml.length / 4))} 分钟阅读`,
+      body: p.bodyHtml.map(h => h.replace(/<[^>]+>/g, '').replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&')).filter(t => t.trim())
+    };
+  });
+
+  fs.writeFileSync(
+    path.join(__dirname, '..', 'script-feishu.js'),
+    `// 由 scripts/generate-papers-v2.js 自动生成 — 飞书文档同步数据
+const feishuPapers = ${JSON.stringify(papersData, null, 2)};
+`,
+    'utf-8'
+  );
+
+  console.log('\n✅ 生成完成：');
+  console.log(`  - papers/ 目录: ${papers.length} 个 HTML 文件`);
+  console.log('  - script-feishu.js: 数据文件');
+}
+
+main().catch(err => {
+  console.error('❌ 错误:', err.message);
+  process.exit(1);
+});
