@@ -1,3 +1,4 @@
+// DEBUG v4
 const posts = [
   {
     id: '1',
@@ -724,6 +725,7 @@ function getPostUrl(post) {
 }
 
 function renderArticleCards(list) {
+  console.log("[DEBUG] renderArticleCards called, list length:", list.length);
   const grid = document.getElementById('articleGrid');
   if (!grid) return;
   grid.innerHTML = '';
@@ -840,6 +842,7 @@ function renderDailyPosts() {
 }
 
 function renderHome() {
+  console.log("[DEBUG] renderHome called, posts count:", posts.length);
   renderArticleCards(posts.slice(0, 2));
 
   const filterRow = document.querySelector('.filter-row');
