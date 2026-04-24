@@ -1127,27 +1127,27 @@ h3 {
 
 /* ===== 页面切换过渡动画 ===== */
 
-/* 仅在显式添加 .page-transition 时启用 body 过渡，避免意外触发 */
+/* 仅在显式添加 .page-transition 时启用过渡 */
 body.page-transition {
-  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.6s cubic-bezier(0.32, 0.72, 0, 1),
+              transform 0.6s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 body.page-exit {
   opacity: 0;
-  transform: translateY(-20px);
+  transform: translateY(-24px) scale(0.97);
 }
 
 body.page-enter {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(24px) scale(0.97);
 }
 
 /* 内容块 stagger 入场 */
 @keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(28px);
   }
   to {
     opacity: 1;
@@ -1156,30 +1156,28 @@ body.page-enter {
 }
 
 .topbar {
-  animation: fadeUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation: fadeUp 0.6s cubic-bezier(0.32, 0.72, 0, 1) both;
 }
 
 .panel-section {
-  animation: fadeUp 0.55s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation: fadeUp 0.65s cubic-bezier(0.32, 0.72, 0, 1) both;
 }
 
-.panel-section:nth-child(1) { animation-delay: 0.04s; }
-.panel-section:nth-child(2) { animation-delay: 0.12s; }
-.panel-section:nth-child(3) { animation-delay: 0.20s; }
-.panel-section:nth-child(4) { animation-delay: 0.28s; }
-.panel-section:nth-child(5) { animation-delay: 0.36s; }
-.panel-section:nth-child(6) { animation-delay: 0.44s; }
+.panel-section:nth-child(1) { animation-delay: 0.06s; }
+.panel-section:nth-child(2) { animation-delay: 0.16s; }
+.panel-section:nth-child(3) { animation-delay: 0.26s; }
+.panel-section:nth-child(4) { animation-delay: 0.36s; }
+.panel-section:nth-child(5) { animation-delay: 0.46s; }
+.panel-section:nth-child(6) { animation-delay: 0.56s; }
 
-/* 网格卡片 */
 .article-card,
 .note-card,
 .daily-post-card,
 .topic-card,
 .link-card {
-  animation: fadeUp 0.55s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation: fadeUp 0.65s cubic-bezier(0.32, 0.72, 0, 1) both;
 }
 
-/* 降低偏好：尊重用户系统设置 */
 @media (prefers-reduced-motion: reduce) {
   body.page-transition {
     transition: none !important;

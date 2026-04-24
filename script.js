@@ -11,7 +11,7 @@
     // 动画结束后移除 transition 类，避免干扰后续样式变化
     setTimeout(() => {
       body.classList.remove('page-transition');
-    }, 600);
+    }, 700);
   }
 
   playEnter();
@@ -49,7 +49,7 @@
     body.classList.add('page-transition', 'page-exit');
     setTimeout(() => {
       window.location.href = href;
-    }, 500);
+    }, 600);
   });
 })();
 
