@@ -97,7 +97,7 @@ Blog/
 ├── daily-posts.html              # 日常动态页
 ├── about.html                    # 关于页
 ├── library.html                  # 资料库页
-├── literature.html               # 文献数据库页
+
 ├── styles.css                    # 全局样式表
 ├── script.js                     # 数据与渲染逻辑
 ├── script-feishu.js              # 飞书论文数据文件
