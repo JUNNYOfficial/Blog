@@ -1091,6 +1091,66 @@ function renderNotes() {
   });
 })();
 
+/* ===== 文章阅读进度条 ===== */
+(function () {
+  const bar = document.querySelector('.reading-progress-bar');
+  if (!bar) return;
+
+  function update() {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    bar.style.width = Math.min(100, Math.max(0, progress)) + '%';
+  }
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => { update(); ticking = false; });
+      ticking = true;
+    }
+  });
+  window.addEventListener('resize', update);
+  update();
+})();
+
+/* ===== 访客计数 ===== */
+(function () {
+  const footer = document.querySelector('.site-footer');
+  if (!footer) return;
+
+  const countEl = document.createElement('p');
+  countEl.className = 'visitor-count';
+  countEl.id = 'visitorCount';
+  footer.appendChild(countEl);
+
+  (async function () {
+    try {
+      const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+      const ns = 'junny-blog-visitors';
+
+      let totalRes, todayRes;
+
+      if (!sessionStorage.getItem('visitor-counted')) {
+        sessionStorage.setItem('visitor-counted', '1');
+        [totalRes, todayRes] = await Promise.all([
+          fetch(`https://api.countapi.xyz/hit/${ns}/total`).then(r => r.json()),
+          fetch(`https://api.countapi.xyz/hit/${ns}/visits-${today}`).then(r => r.json())
+        ]);
+      } else {
+        [totalRes, todayRes] = await Promise.all([
+          fetch(`https://api.countapi.xyz/get/${ns}/total`).then(r => r.json()),
+          fetch(`https://api.countapi.xyz/get/${ns}/visits-${today}`).then(r => r.json())
+        ]);
+      }
+
+      countEl.textContent = `今日访客 ${todayRes.value} · 总计 ${totalRes.value}`;
+    } catch (e) {
+      console.log('Visitor count unavailable');
+    }
+  })();
+})();
+
 async function initPage() {
   await loadRemotePosts();
   const page = document.body.dataset.page;
