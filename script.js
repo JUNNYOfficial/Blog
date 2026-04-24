@@ -639,6 +639,27 @@ const posts = [
   }
 })();
 
+// 从远程 posts.json 加载动态文章
+async function loadRemotePosts() {
+  try {
+    const res = await fetch('posts.json?t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) return;
+    const remote = await res.json();
+    if (!Array.isArray(remote) || !remote.length) return;
+
+    remote.forEach(rp => {
+      const idx = posts.findIndex(p => String(p.id) === String(rp.id));
+      if (idx !== -1) {
+        posts[idx] = rp;
+      } else {
+        posts.push(rp);
+      }
+    });
+  } catch (e) {
+    console.log('Remote posts not available:', e);
+  }
+}
+
 function createArticleCard(post) {
   const card = document.createElement('a');
   card.className = 'article-card';
@@ -1070,15 +1091,13 @@ function renderNotes() {
   });
 })();
 
-const page = document.body.dataset.page;
-if (page === 'home') {
-  renderHome();
-} else if (page === 'article') {
-  renderArticle();
-} else if (page === 'daily') {
-  renderDaily();
-} else if (page === 'daily-posts') {
-  renderDailyPosts();
-} else if (page === 'notes') {
-  renderNotes();
+async function initPage() {
+  await loadRemotePosts();
+  const page = document.body.dataset.page;
+  if (page === 'home') renderHome();
+  else if (page === 'article') renderArticle();
+  else if (page === 'daily') renderDaily();
+  else if (page === 'daily-posts') renderDailyPosts();
+  else if (page === 'notes') renderNotes();
 }
+initPage();

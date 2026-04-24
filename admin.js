@@ -301,7 +301,7 @@ function copyExport() {
 // 生成完整的 script.js 代码
 async function generateScriptJs() {
   try {
-    const response = await fetch('script.js?v=16');
+    const response = await fetch('script.js?v=17');
     let code = await response.text();
 
     // 生成新的 posts 数组代码
@@ -451,9 +451,116 @@ function copySyncUrl() {
   });
 }
 
+/* ===== GitHub 发布 ===== */
+const GITHUB_TOKEN_KEY = 'blog-github-token';
+const GITHUB_OWNER = 'JUNNYOfficial';
+const GITHUB_REPO = 'Blog';
+const GITHUB_PATH = 'posts.json';
+const GITHUB_BRANCH = 'main';
+
+function saveGitHubToken() {
+  const token = document.getElementById('githubToken').value.trim();
+  if (!token) {
+    const msg = document.getElementById('tokenMsg');
+    msg.textContent = '请输入 Token';
+    msg.style.color = '#991b1b';
+    return;
+  }
+  localStorage.setItem(GITHUB_TOKEN_KEY, token);
+  const msg = document.getElementById('tokenMsg');
+  msg.textContent = '✅ Token 已保存到本设备';
+  msg.style.color = '#166534';
+}
+
+async function publishToGitHub() {
+  const token = localStorage.getItem(GITHUB_TOKEN_KEY);
+  if (!token) {
+    alert('请先保存 GitHub Token（在「设置」标签页中配置）');
+    switchTab('settings');
+    return;
+  }
+
+  const stored = localStorage.getItem(POSTS_KEY) || '[]';
+  const data = JSON.parse(stored);
+  if (!data.length) {
+    alert('当前没有可发布的文章');
+    return;
+  }
+
+  const btn = document.querySelector('.admin-actions button[onclick="publishToGitHub()"]');
+  const originalText = btn ? btn.textContent : '发布到 GitHub';
+  if (btn) {
+    btn.textContent = '发布中...';
+    btn.disabled = true;
+  }
+
+  try {
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+
+    // 获取现有文件 sha（如果文件已存在）
+    let sha = null;
+    const getRes = await fetch(
+      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_PATH}?ref=${GITHUB_BRANCH}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28'
+        }
+      }
+    );
+    if (getRes.ok) {
+      const fileData = await getRes.json();
+      sha = fileData.sha;
+    }
+
+    // 提交/更新文件
+    const putRes = await fetch(
+      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_PATH}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: 'Update posts from admin',
+          content: content,
+          sha: sha,
+          branch: GITHUB_BRANCH
+        })
+      }
+    );
+
+    if (putRes.ok) {
+      alert('✅ 发布成功！\n\n约 1-3 分钟后 GitHub Pages 会自动重新部署，所有设备刷新页面即可看到最新文章。');
+    } else {
+      const err = await putRes.json();
+      alert('❌ 发布失败：' + (err.message || '未知错误'));
+    }
+  } catch (e) {
+    alert('❌ 发布失败：' + e.message);
+  } finally {
+    if (btn) {
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }
+  }
+}
+
 // 回车登录
 document.addEventListener('DOMContentLoaded', () => {
   init();
+
+  // 加载已保存的 GitHub Token
+  const savedToken = localStorage.getItem(GITHUB_TOKEN_KEY);
+  const tokenInput = document.getElementById('githubToken');
+  if (savedToken && tokenInput) {
+    tokenInput.value = savedToken;
+  }
+
   const pwInput = document.getElementById('loginPassword');
   if (pwInput) {
     pwInput.addEventListener('keypress', (e) => {
