@@ -382,10 +382,16 @@ function generateSyncQR() {
   // 显示链接长度提示
   const lenEl = document.getElementById('syncUrlLength');
   const urlLen = currentSyncUrl.length;
-  if (urlLen > 2000) {
-    lenEl.innerHTML = `链接长度 ${urlLen} 字符，二维码可能较密。<br><strong>建议优先使用「复制链接」发送到手机打开。</strong>`;
-    lenEl.style.color = '#b45309';
-  } else if (urlLen > 1000) {
+
+  // 二维码容量上限约 2000~3000 字符（取决于编码等级）
+  if (urlLen > 2500) {
+    lenEl.innerHTML = `<strong>数据量过大（${urlLen} 字符），二维码无法容纳。</strong><br>请使用「导出 JSON 文件」方式，或复制链接发送到手机（部分浏览器可能截断超长链接）。`;
+    lenEl.style.color = '#991b1b';
+    document.getElementById('syncCopyMsg').textContent = '';
+    return; // 不生成二维码
+  }
+
+  if (urlLen > 1000) {
     lenEl.textContent = `链接长度 ${urlLen} 字符，请将手机靠近扫码。`;
     lenEl.style.color = '#8f8f8f';
   } else {
@@ -407,8 +413,26 @@ function generateSyncQR() {
       correctLevel: QRCode.CorrectLevel.M
     });
   } catch (e) {
-    qrContainer.innerHTML = '<p style="color:#c00;">二维码生成失败，请使用「复制链接」方式</p>';
+    qrContainer.innerHTML = '<p style="color:#c00;">二维码生成失败，请使用「复制链接」或「导出 JSON」方式</p>';
   }
+}
+
+function exportJSON() {
+  const stored = localStorage.getItem(POSTS_KEY) || '[]';
+  const data = JSON.parse(stored);
+  if (!data.length) {
+    alert('当前没有可导出的文章');
+    return;
+  }
+  const blob = new Blob([stored], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `blog-backup-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
 }
 
 function copySyncUrl() {

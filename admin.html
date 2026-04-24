@@ -519,18 +519,28 @@
 
       <!-- 同步面板 -->
       <div id="panel-sync" class="admin-panel">
-        <div style="max-width:520px;">
-          <p style="color:#8f8f8f;margin-bottom:24px;">将本设备后台的文章数据同步到手机或其他浏览器。数据通过二维码或链接传输，不会上传到任何服务器。</p>
+        <div style="max-width:560px;">
+          <p style="color:#8f8f8f;margin-bottom:24px;">将本设备后台的文章数据同步到手机或其他浏览器。<strong>数据不会上传到任何服务器。</strong></p>
 
-          <div class="admin-form-group">
+          <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:24px;">
             <button class="primary" style="padding:12px 24px;border-radius:10px;border:none;background:#111;color:#fff;cursor:pointer;font-size:0.95rem;" onclick="generateSyncQR()">生成同步二维码</button>
+            <button style="padding:12px 24px;border-radius:10px;border:1px solid #e9e9e9;background:#fff;cursor:pointer;font-size:0.95rem;" onclick="exportJSON()">导出 JSON 文件</button>
+            <button style="padding:12px 24px;border-radius:10px;border:1px solid #e9e9e9;background:#fff;cursor:pointer;font-size:0.95rem;" onclick="copySyncUrl()">复制同步链接</button>
           </div>
 
-          <div id="syncQRArea" style="display:none;margin-top:24px;padding:24px;border:1px solid #e9e9e9;border-radius:16px;background:#fafafa;text-align:center;">
+          <div id="syncQRArea" style="display:none;margin-top:16px;padding:24px;border:1px solid #e9e9e9;border-radius:16px;background:#fafafa;text-align:center;">
             <div id="syncQrcode" style="display:inline-block;margin-bottom:16px;"></div>
-            <p id="syncUrlLength" style="color:#8f8f8f;font-size:0.85rem;margin-bottom:16px;"></p>
-            <button onclick="copySyncUrl()" style="padding:10px 20px;border:1px solid #e9e9e9;border-radius:10px;background:#fff;cursor:pointer;font-size:0.9rem;">复制同步链接</button>
+            <p id="syncUrlLength" style="font-size:0.85rem;margin-bottom:16px;"></p>
             <p id="syncCopyMsg" style="font-size:0.85rem;margin-top:10px;min-height:20px;"></p>
+          </div>
+
+          <div style="margin-top:28px;padding:20px;border:1px dashed #d9d9d9;border-radius:16px;background:#fafafa;">
+            <p style="margin:0 0 12px;font-weight:500;color:#333;">📲 手机端如何导入？</p>
+            <ol style="margin:0;padding-left:1.2rem;color:#555;line-height:1.8;font-size:0.92rem;">
+              <li><strong>方式一（推荐）：</strong>点击「导出 JSON 文件」，通过微信文件传输助手发到手机，然后在手机打开 <a href="import.html" style="color:#111;text-decoration:underline;">import.html</a> 上传文件导入。</li>
+              <li><strong>方式二：</strong>点击「生成同步二维码」，手机扫码自动导入（仅适合少量文章）。</li>
+              <li><strong>方式三：</strong>点击「复制同步链接」，发送到手机浏览器打开即可导入。</li>
+            </ol>
           </div>
         </div>
       </div>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <title>导入数据 · JUNNYOfficial Blog</title>
+  <link rel="stylesheet" href="styles.css?v=16" />
+  <style>
+    .import-container {
+      max-width: 520px;
+      margin: 60px auto;
+      padding: 40px 32px;
+      border: 1px solid #e9e9e9;
+      border-radius: 24px;
+      background: #ffffff;
+    }
+    .import-container h2 {
+      margin: 0 0 8px;
+      font-size: 1.5rem;
+    }
+    .import-container > p {
+      color: #8f8f8f;
+      margin: 0 0 28px;
+    }
+    .import-method {
+      margin-bottom: 28px;
+    }
+    .import-method label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #333;
+    }
+    .file-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    input[type="file"] {
+      position: absolute;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+    .file-button {
+      padding: 12px 20px;
+      border: 1px solid #e9e9e9;
+      border-radius: 12px;
+      background: #fafafa;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .file-button:hover {
+      border-color: #111;
+      background: #f0f0f0;
+    }
+    .file-name {
+      font-size: 0.9rem;
+      color: #6b6b6b;
+    }
+    .import-textarea {
+      width: 100%;
+      min-height: 160px;
+      padding: 16px;
+      border: 1px solid #e9e9e9;
+      border-radius: 12px;
+      background: #fafafa;
+      font-family: ui-monospace, monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .import-textarea:focus {
+      border-color: #111;
+    }
+    .import-actions {
+      margin-top: 20px;
+    }
+    .import-actions button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: #111;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .import-actions button:hover {
+      background: #333;
+    }
+    .import-actions button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .import-result {
+      margin-top: 24px;
+      padding: 20px;
+      border-radius: 16px;
+      font-size: 1rem;
+      line-height: 1.6;
+      display: none;
+    }
+    .import-result.success {
+      display: block;
+      background: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+    .import-result.error {
+      display: block;
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+    .import-result .detail {
+      font-size: 0.9rem;
+      margin-top: 8px;
+      opacity: 0.85;
+    }
+    .import-nav {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .import-nav a {
+      flex: 1;
+      text-align: center;
+      padding: 12px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      border: 1px solid #e9e9e9;
+      background: #fff;
+      color: #111;
+      transition: all 0.2s;
+    }
+    .import-nav a.primary {
+      background: #111;
+      color: #fff;
+      border-color: #111;
+    }
+    .import-nav a:hover {
+      border-color: #8f8f8f;
+      background: #f7f7f7;
+    }
+    .import-nav a.primary:hover {
+      background: #333;
+    }
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0;
+      color: #aaa;
+      font-size: 0.85rem;
+    }
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e9e9e9;
+    }
+    @media (max-width: 600px) {
+      .import-container {
+        margin: 24px 16px;
+        padding: 28px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <div class="import-container">
+      <h2>📥 导入数据</h2>
+      <p>从电脑端导出的 JSON 文件或同步链接中恢复文章数据。</p>
+
+      <!-- 文件上传 -->
+      <div class="import-method">
+        <label>方式一：上传 JSON 文件</label>
+        <div class="file-input-wrapper">
+          <div class="file-button">选择文件</div>
+          <input type="file" id="jsonFile" accept=".json,application/json" onchange="handleFileSelect(this)" />
+          <span class="file-name" id="fileName">未选择文件</span>
+        </div>
+      </div>
+
+      <div class="divider">或粘贴数据</div>
+
+      <!-- 文本粘贴 -->
+      <div class="import-method">
+        <label>方式二：粘贴 JSON 文本</label>
+        <textarea
+          id="jsonText"
+          class="import-textarea"
+          placeholder="[{&quot;id&quot;:&quot;1&quot;,&quot;title&quot;:&quot;...&quot;}]"></textarea>
+      </div>
+
+      <div class="import-actions">
+        <button id="importBtn" onclick="doImport()">开始导入</button>
+      </div>
+
+      <div id="importResult" class="import-result"></div>
+
+      <div class="import-nav" id="importNav" style="display:none;">
+        <a href="index.html" class="primary">前往首页</a>
+        <a href="admin.html">进入后台</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let fileContent = '';
+
+    function handleFileSelect(input) {
+      const file = input.files[0];
+      if (!file) return;
+      document.getElementById('fileName').textContent = file.name;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        fileContent = e.target.result;
+      };
+      reader.readAsText(file);
+    }
+
+    function doImport() {
+      const resultEl = document.getElementById('importResult');
+      const navEl = document.getElementById('importNav');
+      const btn = document.getElementById('importBtn');
+      const text = document.getElementById('jsonText').value.trim();
+
+      btn.disabled = true;
+      btn.textContent = '导入中...';
+
+      let json = '';
+      if (fileContent) {
+        json = fileContent;
+      } else if (text) {
+        json = text;
+      } else {
+        showError('请选择文件或粘贴 JSON 数据');
+        btn.disabled = false;
+        btn.textContent = '开始导入';
+        return;
+      }
+
+      try {
+        const data = JSON.parse(json);
+        if (!Array.isArray(data)) {
+          throw new Error('数据格式不正确，应为文章数组');
+        }
+
+        localStorage.setItem('blog-admin-posts', JSON.stringify(data));
+
+        const localCount = data.filter(p => !String(p.id).startsWith('f')).length;
+        const feishuCount = data.filter(p => String(p.id).startsWith('f')).length;
+
+        resultEl.className = 'import-result success';
+        resultEl.innerHTML = `
+          <div>✅ 导入成功</div>
+          <div class="detail">共 ${data.length} 篇文章已保存到本设备
+          （本地文章 ${localCount} 篇 · 飞书论文 ${feishuCount} 篇）</div>
+        `;
+        navEl.style.display = 'flex';
+      } catch (e) {
+        showError('导入失败：' + e.message);
+      }
+
+      btn.disabled = false;
+      btn.textContent = '开始导入';
+    }
+
+    function showError(msg) {
+      const resultEl = document.getElementById('importResult');
+      resultEl.className = 'import-result error';
+      resultEl.innerHTML = '<div>❌ ' + msg + '</div>';
+    }
+  </script>
+</body>
+</html>
