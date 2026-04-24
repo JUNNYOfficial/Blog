@@ -35,22 +35,6 @@
     </header>
 
     <main>
-      <section class="article-section panel-section" id="posts">
-        <div class="section-header">
-          <div>
-            <p class="eyebrow">最新发布</p>
-            <h3>精选文章</h3>
-          </div>
-          <div class="filter-row">
-            <span class="pill active">全部</span>
-            <span class="pill">论文</span>
-            <span class="pill">日常</span>
-            <span class="pill">设计</span>
-          </div>
-        </div>
-        <div class="article-grid" id="articleGrid"></div>
-      </section>
-
       <section class="profile-section panel-section">
         <aside class="profile-card">
           <p class="eyebrow">个人简介</p>
@@ -105,53 +89,26 @@
         </div>
       </section>
 
-      <section class="notes-section panel-section" id="notes">
+      <section class="notes-section panel-section" id="homeNotes">
         <div class="section-header">
           <div>
             <p class="eyebrow">论文笔记</p>
             <h3>脑科学摘录</h3>
           </div>
+          <a href="notes.html" class="section-more">查看全部论文 →</a>
         </div>
-        <div class="notes-grid">
-          <div class="note-card">
-            <p class="eyebrow">2026 · Nature Neuroscience</p>
-            <h4>视觉层次与记忆编码</h4>
-            <p>用黑白灰的方式记录实验设计、关键数据与下一步思路。</p>
-          </div>
-          <div class="note-card">
-            <p class="eyebrow">2025 · Neuron</p>
-            <h4>前额叶网络与决策过程</h4>
-            <p>总结该文的主要结论，并提炼出对自己课题的潜在影响。</p>
-          </div>
-          <div class="note-card">
-            <p class="eyebrow">2024 · eLife</p>
-            <h4>记忆巩固与睡眠节律</h4>
-            <p>重点记录实验方法、结果摘要与可借鉴的分析方式。</p>
-          </div>
-        </div>
+        <div class="notes-grid" id="homeNotesGrid"></div>
       </section>
 
-      <section class="daily-section panel-section" id="daily">
+      <section class="daily-section panel-section" id="homeDaily">
         <div class="section-header">
           <div>
             <p class="eyebrow">日常</p>
             <h3>研究与生活日志</h3>
           </div>
+          <a href="daily-posts.html" class="section-more">查看全部日常 →</a>
         </div>
-        <div class="daily-grid">
-          <div class="daily-card">
-            <h4>今日实验</h4>
-            <p>整理实验结果与发现，记录哪一步效果最好，哪部分需要复盘。</p>
-          </div>
-          <div class="daily-card">
-            <h4>读书笔记</h4>
-            <p>记录《认知神经科学》中的关键概念与每日理解进展。</p>
-          </div>
-          <div class="daily-card">
-            <h4>灵感记录</h4>
-            <p>把突发的研究问题、可行实验方案与数据分析想法写下来。</p>
-          </div>
-        </div>
+        <div class="daily-grid" id="homeDailyGrid"></div>
       </section>
 
       <section class="social-section panel-section" id="social">

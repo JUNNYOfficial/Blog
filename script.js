@@ -918,19 +918,40 @@ function renderDailyPosts() {
 }
 
 function renderHome() {
-  // 展示最新的4篇文章（飞书论文在数组末尾，取最后4篇并倒序）
-  const latest = posts.slice(-4).reverse();
-  renderArticleCards(latest);
+  // 首页导航页：每个分类展示2篇精选
+  const notesGrid = document.getElementById('homeNotesGrid');
+  const dailyGrid = document.getElementById('homeDailyGrid');
 
-  const filterRow = document.querySelector('.filter-row');
-  if (filterRow) {
-    filterRow.addEventListener('click', (e) => {
-      const pill = e.target.closest('.pill');
-      if (!pill) return;
-      const selected = pill.textContent.trim();
-      const pool = selected === '全部' ? posts : posts.filter(post => post.tag === selected);
-      renderArticleCards(pool.slice(-4).reverse());
-      setActiveFilter(selected);
+  // 论文笔记：取最新的2篇飞书论文
+  if (notesGrid) {
+    const papers = posts.filter(p => p.id.startsWith('f')).slice(-2).reverse();
+    notesGrid.innerHTML = '';
+    papers.forEach(post => {
+      const card = document.createElement('a');
+      card.className = 'note-card';
+      card.href = getPostUrl(post);
+      card.innerHTML = `
+        <p class="eyebrow">${post.source || '论文笔记'}</p>
+        <h4>${post.title}</h4>
+        <p>${post.summary || ''}</p>
+      `;
+      notesGrid.appendChild(card);
+    });
+  }
+
+  // 日常记录：取最新的2篇日常笔记
+  if (dailyGrid) {
+    const dailyPosts = posts.filter(p => p.tag === '日常').slice(-2).reverse();
+    dailyGrid.innerHTML = '';
+    dailyPosts.forEach(post => {
+      const card = document.createElement('a');
+      card.className = 'daily-card';
+      card.href = `article.html?id=${post.id}`;
+      card.innerHTML = `
+        <h4>${post.title}</h4>
+        <p>${post.summary || ''}</p>
+      `;
+      dailyGrid.appendChild(card);
     });
   }
 
