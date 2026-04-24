@@ -1,3 +1,27 @@
+/* ===== 阅读状态追踪 ===== */
+const ReadingTracker = {
+  key: 'junny_reading_tracker',
+  get() {
+    try { return JSON.parse(localStorage.getItem(this.key)) || []; } catch { return []; }
+  },
+  set(ids) {
+    localStorage.setItem(this.key, JSON.stringify(ids));
+  },
+  markRead(id) {
+    const ids = this.get();
+    if (!ids.includes(id)) {
+      ids.push(id);
+      this.set(ids);
+    }
+  },
+  isRead(id) {
+    return this.get().includes(id);
+  },
+  getCount() {
+    return this.get().length;
+  }
+};
+
 /* ===== 页面切换过渡动画 ===== */
 (function () {
   const body = document.body;
@@ -1007,11 +1031,15 @@ function renderNotes() {
     grid.className = 'notes-category-grid';
 
     groups[cat].slice(0, 3).forEach(post => {
+      const isRead = ReadingTracker.isRead(post.id);
       const card = document.createElement('a');
-      card.className = 'note-card';
+      card.className = 'note-card' + (isRead ? ' is-read' : '');
       card.href = getPostUrl(post);
       card.innerHTML = `
-        <h4>${post.title}</h4>
+        <div class="note-card-header">
+          <h4>${post.title}</h4>
+          ${isRead ? '<span class="read-badge" title="已读">已读</span>' : ''}
+        </div>
         <p>${post.summary || ''}</p>
         <div class="note-card-footer">
           <span>${post.date}</span>

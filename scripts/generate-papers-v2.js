@@ -144,7 +144,7 @@ async function main() {
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <title>${escapeHtml(cleanTitle)} · JUNNYOfficial Blog</title>
   <meta name="description" content="${escapeHtml(cleanTitle)}" />
-  <link rel="stylesheet" href="../styles.css?v=7" />
+  <link rel="stylesheet" href="../styles.css?v=8" />
   <style>
     .article-body h4 { font-size: 1.15rem; font-weight: 600; margin: 28px 0 14px; color: #111; }
     .article-body h5 { font-size: 1rem; font-weight: 600; margin: 20px 0 10px; color: #333; }
@@ -193,6 +193,22 @@ async function main() {
       <p>论文笔记 · JUNNYOfficial</p>
     </footer>
   </div>
+  <script>
+    (function() {
+      const match = location.pathname.match(/paper-(\d{3})\.html$/);
+      if (match) {
+        const id = 'f' + parseInt(match[1], 10);
+        try {
+          const key = 'junny_reading_tracker';
+          const ids = JSON.parse(localStorage.getItem(key)) || [];
+          if (!ids.includes(id)) {
+            ids.push(id);
+            localStorage.setItem(key, JSON.stringify(ids));
+          }
+        } catch(e) {}
+      }
+    })();
+  </script>
 </body>
 </html>`;
     
