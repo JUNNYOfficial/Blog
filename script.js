@@ -1065,7 +1065,7 @@ function renderNotes() {
       const grid = document.createElement('div');
       grid.className = 'notes-category-grid';
 
-      groups[cat].slice(0, query ? undefined : 3).forEach(post => {
+      groups[cat].forEach(post => {
         const card = document.createElement('a');
         card.className = 'note-card';
         card.href = getPostUrl(post);
