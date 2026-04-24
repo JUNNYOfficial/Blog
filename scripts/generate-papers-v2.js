@@ -181,9 +181,14 @@ async function main() {
 
   // 生成数据文件供 script.js 使用
   const papersData = papers.map((p, i) => {
-    // 提取纯文本摘要（取第一个非空文本段落）
-    const firstText = p.bodyHtml.find(h => h.startsWith('<p>') && !h.includes('todo-item') && !h.includes('list-item'));
-    const summaryText = firstText ? firstText.replace(/<\/?p>/g, '').replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&') : '';
+    // 提取纯文本摘要（跳过阅读状态行，取第一个有意义的文本段落）
+    const readingStatusPattern = /^\s*\[[x\s]\]\s*(已读|未读)/;
+    const meaningfulText = p.bodyHtml.find(h => {
+      if (!h.startsWith('<p>') || h.includes('todo-item') || h.includes('list-item')) return false;
+      const text = h.replace(/<\/?p>/g, '').replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').trim();
+      return text.length > 10 && !readingStatusPattern.test(text);
+    });
+    const summaryText = meaningfulText ? meaningfulText.replace(/<\/?p>/g, '').replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&') : '';
     
     return {
       id: `f${i + 1}`,
