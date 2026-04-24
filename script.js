@@ -199,11 +199,11 @@ function renderDailyPosts() {
 }
 
 function renderHome() {
-  renderArticleCards(posts);
+  renderArticleCards(posts.slice(0, 2));
   document.querySelectorAll('.pill').forEach(pill => {
     pill.addEventListener('click', () => {
       const selected = pill.textContent.trim();
-      const filtered = selected === '全部' ? posts : posts.filter(post => post.tag === selected);
+      const filtered = selected === '全部' ? posts.slice(0, 2) : posts.filter(post => post.tag === selected);
       setActiveFilter(selected);
       renderArticleCards(filtered);
     });
