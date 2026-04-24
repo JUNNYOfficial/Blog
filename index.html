@@ -193,6 +193,17 @@
     </footer>
   </div>
 
+  <script>
+    // Inline test to verify articleGrid exists and can be modified
+    document.addEventListener('DOMContentLoaded', function() {
+      var grid = document.getElementById('articleGrid');
+      if (grid) {
+        console.log('[INLINE TEST] articleGrid found, children count before:', grid.children.length);
+      } else {
+        console.error('[INLINE TEST] articleGrid NOT found!');
+      }
+    });
+  </script>
   <script src="script.js?v=4"></script>
 </body>
 </html>

@@ -1,14 +1,4 @@
 // DEBUG v4
-// Direct test: try to set articleGrid content immediately
-try {
-  const testGrid = document.getElementById('articleGrid');
-  if (testGrid) {
-    testGrid.innerHTML = '<p style="padding:20px;text-align:center;">[DEBUG] Script loaded successfully. Posts: ' + (typeof posts !== 'undefined' ? 'posts array exists' : 'posts not yet defined') + '</p>';
-  }
-} catch(e) {
-  console.error('[DEBUG] Direct test failed:', e);
-}
-
 const posts = [
   {
     id: '1',
