@@ -989,69 +989,114 @@ function renderArticle() {
 function renderNotes() {
   const sidebarNav = document.getElementById('notesSidebarNav');
   const content = document.getElementById('notesContent');
+  const searchInput = document.getElementById('paperSearch');
   if (!sidebarNav || !content) return;
 
-  const papers = posts.filter(post => post.tag === '论文');
+  const allPapers = posts.filter(post => post.tag === '论文');
+  let currentQuery = '';
 
-  // 按 source 分组
-  const groups = {};
-  papers.forEach(p => {
-    const key = p.source || '论文库';
-    if (!groups[key]) groups[key] = [];
-    groups[key].push(p);
-  });
+  function render(query) {
+    currentQuery = query;
+    const papers = query
+      ? allPapers.filter(p => {
+          const q = query.toLowerCase();
+          return (
+            p.title.toLowerCase().includes(q) ||
+            (p.summary || '').toLowerCase().includes(q) ||
+            (p.source || '').toLowerCase().includes(q) ||
+            (p.body || []).some(b => b.toLowerCase().includes(q))
+          );
+        })
+      : allPapers;
 
-  const categories = Object.keys(groups);
-
-  // 渲染侧边栏导航
-  sidebarNav.innerHTML = '';
-  categories.forEach(cat => {
-    const anchor = document.createElement('a');
-    anchor.href = `#cat-${cat.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, '-')}`;
-    anchor.textContent = cat;
-    sidebarNav.appendChild(anchor);
-  });
-
-  // 渲染内容区：每个分类一个区域，只展示前3篇
-  content.innerHTML = '';
-  categories.forEach(cat => {
-    const section = document.createElement('section');
-    section.className = 'notes-category-section panel-section';
-    section.id = `cat-${cat.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, '-')}`;
-
-    const header = document.createElement('div');
-    header.className = 'notes-category-header';
-    header.innerHTML = `
-      <p class="eyebrow">${groups[cat].length} 篇</p>
-      <h3>${cat}</h3>
-    `;
-    section.appendChild(header);
-
-    const grid = document.createElement('div');
-    grid.className = 'notes-category-grid';
-
-    groups[cat].slice(0, 3).forEach(post => {
-      const isRead = ReadingTracker.isRead(post.id);
-      const card = document.createElement('a');
-      card.className = 'note-card' + (isRead ? ' is-read' : '');
-      card.href = getPostUrl(post);
-      card.innerHTML = `
-        <div class="note-card-header">
-          <h4>${post.title}</h4>
-          ${isRead ? '<span class="read-badge" title="已读">已读</span>' : ''}
-        </div>
-        <p>${post.summary || ''}</p>
-        <div class="note-card-footer">
-          <span>${post.date}</span>
-          <span>${post.reading}</span>
-        </div>
-      `;
-      grid.appendChild(card);
+    // 按 source 分组
+    const groups = {};
+    papers.forEach(p => {
+      const key = p.source || '论文库';
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(p);
     });
 
-    section.appendChild(grid);
-    content.appendChild(section);
-  });
+    const categories = Object.keys(groups);
+
+    // 渲染侧边栏导航
+    sidebarNav.innerHTML = '';
+    if (!query) {
+      categories.forEach(cat => {
+        const anchor = document.createElement('a');
+        anchor.href = `#cat-${cat.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, '-')}`;
+        anchor.textContent = cat;
+        sidebarNav.appendChild(anchor);
+      });
+    } else {
+      const info = document.createElement('span');
+      info.textContent = `找到 ${papers.length} 篇`;
+      info.style.cssText = 'font-size:0.85rem;color:#8f8f8f;padding:8px 14px;';
+      sidebarNav.appendChild(info);
+    }
+
+    // 渲染内容区
+    content.innerHTML = '';
+
+    if (papers.length === 0) {
+      content.innerHTML = `
+        <div class="panel-section" style="text-align:center;padding:48px 24px;">
+          <p style="color:#8f8f8f;font-size:1.1rem;margin-bottom:8px;">未找到与「${escapeHtml(query)}」相关的论文</p>
+          <p style="color:#aaa;font-size:0.9rem;">试试其他关键词，或清除搜索查看全部</p>
+        </div>
+      `;
+      return;
+    }
+
+    categories.forEach(cat => {
+      const section = document.createElement('section');
+      section.className = 'notes-category-section panel-section';
+      section.id = `cat-${cat.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, '-')}`;
+
+      const header = document.createElement('div');
+      header.className = 'notes-category-header';
+      header.innerHTML = `
+        <p class="eyebrow">${groups[cat].length} 篇</p>
+        <h3>${cat}</h3>
+      `;
+      section.appendChild(header);
+
+      const grid = document.createElement('div');
+      grid.className = 'notes-category-grid';
+
+      groups[cat].slice(0, query ? undefined : 3).forEach(post => {
+        const isRead = ReadingTracker.isRead(post.id);
+        const card = document.createElement('a');
+        card.className = 'note-card' + (isRead ? ' is-read' : '');
+        card.href = getPostUrl(post);
+        card.innerHTML = `
+          <div class="note-card-header">
+            <h4>${post.title}</h4>
+            ${isRead ? '<span class="read-badge" title="已读">已读</span>' : ''}
+          </div>
+          <p>${post.summary || ''}</p>
+          <div class="note-card-footer">
+            <span>${post.date}</span>
+            <span>${post.reading}</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      section.appendChild(grid);
+      content.appendChild(section);
+    });
+  }
+
+  render('');
+
+  if (searchInput) {
+    let debounce;
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(debounce);
+      debounce = setTimeout(() => render(e.target.value.trim()), 150);
+    });
+  }
 }
 
 /* ===== 返回顶部按钮 ===== */
