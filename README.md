@@ -1,19 +1,106 @@
 # JUNNYOfficial Blog
 
-这是一个基于极简风格设计的博客静态网站示例。使用白、黑、灰三色，避免阴影与渐变，保持页面安静且视觉平衡。
+> 一个以神经科学为核心的极简静态博客。
 
-## 文件说明
+🔗 **在线访问**：[https://junnyofficial.github.io/Blog/](https://junnyofficial.github.io/Blog/)
 
-- `index.html` - 首页，展示文章列表、个人简介、论文笔记、日常日志、主题卡片和设计理念。
-- `article.html` - 文章详情页，包含返回按钮、分享动作样式和推荐阅读。
-- `notes.html` - 独立的论文笔记页面，展示结构化的文献摘录与研究片段。
-- `daily.html` - 日常记录页面，专注实验日志与研究灵感笔记。
-- `about.html` - 关于页，说明研究理念和社交链接。
-- `library.html` - 资料库页，展示研究博客、工具、模板和外部链接。
-- `literature.html` - 文献数据库页，按主题分类整理飞书云文档链接。
-- `styles.css` - 样式表，设计遵循你的极简视觉规范。
-- `script.js` - 简单的数据与页面渲染逻辑，包含标签过滤、导航高亮和分享提示。
+---
 
-## 运行方式
+## 简介
 
-直接在浏览器中打开 `index.html` 即可预览。
+这是一个基于极简视觉风格设计的个人博客静态网站。使用纯白、纯黑与灰色系构建全部视觉层次，拒绝阴影、渐变与过度装饰，让内容本身成为阅读的主角。
+
+博客围绕神经科学研究展开，涵盖论文笔记、实验日志、日常思考与资料整理。
+
+---
+
+## 设计风格
+
+- **配色**：白 `#ffffff` / 黑 `#111111` / 灰阶层次 `#424242` → `#9a9a9a` → `#e5e5e5`
+- **布局**：圆角卡片系统（`28px–32px`）+ 极细边框（`1px`）+ 大量留白
+- **动效**：仅保留最克制的 `border-color` / `transform` 过渡（`0.2s ease`）
+- **响应式**：`840px` 与 `600px` 双断点，移动端自动切换单列
+- **理念**：视觉静默，内容优先
+
+---
+
+## 页面结构
+
+| 页面 | 路径 | 说明 |
+|---|---|---|
+| 首页 | `index.html` | 文章列表、个人简介、论文笔记、日常日志、专题卡片、社交链接 |
+| 文章详情 | `article.html?id={id}` | 单篇文章阅读，含分享功能与推荐阅读 |
+| 论文笔记 | `notes.html` | 结构化文献摘录与研究片段 |
+| 日常记录 | `daily.html` | 实验日志与研究灵感笔记 |
+| 日常动态 | `daily-posts.html` | 按时间排列的动态日志与统计 |
+| 关于 | `about.html` | 研究理念与个人介绍 |
+| 资料库 | `library.html` | 研究博客、工具、模板与外部链接 |
+| 文献数据库 | `literature.html` | 按主题分类整理的文献资料入口 |
+
+---
+
+## 技术栈
+
+- **纯静态**：HTML5 + CSS3 + Vanilla JavaScript，零依赖
+- **样式**：单文件 `styles.css`（约 920 行），全站统一视觉规范
+- **数据**：`script.js` 内置文章数据，支持标签过滤、动态渲染与导航高亮
+- **部署**：GitHub Actions 自动部署至 GitHub Pages
+
+---
+
+## 本地预览
+
+```bash
+# 克隆仓库
+git clone git@github.com:JUNNYOfficial/Blog.git
+cd Blog
+
+# 方式一：直接用浏览器打开
+open index.html
+
+# 方式二：启动本地服务器（推荐）
+python3 -m http.server 8000
+# 然后访问 http://localhost:8000
+```
+
+---
+
+## 部署
+
+项目使用 **GitHub Actions** 自动部署到 GitHub Pages。
+
+每次向 `main` 分支推送代码时，`.github/workflows/pages.yml` 会自动触发构建与部署，无需手动操作。
+
+部署状态可在仓库的 **Actions** 标签页查看。
+
+---
+
+## 项目结构
+
+```
+Blog/
+├── .github/workflows/pages.yml   # GitHub Pages 自动部署
+├── index.html                    # 首页
+├── article.html                  # 文章详情页
+├── notes.html                    # 论文笔记页
+├── daily.html                    # 日常记录页
+├── daily-posts.html              # 日常动态页
+├── about.html                    # 关于页
+├── library.html                  # 资料库页
+├── literature.html               # 文献数据库页
+├── styles.css                    # 全局样式表
+├── script.js                     # 数据与渲染逻辑
+└── README.md                     # 本文件
+```
+
+---
+
+## 维护
+
+- 文章数据集中维护在 `script.js` 的 `posts` 数组中
+- 新增页面时请保持统一的 `page-shell` + `topbar` + `main` + `footer` 结构
+- 样式修改请在 `styles.css` 中完成，确保不影响其他页面
+
+---
+
+*JUNNYOfficial Blog • 2026 • 慎用色彩，善用空间*
