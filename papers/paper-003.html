@@ -6,7 +6,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <title>干扰素信号驱动关节炎疼痛的持续化 · JUNNYOfficial Blog</title>
   <meta name="description" content="干扰素信号驱动关节炎疼痛的持续化" />
-  <link rel="stylesheet" href="../styles.css?v=12" />
+  <link rel="stylesheet" href="../styles.css?v=13" />
   <style>
     .article-body h4 { font-size: 1.15rem; font-weight: 600; margin: 28px 0 14px; color: #111; }
     .article-body h5 { font-size: 1rem; font-weight: 600; margin: 20px 0 10px; color: #333; }
@@ -31,6 +31,7 @@
         <article>
           <p class="eyebrow">论文笔记</p>
           <h1>干扰素信号驱动关节炎疼痛的持续化</h1>
+          <nav class="article-toc" id="articleToc" aria-label="目录"></nav>
           <div class="article-body"><p>[x] 已读</p>
 <p>英文标题： Persistent interferon signaling causes sensory neuron plasticity and pain before and during arthritis作者： Jie Su, Ming-Dong Zhang, Jussi Kupari, Dongoh Kwak 等通讯作者： Patrik Ernfors机构： 瑞典卡罗林斯卡医学院发表日期： 2026年3月10日DOI： 10.1038/s41593-026-02234-y</p>
 <h4>研究背景与核心问题</h4>
@@ -91,6 +92,18 @@
   </div>
   <script>
     (function() {
+      // 自动生成目录
+      const toc = document.getElementById('articleToc');
+      const headings = document.querySelectorAll('.article-body h4, .article-body h5');
+      if (toc && headings.length > 2) {
+        toc.innerHTML = '<p class="eyebrow">目录</p><ul>' +
+          Array.from(headings).map((h, i) => {
+            h.id = 'toc-' + i;
+            return '<li><a href="#toc-' + i + '">' + h.textContent + '</a></li>';
+          }).join('') +
+          '</ul>';
+      }
+
       const btn = document.createElement('button');
       btn.className = 'back-to-top';
       btn.setAttribute('aria-label', '返回顶部');

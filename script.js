@@ -893,7 +893,9 @@ function renderDailyPosts() {
 }
 
 function renderHome() {
-  renderArticleCards(posts.slice(0, 2));
+  // 展示最新的4篇文章（飞书论文在数组末尾，取最后4篇并倒序）
+  const latest = posts.slice(-4).reverse();
+  renderArticleCards(latest);
 
   const filterRow = document.querySelector('.filter-row');
   if (filterRow) {
@@ -901,9 +903,9 @@ function renderHome() {
       const pill = e.target.closest('.pill');
       if (!pill) return;
       const selected = pill.textContent.trim();
-      const filtered = (selected === '全部' ? posts : posts.filter(post => post.tag === selected)).slice(0, 2);
+      const pool = selected === '全部' ? posts : posts.filter(post => post.tag === selected);
+      renderArticleCards(pool.slice(-4).reverse());
       setActiveFilter(selected);
-      renderArticleCards(filtered);
     });
   }
 

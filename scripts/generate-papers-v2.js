@@ -144,7 +144,7 @@ async function main() {
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <title>${escapeHtml(cleanTitle)} · JUNNYOfficial Blog</title>
   <meta name="description" content="${escapeHtml(cleanTitle)}" />
-  <link rel="stylesheet" href="../styles.css?v=12" />
+  <link rel="stylesheet" href="../styles.css?v=13" />
   <style>
     .article-body h4 { font-size: 1.15rem; font-weight: 600; margin: 28px 0 14px; color: #111; }
     .article-body h5 { font-size: 1rem; font-weight: 600; margin: 20px 0 10px; color: #333; }
@@ -169,6 +169,7 @@ async function main() {
         <article>
           <p class="eyebrow">论文笔记</p>
           <h1>${escapeHtml(cleanTitle)}</h1>
+          <nav class="article-toc" id="articleToc" aria-label="目录"></nav>
           <div class="article-body">${bodyHtml}</div>
         </article>
       </section>
@@ -195,6 +196,18 @@ async function main() {
   </div>
   <script>
     (function() {
+      // 自动生成目录
+      const toc = document.getElementById('articleToc');
+      const headings = document.querySelectorAll('.article-body h4, .article-body h5');
+      if (toc && headings.length > 2) {
+        toc.innerHTML = '<p class="eyebrow">目录</p><ul>' +
+          Array.from(headings).map((h, i) => {
+            h.id = 'toc-' + i;
+            return '<li><a href="#toc-' + i + '">' + h.textContent + '</a></li>';
+          }).join('') +
+          '</ul>';
+      }
+
       const btn = document.createElement('button');
       btn.className = 'back-to-top';
       btn.setAttribute('aria-label', '返回顶部');
