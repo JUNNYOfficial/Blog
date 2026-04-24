@@ -937,14 +937,14 @@ h3 {
   }
 
   .filter-row {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
     width: 100%;
   }
 
   .pill {
-    width: calc(50% - 6px);
+    width: 100%;
     padding: 14px 16px;
     text-align: center;
   }
