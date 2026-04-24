@@ -69,9 +69,8 @@ button {
   height: 50px;
   border: 1px solid #d4d4d4;
   border-radius: 16px;
-  color: #111;
-  font-size: 1.15rem;
-  font-weight: 700;
+  object-fit: cover;
+  overflow: hidden;
 }
 
 .eyebrow {
