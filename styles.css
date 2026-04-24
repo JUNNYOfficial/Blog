@@ -885,12 +885,22 @@ h3 {
   .topic-section,
   .profile-section,
   .notes-grid,
-  .daily-grid {
+  .daily-grid,
+  .links-grid,
+  .literature-grid {
     grid-template-columns: 1fr;
   }
 
   .article-grid {
     grid-template-columns: 1fr;
+  }
+
+  .wiki-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .wiki-sidebar {
+    position: static;
   }
 
   .section-header {

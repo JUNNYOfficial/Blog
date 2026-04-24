@@ -50,6 +50,19 @@ const posts = [
       '黑白灰风格下，使用细线和留白分割信息块，比颜色区分更耐看。',
       '这个模板既适合写论文总结，也适合写日常实验日志。'
     ]
+  },
+  {
+    id: '5',
+    title: '为什么笔记空间只用黑白灰',
+    summary: '去掉颜色干扰，用网格、边框和留白建立信息层次，让内容本身成为主角。',
+    tag: '设计',
+    date: '2026年4月24日',
+    reading: '5 分钟阅读',
+    body: [
+      '颜色在信息设计中是一把双刃剑。过多色彩会分散注意力，让阅读变成视觉扫描。',
+      '用灰度层次代替颜色区分，边框与留白形成自然的信息区块，笔记更清晰也更耐看。',
+      '这套极简风格的目标不是冷淡，而是让每一次打开页面都能立刻进入阅读状态。'
+    ]
   }
 ];
 
@@ -133,11 +146,8 @@ function renderDailyPosts() {
   // Update stats
   if (totalPostsEl) totalPostsEl.textContent = dailyPosts.length;
   if (todayPostsEl) {
-    const today = new Date().toLocaleDateString('zh-CN', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+    const d = new Date();
+    const today = `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
     const todayCount = dailyPosts.filter(post => post.date === today).length;
     todayPostsEl.textContent = todayCount;
   }
