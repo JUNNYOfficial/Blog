@@ -144,7 +144,7 @@ async function main() {
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <title>${escapeHtml(cleanTitle)} · JUNNYOfficial Blog</title>
   <meta name="description" content="${escapeHtml(cleanTitle)}" />
-  <link rel="stylesheet" href="../styles.css?v=3" />
+  <link rel="stylesheet" href="../styles.css?v=7" />
   <style>
     .article-body h4 { font-size: 1.15rem; font-weight: 600; margin: 28px 0 14px; color: #111; }
     .article-body h5 { font-size: 1rem; font-weight: 600; margin: 20px 0 10px; color: #333; }
@@ -172,6 +172,21 @@ async function main() {
           <div class="article-body">${bodyHtml}</div>
         </article>
       </section>
+
+      <nav class="paper-nav panel-section" aria-label="论文导航">
+        ${i > 0 ? `<a class="paper-nav-prev" href="paper-${String(i).padStart(3, '0')}.html">
+          <span class="paper-nav-label">上一篇</span>
+          <span class="paper-nav-title">${escapeHtml(papers[i - 1].title.replace(/^论文\s*\d+\s*\|\s*/, ''))}</span>
+        </a>` : '<span class="paper-nav-prev paper-nav-disabled"><span class="paper-nav-label">上一篇</span><span class="paper-nav-title">—</span></span>'}
+        <a class="paper-nav-home" href="../notes.html">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 22V12h6v10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>返回论文库</span>
+        </a>
+        ${i < papers.length - 1 ? `<a class="paper-nav-next" href="paper-${String(i + 2).padStart(3, '0')}.html">
+          <span class="paper-nav-label">下一篇</span>
+          <span class="paper-nav-title">${escapeHtml(papers[i + 1].title.replace(/^论文\s*\d+\s*\|\s*/, ''))}</span>
+        </a>` : '<span class="paper-nav-next paper-nav-disabled"><span class="paper-nav-label">下一篇</span><span class="paper-nav-title">—</span></span>'}
+      </nav>
     </main>
 
     <footer class="site-footer article-footer">
