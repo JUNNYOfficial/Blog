@@ -2381,3 +2381,9 @@ body[data-theme="dark"] .profile-meta span {
   color: #ffffff;
   border-color: #2a2a2a;
 }
+body[data-theme="dark"] .related-panel p,
+body[data-theme="dark"] .meta-panel p,
+body[data-theme="dark"] .profile-card p,
+body[data-theme="dark"] .habit-card p {
+  color: #ffffff;
+}
