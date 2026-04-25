@@ -1633,7 +1633,7 @@ body.page-enter {
 }
 
 /* ===== 暗色模式（跟随系统） ===== */
-@media (prefers-color-scheme: dark), body[data-theme="dark"] {
+@media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
     background: #111111;
@@ -1858,7 +1858,7 @@ body.page-enter {
   color: #111;
 }
 
-@media (prefers-color-scheme: dark), body[data-theme="dark"] {
+@media (prefers-color-scheme: dark) {
   .article-toc {
     border-color: #2a2a2a;
     background: #1a1a1a;
@@ -1940,7 +1940,7 @@ body.page-enter {
   color: #111;
 }
 
-@media (prefers-color-scheme: dark), body[data-theme="dark"] {
+@media (prefers-color-scheme: dark) {
   .theme-pill {
     border-color: #2a2a2a;
     background: #1a1a1a;
@@ -1955,4 +1955,181 @@ body.page-enter {
   .theme-pill button:not(.active):hover {
     color: #e5e5e5;
   }
+}
+
+
+/* ===== 手动暗色模式 ===== */
+body[data-theme="dark"] {
+color-scheme: dark;
+    background: #111111;
+    color: #e5e5e5;
+}
+body[data-theme="dark"] {
+background: #111111;
+    color: #e5e5e5;
+}
+body[data-theme="dark"] .panel-section {
+border-color: #2a2a2a;
+    background: #1a1a1a;
+}
+body[data-theme="dark"] .article-card, body[data-theme="dark"] .note-card, body[data-theme="dark"] .topic-card, body[data-theme="dark"] .link-card, body[data-theme="dark"] .daily-card {
+border-color: #2a2a2a;
+    background: #1a1a1a;
+}
+body[data-theme="dark"] .article-card:hover, body[data-theme="dark"] .note-card:hover, body[data-theme="dark"] .daily-card:hover {
+border-color: #3a3a3a;
+    background-color: #222222;
+}
+body[data-theme="dark"] .topbar {
+border-bottom-color: #2a2a2a;
+}
+body[data-theme="dark"] .nav-links a {
+color: #999999;
+}
+body[data-theme="dark"] .nav-links a:hover {
+background-color: #2a2a2a;
+    color: #e5e5e5;
+}
+body[data-theme="dark"] .nav-links a.active {
+background-color: #e5e5e5;
+    color: #111111;
+}
+body[data-theme="dark"] .pill {
+border-color: #3a3a3a;
+    color: #999999;
+}
+body[data-theme="dark"] .pill:hover, body[data-theme="dark"] .pill.active {
+border-color: #666666;
+    color: #e5e5e5;
+}
+body[data-theme="dark"] .wiki-nav a {
+border-color: #2a2a2a;
+    color: #999999;
+}
+body[data-theme="dark"] .wiki-nav a:hover {
+background-color: #222222;
+    border-color: #3a3a3a;
+    color: #e5e5e5;
+}
+body[data-theme="dark"] .back-to-top {
+border-color: #2a2a2a;
+    background: #1a1a1a;
+    color: #999999;
+}
+body[data-theme="dark"] .back-to-top:hover {
+border-color: #3a3a3a;
+    background-color: #222222;
+}
+body[data-theme="dark"] .paper-nav-prev, body[data-theme="dark"] .paper-nav-next, body[data-theme="dark"] .paper-nav-home {
+border-color: #2a2a2a;
+}
+body[data-theme="dark"] .paper-nav-prev:hover, body[data-theme="dark"] .paper-nav-next:hover, body[data-theme="dark"] .paper-nav-home:hover {
+border-color: #3a3a3a;
+    background-color: #222222;
+}
+body[data-theme="dark"] .paper-nav-title {
+color: #e5e5e5;
+}
+body[data-theme="dark"] .paper-nav-label {
+color: #777777;
+}
+body[data-theme="dark"] .search-bar input[type="search"] {
+color: #e5e5e5;
+}
+body[data-theme="dark"] .search-bar input[type="search"]::placeholder {
+color: #666666;
+}
+body[data-theme="dark"] .search-bar .search-icon {
+color: #666666;
+}
+body[data-theme="dark"] .eyebrow {
+color: #777777;
+}
+body[data-theme="dark"] .meta-label {
+color: #777777;
+}
+body[data-theme="dark"] .hero-text, body[data-theme="dark"] .topic-card p, body[data-theme="dark"] .note-card p, body[data-theme="dark"] .article-card-summary, body[data-theme="dark"] .daily-post-summary {
+color: #999999;
+}
+body[data-theme="dark"] .article-card-footer, body[data-theme="dark"] .note-card-footer, body[data-theme="dark"] .daily-post-meta {
+color: #666666;
+    border-top-color: #2a2a2a;
+}
+body[data-theme="dark"] .site-footer {
+border-top-color: #2a2a2a;
+    color: #666666;
+}
+body[data-theme="dark"] .related-item {
+border-bottom-color: #2a2a2a;
+}
+body[data-theme="dark"] .related-item:hover {
+background-color: #1a1a1a;
+}
+body[data-theme="dark"] .empty-state {
+color: #666666;
+}
+body[data-theme="dark"] .article-body blockquote {
+border-left-color: #3a3a3a;
+    background: #1a1a1a;
+}
+body[data-theme="dark"] .article-body blockquote p {
+color: #999999;
+}
+body[data-theme="dark"] .article-body hr {
+border-top-color: #2a2a2a;
+}
+body[data-theme="dark"] .icon-link {
+border-color: #2a2a2a;
+}
+body[data-theme="dark"] .icon-link:hover {
+border-color: #3a3a3a;
+    background-color: #1a1a1a;
+}
+body[data-theme="dark"] .read-badge {
+background: #2a2a2a;
+    color: #777777;
+}
+body[data-theme="dark"] h1, body[data-theme="dark"] h2, body[data-theme="dark"] h3, body[data-theme="dark"] h4, body[data-theme="dark"] h5, body[data-theme="dark"] h6 {
+color: #e5e5e5;
+}
+body[data-theme="dark"] .article-toc {
+border-color: #2a2a2a;
+    background: #1a1a1a;
+}
+body[data-theme="dark"] .article-toc li a {
+color: #999;
+}
+body[data-theme="dark"] .article-toc li a:hover {
+background-color: #2a2a2a;
+    color: #e5e5e5;
+}
+body[data-theme="dark"] .notes-expand-btn {
+background: #1a1a1a;
+    color: #e5e5e5;
+    border-color: #2a2a2a;
+}
+body[data-theme="dark"] .notes-expand-btn:hover {
+background: #e5e5e5;
+    color: #111;
+    border-color: #e5e5e5;
+}
+body[data-theme="dark"] .section-more {
+color: #999;
+}
+body[data-theme="dark"] .section-more:hover {
+color: #e5e5e5;
+}
+body[data-theme="dark"] .theme-pill {
+border-color: #2a2a2a;
+    background: #1a1a1a;
+}
+body[data-theme="dark"] .theme-pill button {
+color: #999;
+}
+body[data-theme="dark"] .theme-pill button.active {
+background: #e5e5e5;
+    color: #111111;
+}
+body[data-theme="dark"] .theme-pill button:not(.active):hover {
+color: #e5e5e5;
 }
