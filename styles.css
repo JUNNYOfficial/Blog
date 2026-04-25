@@ -1680,24 +1680,24 @@ body.page-enter {
   }
 
   .nav-links a.active {
-    background-color: #e5e5e5;
-    color: #111111;
-  }
+  background-color: #2a2a2a;
+  color: #ffffff;
+}
 
   .pill {
     border-color: #3a3a3a;
-    color: #999999;
+    color: #bbbbbb;
   }
 
   .pill:hover,
   .pill.active {
-    border-color: #666666;
+    border-color: #888888;
     color: #e5e5e5;
   }
 
   .wiki-nav a {
     border-color: #2a2a2a;
-    color: #999999;
+    color: #bbbbbb;
   }
 
   .wiki-nav a:hover {
@@ -1709,7 +1709,7 @@ body.page-enter {
   .back-to-top {
     border-color: #2a2a2a;
     background: #1a1a1a;
-    color: #999999;
+    color: #bbbbbb;
   }
 
   .back-to-top:hover {
@@ -1735,7 +1735,7 @@ body.page-enter {
   }
 
   .paper-nav-label {
-    color: #777777;
+    color: #999999;
   }
 
   .search-bar input[type="search"] {
@@ -1743,19 +1743,19 @@ body.page-enter {
   }
 
   .search-bar input[type="search"]::placeholder {
-    color: #666666;
+    color: #888888;
   }
 
   .search-bar .search-icon {
-    color: #666666;
+    color: #888888;
   }
 
   .eyebrow {
-    color: #777777;
+    color: #999999;
   }
 
   .meta-label {
-    color: #777777;
+    color: #999999;
   }
 
   .hero-text,
@@ -1763,19 +1763,19 @@ body.page-enter {
   .note-card p,
   .article-card-summary,
   .daily-post-summary {
-    color: #999999;
+    color: #bbbbbb;
   }
 
   .article-card-footer,
   .note-card-footer,
   .daily-post-meta {
-    color: #666666;
+    color: #888888;
     border-top-color: #2a2a2a;
   }
 
   .site-footer {
     border-top-color: #2a2a2a;
-    color: #666666;
+    color: #888888;
   }
 
   .related-item {
@@ -1787,7 +1787,7 @@ body.page-enter {
   }
 
   .empty-state {
-    color: #666666;
+    color: #888888;
   }
 
   .article-body blockquote {
@@ -1796,7 +1796,7 @@ body.page-enter {
   }
 
   .article-body blockquote p {
-    color: #999999;
+    color: #bbbbbb;
   }
 
   .article-body hr {
@@ -1814,7 +1814,7 @@ body.page-enter {
 
   .read-badge {
     background: #2a2a2a;
-    color: #777777;
+    color: #999999;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -1864,7 +1864,7 @@ body.page-enter {
     background: #1a1a1a;
   }
   .article-toc li a {
-    color: #999;
+    color: #bbb;
   }
   .article-toc li a:hover {
     background-color: #2a2a2a;
@@ -1881,7 +1881,7 @@ body.page-enter {
     border-color: #e5e5e5;
   }
   .section-more {
-    color: #999;
+    color: #bbb;
   }
   .section-more:hover {
     color: #e5e5e5;
@@ -1991,20 +1991,20 @@ background-color: #2a2a2a;
     color: #e5e5e5;
 }
 body[data-theme="dark"] .nav-links a.active {
-background-color: #e5e5e5;
-    color: #111111;
+  background-color: #2a2a2a;
+  color: #ffffff;
 }
 body[data-theme="dark"] .pill {
 border-color: #3a3a3a;
-    color: #999999;
+    color: #bbbbbb;
 }
 body[data-theme="dark"] .pill:hover, body[data-theme="dark"] .pill.active {
-border-color: #666666;
+border-color: #888888;
     color: #e5e5e5;
 }
 body[data-theme="dark"] .wiki-nav a {
 border-color: #2a2a2a;
-    color: #999999;
+    color: #bbbbbb;
 }
 body[data-theme="dark"] .wiki-nav a:hover {
 background-color: #222222;
@@ -2014,7 +2014,7 @@ background-color: #222222;
 body[data-theme="dark"] .back-to-top {
 border-color: #2a2a2a;
     background: #1a1a1a;
-    color: #999999;
+    color: #bbbbbb;
 }
 body[data-theme="dark"] .back-to-top:hover {
 border-color: #3a3a3a;
@@ -2031,33 +2031,33 @@ body[data-theme="dark"] .paper-nav-title {
 color: #e5e5e5;
 }
 body[data-theme="dark"] .paper-nav-label {
-color: #777777;
+color: #999999;
 }
 body[data-theme="dark"] .search-bar input[type="search"] {
 color: #e5e5e5;
 }
 body[data-theme="dark"] .search-bar input[type="search"]::placeholder {
-color: #666666;
+color: #888888;
 }
 body[data-theme="dark"] .search-bar .search-icon {
-color: #666666;
+color: #888888;
 }
 body[data-theme="dark"] .eyebrow {
-color: #777777;
-}
-body[data-theme="dark"] .meta-label {
-color: #777777;
-}
-body[data-theme="dark"] .hero-text, body[data-theme="dark"] .topic-card p, body[data-theme="dark"] .note-card p, body[data-theme="dark"] .article-card-summary, body[data-theme="dark"] .daily-post-summary {
 color: #999999;
 }
+body[data-theme="dark"] .meta-label {
+color: #999999;
+}
+body[data-theme="dark"] .hero-text, body[data-theme="dark"] .topic-card p, body[data-theme="dark"] .note-card p, body[data-theme="dark"] .article-card-summary, body[data-theme="dark"] .daily-post-summary {
+color: #bbbbbb;
+}
 body[data-theme="dark"] .article-card-footer, body[data-theme="dark"] .note-card-footer, body[data-theme="dark"] .daily-post-meta {
-color: #666666;
+color: #888888;
     border-top-color: #2a2a2a;
 }
 body[data-theme="dark"] .site-footer {
 border-top-color: #2a2a2a;
-    color: #666666;
+    color: #888888;
 }
 body[data-theme="dark"] .related-item {
 border-bottom-color: #2a2a2a;
@@ -2066,14 +2066,14 @@ body[data-theme="dark"] .related-item:hover {
 background-color: #1a1a1a;
 }
 body[data-theme="dark"] .empty-state {
-color: #666666;
+color: #888888;
 }
 body[data-theme="dark"] .article-body blockquote {
 border-left-color: #3a3a3a;
     background: #1a1a1a;
 }
 body[data-theme="dark"] .article-body blockquote p {
-color: #999999;
+color: #bbbbbb;
 }
 body[data-theme="dark"] .article-body hr {
 border-top-color: #2a2a2a;
@@ -2087,7 +2087,7 @@ border-color: #3a3a3a;
 }
 body[data-theme="dark"] .read-badge {
 background: #2a2a2a;
-    color: #777777;
+    color: #999999;
 }
 body[data-theme="dark"] h1, body[data-theme="dark"] h2, body[data-theme="dark"] h3, body[data-theme="dark"] h4, body[data-theme="dark"] h5, body[data-theme="dark"] h6 {
 color: #e5e5e5;
@@ -2097,7 +2097,7 @@ border-color: #2a2a2a;
     background: #1a1a1a;
 }
 body[data-theme="dark"] .article-toc li a {
-color: #999;
+color: #bbb;
 }
 body[data-theme="dark"] .article-toc li a:hover {
 background-color: #2a2a2a;
@@ -2114,7 +2114,7 @@ background: #e5e5e5;
     border-color: #e5e5e5;
 }
 body[data-theme="dark"] .section-more {
-color: #999;
+color: #bbb;
 }
 body[data-theme="dark"] .section-more:hover {
 color: #e5e5e5;
@@ -2145,7 +2145,7 @@ body[data-theme="dark"] .article-nav a:hover {
   background-color: #222222;
 }
 body[data-theme="dark"] .article-nav-label {
-  color: #777777;
+  color: #999999;
 }
 body[data-theme="dark"] .article-nav-title {
   color: #e5e5e5;
@@ -2162,10 +2162,10 @@ body[data-theme="dark"] .search-input:focus {
   border-color: #e5e5e5;
 }
 body[data-theme="dark"] .search-icon {
-  color: #666666;
+  color: #888888;
 }
 body[data-theme="dark"] .search-stats {
-  color: #777777;
+  color: #999999;
 }
 body[data-theme="dark"] .search-highlight {
   background: #4a3a1a;
@@ -2187,7 +2187,7 @@ body[data-theme="dark"] .button {
   color: #e5e5e5;
 }
 body[data-theme="dark"] .button:hover {
-  border-color: #666666;
+  border-color: #888888;
   background-color: #222222;
 }
 
@@ -2214,17 +2214,17 @@ body[data-theme="dark"] .daily-post-card {
   border-color: #2a2a2a;
 }
 body[data-theme="dark"] .daily-date {
-  color: #999999;
+  color: #bbbbbb;
 }
 body[data-theme="dark"] .daily-reading {
-  color: #777777;
+  color: #999999;
 }
 
 /* 图标按钮 */
 body[data-theme="dark"] .icon-button {
   background: #1a1a1a;
   border-color: #2a2a2a;
-  color: #999;
+  color: #bbb;
 }
 body[data-theme="dark"] .icon-button:hover {
   border-color: #3a3a3a;
@@ -2238,7 +2238,7 @@ body[data-theme="dark"] .primary-button {
   color: #e5e5e5;
 }
 body[data-theme="dark"] .primary-button:hover {
-  border-color: #666666;
+  border-color: #888888;
   background: #222222;
 }
 
@@ -2246,7 +2246,7 @@ body[data-theme="dark"] .primary-button:hover {
 body[data-theme="dark"] .type-badge {
   background: #2a2a2a;
   border-color: #3a3a3a;
-  color: #999;
+  color: #bbb;
 }
 
 /* 阅读更多链接 */
@@ -2255,13 +2255,13 @@ body[data-theme="dark"] .read-more-link {
   color: #e5e5e5;
 }
 body[data-theme="dark"] .read-more-link:hover {
-  border-color: #666666;
+  border-color: #888888;
   background: #222222;
 }
 
 /* 空状态 */
 body[data-theme="dark"] .empty-daily {
-  color: #777777;
+  color: #999999;
 }
 body[data-theme="dark"] .empty-icon {
   background: #1a1a1a;
@@ -2319,7 +2319,7 @@ body[data-theme="dark"] .admin-table tr:hover td {
 body[data-theme="dark"] .admin-table .tag-badge {
   background: #2a2a2a;
   border-color: #3a3a3a;
-  color: #999;
+  color: #bbb;
 }
 body[data-theme="dark"] .admin-table .actions button {
   background: #1a1a1a;
