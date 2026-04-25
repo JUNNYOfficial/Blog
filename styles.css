@@ -2000,7 +2000,7 @@ border-color: #3a3a3a;
 }
 body[data-theme="dark"] .pill:hover, body[data-theme="dark"] .pill.active {
 border-color: #888888;
-    color: #e5e5e5;
+    color: #ffffff;
 }
 body[data-theme="dark"] .wiki-nav a {
 border-color: #2a2a2a;

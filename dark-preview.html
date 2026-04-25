@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Dark Mode Color Preview</title>
+<style>
+body { font-family: system-ui; padding: 40px; background: #111; color: #e5e5e5; }
+.row { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 32px; }
+.box { padding: 20px 28px; border-radius: 16px; min-width: 160px; text-align: center; }
+.label { font-size: 0.75rem; color: #999; margin-top: 8px; }
+.bg-page { background: #111111; border: 1px solid #333; }
+.bg-card { background: #1a1a1a; border: 1px solid #2a2a2a; }
+.bg-hover { background: #222222; border: 1px solid #3a3a3a; }
+.text-main { color: #ffffff; }
+.text-secondary { color: #bbbbbb; }
+.text-muted { color: #999999; }
+.text-dim { color: #888888; }
+.nav { display: inline-flex; gap: 8px; padding: 10px 16px; border-radius: 999px; }
+.nav-normal { background: transparent; color: #999999; }
+.nav-hover { background: #2a2a2a; color: #ffffff; }
+.nav-active { background: #2a2a2a; color: #ffffff; }
+.pill { display: inline-flex; border: 1px solid #2a2a2a; border-radius: 999px; overflow: hidden; background: #1a1a1a; }
+.pill button { padding: 8px 18px; border: none; background: transparent; cursor: pointer; }
+.pill-off { color: #999; }
+.pill-off:hover { color: #ffffff; }
+.pill-on { background: #e5e5e5; color: #111111; }
+</style>
+</head>
+<body>
+<h2 style="color:#fff;margin-bottom:32px;">暗色模式颜色方案</h2>
+
+<h3 style="color:#fff;font-size:1rem;margin:24px 0 12px;">背景层级</h3>
+<div class="row">
+  <div class="box bg-page"><div style="font-size:1.1rem;font-weight:600;">页面背景</div><div class="label">#111111</div></div>
+  <div class="box bg-card"><div style="font-size:1.1rem;font-weight:600;">卡片背景</div><div class="label">#1a1a1a</div></div>
+  <div class="box bg-hover"><div style="font-size:1.1rem;font-weight:600;">Hover 背景</div><div class="label">#222222</div></div>
+</div>
+
+<h3 style="color:#fff;font-size:1rem;margin:24px 0 12px;">文字层级</h3>
+<div class="row">
+  <div class="box bg-card text-main"><div style="font-size:1.1rem;font-weight:600;">主要文字</div><div class="label">#ffffff</div></div>
+  <div class="box bg-card text-secondary"><div style="font-size:1.1rem;font-weight:600;">次要文字</div><div class="label">#bbbbbb</div></div>
+  <div class="box bg-card text-muted"><div style="font-size:1.1rem;font-weight:600;">未选中导航</div><div class="label">#999999</div></div>
+  <div class="box bg-card text-dim"><div style="font-size:1.1rem;font-weight:600;">Placeholder</div><div class="label">#888888</div></div>
+</div>
+
+<h3 style="color:#fff;font-size:1rem;margin:24px 0 12px;">交互状态</h3>
+<div class="row">
+  <div class="nav nav-normal">未选中</div>
+  <div class="nav nav-hover">Hover</div>
+  <div class="nav nav-active">选中</div>
+</div>
+
+<h3 style="color:#fff;font-size:1rem;margin:24px 0 12px;">主题切换胶囊</h3>
+<div class="row">
+  <div class="pill">
+    <button class="pill-off">深</button>
+    <button class="pill-on">浅</button>
+  </div>
+</div>
+</body>
+</html>
