@@ -2377,3 +2377,7 @@ body[data-theme="dark"] .export-textarea {
   border-color: #2a2a2a;
   color: #ffffff;
 }
+body[data-theme="dark"] .profile-meta span {
+  color: #ffffff;
+  border-color: #2a2a2a;
+}
