@@ -2391,3 +2391,6 @@ body[data-theme="dark"] .note-copy p,
 body[data-theme="dark"] .article-meta {
   color: #ffffff;
 }
+body[data-theme="dark"] .wiki-content ul {
+  color: #ffffff;
+}
