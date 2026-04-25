@@ -566,7 +566,7 @@ function copySyncUrl() {
   }
   navigator.clipboard.writeText(currentSyncUrl).then(() => {
     const msg = document.getElementById('syncCopyMsg');
-    msg.textContent = '✅ 已复制到剪贴板，请通过微信/邮件发送到手机打开';
+    msg.textContent = ' 已复制到剪贴板，请通过微信/邮件发送到手机打开';
     msg.style.color = '#166534';
   }).catch(() => {
     const msg = document.getElementById('syncCopyMsg');
@@ -598,7 +598,7 @@ function saveGitHubConfig() {
   };
   localStorage.setItem(GITHUB_CONFIG_KEY, JSON.stringify(cfg));
   const msg = document.getElementById('configMsg');
-  msg.textContent = '✅ 仓库配置已保存';
+  msg.textContent = ' 仓库配置已保存';
   msg.style.color = '#166534';
 }
 
@@ -612,7 +612,7 @@ function saveGitHubToken() {
   }
   localStorage.setItem(GITHUB_TOKEN_KEY, token);
   const msg = document.getElementById('tokenMsg');
-  msg.textContent = '✅ Token 已保存到本设备';
+  msg.textContent = ' Token 已保存到本设备';
   msg.style.color = '#166534';
 }
 
@@ -683,13 +683,13 @@ async function publishToGitHub() {
     );
 
     if (putRes.ok) {
-      alert('✅ 发布成功！\n\n约 1-3 分钟后 GitHub Pages 会自动重新部署，所有设备刷新页面即可看到最新文章。');
+      alert(' 发布成功！\n\n约 1-3 分钟后 GitHub Pages 会自动重新部署，所有设备刷新页面即可看到最新文章。');
     } else {
       const err = await putRes.json();
-      alert(`❌ 发布失败（HTTP ${putRes.status}）：${err.message || '未知错误'}\n\n请检查：\n1. Token 是否勾选了 repo 权限\n2. 仓库路径是否正确（设置里可修改）\n3. 分支名是否正确`);
+      alert(` 发布失败（HTTP ${putRes.status}）：${err.message || '未知错误'}\n\n请检查：\n1. Token 是否勾选了 repo 权限\n2. 仓库路径是否正确（设置里可修改）\n3. 分支名是否正确`);
     }
   } catch (e) {
-    alert('❌ 发布失败：' + e.message);
+    alert(' 发布失败：' + e.message);
   } finally {
     if (btn) {
       btn.textContent = originalText;

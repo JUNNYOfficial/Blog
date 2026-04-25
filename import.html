@@ -181,7 +181,7 @@
 <body>
   <div class="page-shell">
     <div class="import-container">
-      <h2>📥 导入数据</h2>
+      <h2>导入数据</h2>
       <p>从电脑端导出的 JSON 文件或同步链接中恢复文章数据。</p>
 
       <!-- 文件上传 -->
@@ -266,7 +266,7 @@
 
         resultEl.className = 'import-result success';
         resultEl.innerHTML = `
-          <div>✅ 导入成功</div>
+          <div> 导入成功</div>
           <div class="detail">共 ${data.length} 篇文章已保存到本设备
           （本地文章 ${localCount} 篇 · 飞书论文 ${feishuCount} 篇）</div>
         `;
@@ -282,7 +282,7 @@
     function showError(msg) {
       const resultEl = document.getElementById('importResult');
       resultEl.className = 'import-result error';
-      resultEl.innerHTML = '<div>❌ ' + msg + '</div>';
+      resultEl.innerHTML = '<div> ' + msg + '</div>';
     }
   </script>
 </body>

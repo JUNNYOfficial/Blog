@@ -94,7 +94,7 @@
 <body>
   <div class="page-shell">
     <div class="sync-container">
-      <h2>📱 数据同步</h2>
+      <h2>数据同步</h2>
       <p>正在将电脑端的文章数据同步到本设备...</p>
       <div id="syncStatus" class="sync-status" style="display:none;"></div>
       <div class="sync-actions" id="syncActions" style="display:none;">
@@ -134,14 +134,14 @@
         const feishuCount = data.filter(p => String(p.id).startsWith('f')).length;
 
         statusEl.innerHTML = `
-          <div>✅ 同步成功！</div>
+          <div> 同步成功！</div>
           <div class="sync-detail">共 ${data.length} 篇文章已保存到本设备<br>
           （本地文章 ${localCount} 篇 · 飞书论文 ${feishuCount} 篇）</div>
         `;
         statusEl.className = 'sync-status success';
       } catch (e) {
         statusEl.innerHTML = `
-          <div>❌ 同步失败</div>
+          <div> 同步失败</div>
           <div class="sync-detail">${e.message}</div>
         `;
         statusEl.className = 'sync-status error';

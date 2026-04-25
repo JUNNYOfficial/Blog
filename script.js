@@ -1234,8 +1234,8 @@ function renderNotes() {
   const pill = document.createElement('div');
   pill.className = 'theme-pill';
   pill.innerHTML = `
-    <button class="${isDark ? 'active' : ''}" data-mode="dark">🌙 深</button>
-    <button class="${isDark ? '' : 'active'}" data-mode="light">☀️ 浅</button>
+    <button class="${isDark ? 'active' : ''}" data-mode="dark"> 深</button>
+    <button class="${isDark ? '' : 'active'}" data-mode="light"> 浅</button>
   `;
   pill.querySelectorAll('button').forEach(btn => {
     btn.addEventListener('click', () => {

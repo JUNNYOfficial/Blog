@@ -145,12 +145,12 @@ const feishuPapers = ${JSON.stringify(papersData, null, 2)};
     'utf-8'
   );
 
-  console.log('\n✅ 生成完成：');
+  console.log('\n 生成完成：');
   console.log(`  - papers/ 目录: ${papers.length} 个 HTML 文件`);
   console.log('  - script-feishu.js: 数据文件');
 }
 
 main().catch(err => {
-  console.error('❌ 错误:', err.message);
+  console.error(' 错误:', err.message);
   process.exit(1);
 });

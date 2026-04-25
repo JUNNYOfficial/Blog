@@ -83,10 +83,10 @@ function blockToHtml(block) {
 }
 
 async function main() {
-  console.log('🚀 读取飞书文档...');
+  console.log(' 读取飞书文档...');
   const token = await getToken();
   const blocks = await getAllBlocks(token, DOC_TOKEN);
-  console.log(`📄 共 ${blocks.length} 个 blocks`);
+  console.log(` 共 ${blocks.length} 个 blocks`);
 
   const papers = [];
   let currentPaper = null;
@@ -124,7 +124,7 @@ async function main() {
     papers.push(currentPaper);
   }
   
-  console.log(`📝 共解析出 ${papers.length} 篇论文`);
+  console.log(` 共解析出 ${papers.length} 篇论文`);
   papers.forEach((p, i) => {
     console.log(`  ${i + 1}. ${p.title}`);
   });
@@ -268,12 +268,12 @@ const feishuPapers = ${JSON.stringify(papersData, null, 2)};
     'utf-8'
   );
 
-  console.log('\n✅ 生成完成：');
+  console.log('\n 生成完成：');
   console.log(`  - papers/ 目录: ${papers.length} 个 HTML 文件`);
   console.log('  - script-feishu.js: 数据文件');
 }
 
 main().catch(err => {
-  console.error('❌ 错误:', err.message);
+  console.error(' 错误:', err.message);
   process.exit(1);
 });

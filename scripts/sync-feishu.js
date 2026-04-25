@@ -181,14 +181,14 @@ async function main() {
     process.exit(1);
   }
 
-  console.log('🚀 开始同步飞书文档...');
+  console.log(' 开始同步飞书文档...');
 
   const docToken = extractDocToken(FEISHU_DOC_URL);
   const docType = detectDocType(FEISHU_DOC_URL);
-  console.log(`📄 文档类型: ${docType}, Token: ${docToken}`);
+  console.log(` 文档类型: ${docType}, Token: ${docToken}`);
 
   const token = await getTenantAccessToken();
-  console.log('✅ 获取 token 成功');
+  console.log(' 获取 token 成功');
 
   let papers = [];
 
@@ -200,7 +200,7 @@ async function main() {
     process.exit(1);
   }
 
-  console.log(`📝 共解析出 ${papers.length} 篇论文`);
+  console.log(` 共解析出 ${papers.length} 篇论文`);
 
   if (papers.length === 0) {
     console.warn('未找到任何论文，请检查文档中是否包含二级标题');
@@ -224,10 +224,10 @@ async function main() {
   fs.writeFileSync(path.join(__dirname, '..', 'script-feishu.js'), dataJS, 'utf-8');
   console.log('  ✓ script-feishu.js 数据文件已生成');
 
-  console.log('\n🎉 同步完成！');
+  console.log('\n 同步完成！');
 }
 
 main().catch(err => {
-  console.error('❌ 错误:', err.message);
+  console.error(' 错误:', err.message);
   process.exit(1);
 });
