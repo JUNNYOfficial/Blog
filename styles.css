@@ -2387,3 +2387,7 @@ body[data-theme="dark"] .profile-card p,
 body[data-theme="dark"] .habit-card p {
   color: #ffffff;
 }
+body[data-theme="dark"] .note-copy p,
+body[data-theme="dark"] .article-meta {
+  color: #ffffff;
+}
