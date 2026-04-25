@@ -1949,7 +1949,7 @@ body.page-enter {
     color: #fff;
   }
   .theme-pill button.active {
-    background: #e5e5e5;
+    background: #111111;
     color: #ffffff;
   }
   .theme-pill button:not(.active):hover {
@@ -2127,7 +2127,7 @@ body[data-theme="dark"] .theme-pill button {
 color: #fff;
 }
 body[data-theme="dark"] .theme-pill button.active {
-background: #e5e5e5;
+background: #111111;
     color: #ffffff;
 }
 body[data-theme="dark"] .theme-pill button:not(.active):hover {
