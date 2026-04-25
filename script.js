@@ -1255,6 +1255,12 @@ function renderNotes() {
   const articleHeader = document.querySelector('.article-header');
   if (articleHeader) {
     articleHeader.appendChild(makePill());
+    return;
+  }
+
+  const adminHeader = document.querySelector('.admin-header');
+  if (adminHeader) {
+    adminHeader.appendChild(makePill());
   }
 })();
 
