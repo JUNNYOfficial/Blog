@@ -1676,7 +1676,7 @@ body.page-enter {
 
   .nav-links a:hover {
     background-color: #2a2a2a;
-    color: #e5e5e5;
+    color: #ffffff;
   }
 
   .nav-links a.active {
@@ -1692,7 +1692,7 @@ body.page-enter {
   .pill:hover,
   .pill.active {
     border-color: #888888;
-    color: #e5e5e5;
+    color: #ffffff;
   }
 
   .wiki-nav a {
@@ -1703,7 +1703,7 @@ body.page-enter {
   .wiki-nav a:hover {
     background-color: #222222;
     border-color: #3a3a3a;
-    color: #e5e5e5;
+    color: #ffffff;
   }
 
   .back-to-top {
@@ -1868,7 +1868,7 @@ body.page-enter {
   }
   .article-toc li a:hover {
     background-color: #2a2a2a;
-    color: #e5e5e5;
+    color: #ffffff;
   }
   .notes-expand-btn {
     background: #1a1a1a;
@@ -1884,7 +1884,7 @@ body.page-enter {
     color: #bbb;
   }
   .section-more:hover {
-    color: #e5e5e5;
+    color: #ffffff;
   }
 }
 
@@ -1953,7 +1953,7 @@ body.page-enter {
     color: #111111;
   }
   .theme-pill button:not(.active):hover {
-    color: #e5e5e5;
+    color: #ffffff;
   }
 }
 
@@ -1988,7 +1988,7 @@ color: #999999;
 }
 body[data-theme="dark"] .nav-links a:hover {
 background-color: #2a2a2a;
-    color: #e5e5e5;
+    color: #ffffff;
 }
 body[data-theme="dark"] .nav-links a.active {
   background-color: #2a2a2a;
@@ -2009,7 +2009,7 @@ border-color: #2a2a2a;
 body[data-theme="dark"] .wiki-nav a:hover {
 background-color: #222222;
     border-color: #3a3a3a;
-    color: #e5e5e5;
+    color: #ffffff;
 }
 body[data-theme="dark"] .back-to-top {
 border-color: #2a2a2a;
@@ -2101,7 +2101,7 @@ color: #bbb;
 }
 body[data-theme="dark"] .article-toc li a:hover {
 background-color: #2a2a2a;
-    color: #e5e5e5;
+    color: #ffffff;
 }
 body[data-theme="dark"] .notes-expand-btn {
 background: #1a1a1a;
@@ -2117,7 +2117,7 @@ body[data-theme="dark"] .section-more {
 color: #bbb;
 }
 body[data-theme="dark"] .section-more:hover {
-color: #e5e5e5;
+color: #ffffff;
 }
 body[data-theme="dark"] .theme-pill {
 border-color: #2a2a2a;
@@ -2131,7 +2131,7 @@ background: #e5e5e5;
     color: #111111;
 }
 body[data-theme="dark"] .theme-pill button:not(.active):hover {
-color: #e5e5e5;
+color: #ffffff;
 }
 
 /* ===== 暗色模式补充覆盖 ===== */
@@ -2189,6 +2189,7 @@ body[data-theme="dark"] .button {
 body[data-theme="dark"] .button:hover {
   border-color: #888888;
   background-color: #222222;
+  color: #ffffff;
 }
 
 /* 个人资料卡片等 */
@@ -2240,6 +2241,7 @@ body[data-theme="dark"] .primary-button {
 body[data-theme="dark"] .primary-button:hover {
   border-color: #888888;
   background: #222222;
+  color: #ffffff;
 }
 
 /* 类型标签 */
@@ -2257,6 +2259,7 @@ body[data-theme="dark"] .read-more-link {
 body[data-theme="dark"] .read-more-link:hover {
   border-color: #888888;
   background: #222222;
+  color: #ffffff;
 }
 
 /* 空状态 */
