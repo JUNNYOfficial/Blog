@@ -1214,45 +1214,48 @@ function renderNotes() {
     document.body.dataset.theme = 'dark';
   }
 
-  const topbar = document.querySelector('.topbar');
-  if (!topbar) return;
-
-  const brand = topbar.querySelector('.brand');
-  const nav = topbar.querySelector('.nav-links');
-  if (!brand || !nav) return;
-
-  // 重新组织 topbar 为两行式
-  const row1 = document.createElement('div');
-  row1.className = 'topbar-row';
-
-  const row2 = document.createElement('div');
-  row2.className = 'nav-row';
-
-  row1.appendChild(brand);
-
-  // 创建深浅胶囊
-  const pill = document.createElement('div');
-  pill.className = 'theme-pill';
-  pill.innerHTML = `
-    <button class="${isDark ? 'active' : ''}" data-mode="dark">深</button>
-    <button class="${isDark ? '' : 'active'}" data-mode="light">浅</button>
-  `;
-  pill.querySelectorAll('button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const mode = btn.dataset.mode;
-      const dark = mode === 'dark';
-      document.body.dataset.theme = dark ? 'dark' : '';
-      localStorage.setItem('theme', dark ? 'dark' : '');
-      pill.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+  function makePill() {
+    const pill = document.createElement('div');
+    pill.className = 'theme-pill';
+    pill.innerHTML = `
+      <button class="${isDark ? 'active' : ''}" data-mode="dark">深</button>
+      <button class="${isDark ? '' : 'active'}" data-mode="light">浅</button>
+    `;
+    pill.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const mode = btn.dataset.mode;
+        const dark = mode === 'dark';
+        document.body.dataset.theme = dark ? 'dark' : '';
+        localStorage.setItem('theme', dark ? 'dark' : '');
+        pill.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+      });
     });
-  });
-  row1.appendChild(pill);
+    return pill;
+  }
 
-  row2.appendChild(nav);
+  const topbar = document.querySelector('.topbar');
+  if (topbar) {
+    const brand = topbar.querySelector('.brand');
+    const nav = topbar.querySelector('.nav-links');
+    if (brand && nav) {
+      const row1 = document.createElement('div');
+      row1.className = 'topbar-row';
+      const row2 = document.createElement('div');
+      row2.className = 'nav-row';
+      row1.appendChild(brand);
+      row1.appendChild(makePill());
+      row2.appendChild(nav);
+      topbar.innerHTML = '';
+      topbar.appendChild(row1);
+      topbar.appendChild(row2);
+      return;
+    }
+  }
 
-  topbar.innerHTML = '';
-  topbar.appendChild(row1);
-  topbar.appendChild(row2);
+  const articleHeader = document.querySelector('.article-header');
+  if (articleHeader) {
+    articleHeader.appendChild(makePill());
+  }
 })();
 
 /* ===== 图片点击放大 ===== */
