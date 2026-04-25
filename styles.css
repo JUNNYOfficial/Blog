@@ -1847,7 +1847,7 @@ body.page-enter {
   display: block;
   padding: 6px 10px;
   border-radius: 10px;
-  color: #4f4f4f;
+  color: #ffffff;
   font-size: 0.92rem;
   text-decoration: none;
   transition: background-color 0.15s ease, color 0.15s ease;
@@ -1855,7 +1855,7 @@ body.page-enter {
 
 .article-toc li a:hover {
   background-color: #f0f0f0;
-  color: #111;
+  color: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -1864,7 +1864,7 @@ body.page-enter {
     background: #1a1a1a;
   }
   .article-toc li a {
-    color: #bbb;
+    color: #ffffff;
   }
   .article-toc li a:hover {
     background-color: #2a2a2a;
@@ -1877,11 +1877,11 @@ body.page-enter {
   }
   .notes-expand-btn:hover {
     background: #e5e5e5;
-    color: #111;
+    color: #ffffff;
     border-color: #ffffff;
   }
   .section-more {
-    color: #bbb;
+    color: #ffffff;
   }
   .section-more:hover {
     color: #ffffff;
@@ -1925,7 +1925,7 @@ body.page-enter {
   padding: 8px 18px;
   border: none;
   background: transparent;
-  color: #666;
+  color: #ffffff;
   font-size: 0.85rem;
   cursor: pointer;
   transition: all 0.25s ease;
@@ -1937,7 +1937,7 @@ body.page-enter {
   border-radius: 999px;
 }
 .theme-pill button:not(.active):hover {
-  color: #111;
+  color: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -1950,7 +1950,7 @@ body.page-enter {
   }
   .theme-pill button.active {
     background: #e5e5e5;
-    color: #111111;
+    color: #ffffff;
   }
   .theme-pill button:not(.active):hover {
     color: #ffffff;
@@ -2097,7 +2097,7 @@ border-color: #2a2a2a;
     background: #1a1a1a;
 }
 body[data-theme="dark"] .article-toc li a {
-color: #bbb;
+color: #ffffff;
 }
 body[data-theme="dark"] .article-toc li a:hover {
 background-color: #2a2a2a;
@@ -2110,11 +2110,11 @@ background: #1a1a1a;
 }
 body[data-theme="dark"] .notes-expand-btn:hover {
 background: #e5e5e5;
-    color: #111;
+    color: #ffffff;
     border-color: #ffffff;
 }
 body[data-theme="dark"] .section-more {
-color: #bbb;
+color: #ffffff;
 }
 body[data-theme="dark"] .section-more:hover {
 color: #ffffff;
@@ -2128,7 +2128,7 @@ color: #fff;
 }
 body[data-theme="dark"] .theme-pill button.active {
 background: #e5e5e5;
-    color: #111111;
+    color: #ffffff;
 }
 body[data-theme="dark"] .theme-pill button:not(.active):hover {
 color: #ffffff;
@@ -2225,7 +2225,7 @@ body[data-theme="dark"] .daily-reading {
 body[data-theme="dark"] .icon-button {
   background: #1a1a1a;
   border-color: #2a2a2a;
-  color: #bbb;
+  color: #ffffff;
 }
 body[data-theme="dark"] .icon-button:hover {
   border-color: #3a3a3a;
@@ -2248,7 +2248,7 @@ body[data-theme="dark"] .primary-button:hover {
 body[data-theme="dark"] .type-badge {
   background: #2a2a2a;
   border-color: #3a3a3a;
-  color: #bbb;
+  color: #ffffff;
 }
 
 /* 阅读更多链接 */
@@ -2268,7 +2268,7 @@ body[data-theme="dark"] .empty-daily {
 }
 body[data-theme="dark"] .empty-icon {
   background: #1a1a1a;
-  color: #777;
+  color: #ffffff;
 }
 
 /* 相关文章面板 */
@@ -2322,7 +2322,7 @@ body[data-theme="dark"] .admin-table tr:hover td {
 body[data-theme="dark"] .admin-table .tag-badge {
   background: #2a2a2a;
   border-color: #3a3a3a;
-  color: #bbb;
+  color: #ffffff;
 }
 body[data-theme="dark"] .admin-table .actions button {
   background: #1a1a1a;
