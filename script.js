@@ -1,58 +1,3 @@
-/* ===== 页面切换过渡动画 ===== */
-(function () {
-  const body = document.body;
-
-  function playEnter() {
-    body.classList.add('page-transition', 'page-enter');
-    // 延时 50ms 确保浏览器先渲染 opacity:0 的初始帧
-    setTimeout(() => {
-      body.classList.remove('page-enter');
-    }, 50);
-    // 动画结束后移除 transition 类，避免干扰后续样式变化
-    setTimeout(() => {
-      body.classList.remove('page-transition');
-    }, 700);
-  }
-
-  playEnter();
-
-  // 浏览器返回/前进（从 bfcache 恢复）时重新入场
-  window.addEventListener('pageshow', (e) => {
-    if (e.persisted) {
-      body.classList.remove('page-exit');
-      playEnter();
-    }
-  });
-
-  // 拦截同域链接点击，播放退场后跳转
-  document.addEventListener('click', (e) => {
-    const link = e.target.closest('a');
-    if (!link) return;
-
-    const href = link.getAttribute('href');
-    if (!href) return;
-
-    // 跳过外部链接、锚点、mailto、tel、下载
-    if (
-      href.startsWith('http') ||
-      href.startsWith('#') ||
-      href.startsWith('mailto:') ||
-      href.startsWith('tel:') ||
-      link.hasAttribute('download')
-    ) return;
-
-    // 跳过新标签页/新窗口打开
-    if (e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) return;
-    if (link.target === '_blank') return;
-
-    e.preventDefault();
-    body.classList.add('page-transition', 'page-exit');
-    setTimeout(() => {
-      window.location.href = href;
-    }, 600);
-  });
-})();
-
 const posts = [
   {
     id: '1',
@@ -869,7 +814,7 @@ function handleShare() {
   if (!shareButton) return;
   shareButton.addEventListener('click', () => {
     const shareData = {
-      title: document.getElementById('articleTitle')?.textContent || 'JUNNYOfficial Blog',
+      title: document.getElementById('articleTitle')?.textContent || 'zhilinOfficial Blog',
       text: '分享一篇极简设计与阅读风格的文章。',
       url: window.location.href
     };
@@ -941,7 +886,7 @@ function renderArticle() {
   if (readCountEl) {
     (async () => {
       try {
-        const ns = 'junny-blog-reads';
+        const ns = 'zhilin-blog-reads';
         const key = `article-${article.id}`;
         const res = await fetch(`https://api.countapi.xyz/hit/${ns}/${key}`).then(r => r.json());
         readCountEl.textContent = `阅读量 ${res.value}`;
@@ -1181,7 +1126,7 @@ function renderNotes() {
   (async function () {
     try {
       const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-      const ns = 'junny-blog-visitors';
+      const ns = 'zhilin-blog-visitors';
 
       let totalRes, todayRes;
 

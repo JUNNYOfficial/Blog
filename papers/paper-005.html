@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <title>胶质母细胞瘤恶性细胞群落空间结构 · JUNNYOfficial Blog</title>
+  <title>胶质母细胞瘤恶性细胞群落空间结构 · zhilinOfficial Blog</title>
   <meta name="description" content="胶质母细胞瘤恶性细胞群落空间结构" />
-  <link rel="stylesheet" href="../styles.css?v=39" />
+  <link rel="stylesheet" href="../styles.css?v=40" />
   <style>
     .article-body h4 { font-size: 1.15rem; font-weight: 600; margin: 28px 0 14px; color: #111; }
     .article-body h5 { font-size: 1rem; font-weight: 600; margin: 20px 0 10px; color: #333; }
@@ -89,7 +89,7 @@
     </main>
 
     <footer class="site-footer article-footer">
-      <p>论文笔记 · JUNNYOfficial</p>
+      <p>论文笔记 · zhilinOfficial</p>
     </footer>
   </div>
   <script>
@@ -101,7 +101,7 @@
         toc.innerHTML = '<p class="eyebrow">目录</p><ul>' +
           Array.from(headings).map((h, i) => {
             h.id = 'toc-' + i;
-            return '<li><a href="#toc-' + i + '">' + h.textContent + '</a></li>';
+            return '<li><a href="#toc-' + i + '">' + (i + 1) + '. ' + h.textContent + '</a></li>';
           }).join('') +
           '</ul>';
       }
@@ -126,5 +126,7 @@
       });
     })();
   </script>
+  <script src="../page-transition.js?v=40"></script>
+
 </body>
 </html>

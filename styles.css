@@ -1396,6 +1396,49 @@ body.page-enter {
   transform: translateY(24px) scale(0.97);
 }
 
+/* 页面切换遮罩 */
+.page-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s ease;
+}
+
+.page-transition-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.transition-mark {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #111111;
+  letter-spacing: 0.04em;
+}
+
+@media (prefers-color-scheme: dark) {
+  .page-transition-overlay {
+    background: #111111;
+  }
+  .transition-mark {
+    color: #e5e5e5;
+  }
+}
+
+body[data-theme="dark"] .page-transition-overlay {
+  background: #111111;
+}
+
+body[data-theme="dark"] .transition-mark {
+  color: #e5e5e5;
+}
+
 /* 内容块 stagger 入场 */
 @keyframes fadeUp {
   from {
@@ -1847,7 +1890,7 @@ body.page-enter {
   display: block;
   padding: 6px 10px;
   border-radius: 10px;
-  color: #ffffff;
+  color: #111111;
   font-size: 0.92rem;
   text-decoration: none;
   transition: background-color 0.15s ease, color 0.15s ease;
@@ -1855,7 +1898,7 @@ body.page-enter {
 
 .article-toc li a:hover {
   background-color: #f0f0f0;
-  color: #ffffff;
+  color: #111111;
 }
 
 @media (prefers-color-scheme: dark) {

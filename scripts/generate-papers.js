@@ -92,7 +92,7 @@ async function main() {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <title>${escapeHtml(cleanTitle)} · JUNNYOfficial Blog</title>
+  <title>${escapeHtml(cleanTitle)} · zhilinOfficial Blog</title>
   <meta name="description" content="${escapeHtml(cleanTitle)}" />
   <link rel="stylesheet" href="../styles.css?v=3" />
 </head>
@@ -117,7 +117,7 @@ async function main() {
     </main>
 
     <footer class="site-footer article-footer">
-      <p>论文笔记 · JUNNYOfficial</p>
+      <p>论文笔记 · zhilinOfficial</p>
     </footer>
   </div>
 </body>
