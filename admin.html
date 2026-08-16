@@ -4,6 +4,9 @@
   <meta name="robots" content="noindex, nofollow" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta http-equiv="Referrer-Policy" content="no-referrer" />
+  <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()" />
   <title>管理后台 · zhilinOfficial Blog</title>
   <style>
     /* 管理后台专用样式 */
@@ -428,7 +431,7 @@
       }
     }
   </style>
-  <link rel="stylesheet" href="styles.css?v=43" />
+  <link rel="stylesheet" href="styles.css?v=45" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
 </head>
@@ -456,7 +459,6 @@
 
       <div class="admin-tabs">
         <button class="admin-tab is-active" onclick="switchTab('articles')" data-tab="articles">文章管理</button>
-        <button class="admin-tab" onclick="switchTab('papers')" data-tab="papers">论文管理</button>
         <button class="admin-tab" onclick="switchTab('sync')" data-tab="sync">手机同步</button>
         <button class="admin-tab" onclick="switchTab('settings')" data-tab="settings">设置</button>
       </div>
@@ -471,10 +473,6 @@
           <div class="stat-card">
             <div class="stat-number" id="statLocal">0</div>
             <div class="stat-label">本地文章</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number" id="statFeishu">0</div>
-            <div class="stat-label">飞书论文</div>
           </div>
           <div class="stat-card">
             <div class="stat-number" id="statDaily">0</div>
@@ -507,24 +505,6 @@
             </tr>
           </thead>
           <tbody id="articlesTableBody"></tbody>
-        </table>
-      </div>
-
-      <!-- 论文管理面板 -->
-      <div id="panel-papers" class="admin-panel">
-        <p style="color:#8f8f8f;margin-bottom:20px;">飞书论文通过脚本自动同步，此处仅支持查看与编辑摘要。</p>
-        <input type="search" class="search-box" id="paperSearch" placeholder="搜索论文标题..." oninput="filterPapers(this.value)" />
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>标题</th>
-              <th>来源</th>
-              <th>日期</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody id="papersTableBody"></tbody>
         </table>
       </div>
 
@@ -601,7 +581,8 @@
             <div class="admin-form-group">
               <input type="password" id="confirmPassword" placeholder="确认新密码" />
             </div>
-            <button class="primary" style="padding:10px 18px;border-radius:10px;border:none;background:#111;color:#fff;cursor:pointer;" onclick="changePassword()">保存密码</button>
+            <button class="primary" style="padding:10px 18px;border-radius:10px;border:none;background:#111;color:#fff;cursor:pointer;" onclick="changePassword()">生成新密码哈希</button>
+            <p style="margin-top:8px;font-size:0.82rem;color:#888;">输入两次新密码 → 下方会显示 SHA-256 哈希。复制它、替换 <code style="background:#f4f4f4;padding:1px 4px;border-radius:3px;">admin.js</code> 里的 <code style="background:#f4f4f4;padding:1px 4px;border-radius:3px;">PASSWORD_HASH</code> 常量、部署新版本即可生效。密码本身不会保存到任何地方。</p>
             <p id="passwordMsg" style="margin-top:12px;font-size:0.9rem;"></p>
           </div>
         </div>
@@ -709,8 +690,8 @@
     </div>
   </div>
 
-  <script src="script.js?v=43"></script>
-  <script src="admin.js?v=41"></script>
+  <script src="script.js?v=44"></script>
+  <script src="admin.js?v=45"></script>
   <script src="page-transition.js?v=43"></script>
 
 </body>

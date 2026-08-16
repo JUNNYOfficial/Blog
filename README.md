@@ -36,7 +36,7 @@
 | 关于 | `about.html` | 研究理念与个人介绍 |
 | 资料库 | `library.html` | 研究博客、工具、模板与外部链接 |
 | 文献数据库 | `literature.html` | 按主题分类整理的文献资料入口 |
-| 飞书论文 | `papers/paper-xxx.html` | 从飞书文档自动同步生成的独立论文页面 |
+| 论文详情 | `papers/paper-xxx.html` | 独立论文笔记页面 |
 
 ---
 
@@ -81,13 +81,9 @@ python3 -m http.server 8000
 ```
 Blog/
 ├── .github/workflows/
-│   ├── pages.yml                 # GitHub Pages 自动部署
-│   └── sync-feishu.yml           # 飞书文档自动同步
-├── scripts/
-│   ├── sync-feishu.js            # 飞书 API 同步脚本
-│   └── generate-papers.js        # 本地生成论文页面
+│   └── pages.yml                 # GitHub Pages 自动部署
 ├── papers/
-│   ├── paper-001.html            # 飞书同步论文页面
+│   ├── paper-001.html            # 论文笔记页面
 │   ├── paper-002.html
 │   └── ...
 ├── index.html                    # 首页
@@ -100,40 +96,17 @@ Blog/
 
 ├── styles.css                    # 全局样式表
 ├── script.js                     # 数据与渲染逻辑
-├── posts.json                    # 动态文章数据（含飞书同步论文）
+├── posts.json                    # 动态文章数据（含论文笔记）
 └── README.md                     # 本文件
-```
-
----
-
-## 飞书文档自动同步
-
-博客支持从飞书云文档自动同步论文笔记：
-
-1. 在飞书文档中按 `## 二级标题` 写分类、`### 三级标题` 写每篇论文
-2. 每次 `push` 到 `main` 分支时，GitHub Actions 会自动运行 [scripts/sync-feishu.js](scripts/sync-feishu.js)
-3. 也可以在仓库 **Actions** 标签页手动触发「Sync Feishu Papers」工作流
-4. 同步后的论文会生成 `papers/paper-xxx.html`，并自动更新 `posts.json`，首页与论文库会立即显示
-
-**需要配置的环境变量**（GitHub Secrets）：
-- `FEISHU_APP_ID` — 飞书自建应用 App ID
-- `FEISHU_APP_SECRET` — 飞书自建应用 App Secret
-- `FEISHU_DOC_URL` — 飞书文档链接，支持 **docx 直链**（`/docx/`）或 **知识库 Wiki 链接**（`/wiki/`）；
-  如需同步多份文档，用英文逗号、分号或换行分隔即可（同步后会合并到同一论文库）
-
-示例：
-```
-FEISHU_DOC_URL = https://xxx.feishu.cn/wiki/AAAA,https://xxx.feishu.cn/docx/BBBB
 ```
 
 ---
 
 ## 维护
 
-- 文章基础数据在 `script.js` 的 `posts` 数组中；运行时还会从 `posts.json` 加载并合并飞书同步论文
+- 文章基础数据在 `script.js` 的 `posts` 数组中；运行时还会从 `posts.json` 加载论文笔记
 - 新增页面时请保持统一的 `page-shell` + `topbar` + `main` + `footer` 结构
 - 样式修改请在 `styles.css` 中完成，确保不影响其他页面
-- 论文库数据由飞书同步自动生成，请勿手动修改 `posts.json` 中的 `f1`、`f2`…条目
 
 ---
 

@@ -3,10 +3,10 @@
 const AUTH_KEY = 'blog-admin-auth';
 const POSTS_KEY = 'blog-admin-posts';
 // 不再以明文存储默认密码，只存 SHA-256 哈希（源码可见也无法直接反推出密码）
+// 若要改密码：换一个新的 → sha256(新密码) → 把哈希贴到这里，再部署。
 const PASSWORD_HASH = 'daefefbf5f240d48b27d11fcb011110059c116f68b8351adebd4cab92b2f38e4';
 
 let adminPosts = [];
-let feishuPosts = [];
 let editingId = null;
 
 // 登录态放 sessionStorage：关掉浏览器标签页即失效，避免长期驻留
@@ -71,18 +71,12 @@ function loadData() {
     adminPosts = JSON.parse(JSON.stringify(posts));
   }
 
-  // 分离本地文章和飞书论文
-  const local = adminPosts.filter(p => !String(p.id).startsWith('f'));
-  feishuPosts = adminPosts.filter(p => String(p.id).startsWith('f'));
-
   // 更新统计
   document.getElementById('statTotal').textContent = adminPosts.length;
-  document.getElementById('statLocal').textContent = local.length;
-  document.getElementById('statFeishu').textContent = feishuPosts.length;
-  document.getElementById('statDaily').textContent = local.filter(p => p.tag === '日常').length;
+  document.getElementById('statLocal').textContent = adminPosts.length;
+  document.getElementById('statDaily').textContent = adminPosts.filter(p => p.tag === '日常').length;
 
-  renderArticlesTable(local);
-  renderPapersTable(feishuPosts);
+  renderArticlesTable(adminPosts);
 }
 
 // 渲染文章列表
@@ -104,8 +98,8 @@ function renderArticlesTable(list) {
       <td>${escapeHtml(post.date || '')}</td>
       <td>${escapeHtml(post.source || '本地')}</td>
       <td class="actions">
-        <button onclick="openEditor('${post.id}')">编辑</button>
-        <button class="danger" onclick="deleteArticle('${post.id}')">删除</button>
+        <button onclick="openEditor('${escapeJsString(post.id)}')">编辑</button>
+        <button class="danger" onclick="deleteArticle('${escapeJsString(post.id)}')">删除</button>
       </td>
     </tr>
   `).join('');
@@ -205,40 +199,11 @@ function batchChangeTag() {
   loadData();
 }
 
-// 渲染论文列表
-function renderPapersTable(list) {
-  const tbody = document.getElementById('papersTableBody');
-  if (!list.length) {
-    tbody.innerHTML = '<tr><td colspan="5" class="empty-state">暂无论文</td></tr>';
-    return;
-  }
-
-  tbody.innerHTML = list.map(post => `
-    <tr>
-      <td>${escapeHtml(String(post.id))}</td>
-      <td>${escapeHtml(post.title)}</td>
-      <td>${escapeHtml(post.source || '')}</td>
-      <td>${escapeHtml(post.date || '')}</td>
-      <td class="actions">
-        <button onclick="openEditor('${post.id}')">编辑摘要</button>
-      </td>
-    </tr>
-  `).join('');
-}
-
 // 搜索过滤文章
 function filterArticles(query) {
   const q = query.toLowerCase().trim();
-  const local = adminPosts.filter(p => !String(p.id).startsWith('f'));
-  const filtered = q ? local.filter(p => p.title.toLowerCase().includes(q)) : local;
+  const filtered = q ? adminPosts.filter(p => p.title.toLowerCase().includes(q)) : adminPosts;
   renderArticlesTable(filtered);
-}
-
-// 搜索过滤论文
-function filterPapers(query) {
-  const q = query.toLowerCase().trim();
-  const filtered = q ? feishuPosts.filter(p => p.title.toLowerCase().includes(q)) : feishuPosts;
-  renderPapersTable(filtered);
 }
 
 // 切换标签页
@@ -388,7 +353,9 @@ function closePreview() {
 }
 
 // 修改密码
-function changePassword() {
+// 新流程：用户输入新密码 → 实时计算 SHA-256 → 用户手动把哈希贴到源码里的 PASSWORD_HASH 常量。
+// 这样密码本身永远不进 localStorage / sessionStorage / 网络 / 任何持久化层。
+async function changePassword() {
   const newPw = document.getElementById('newPassword').value;
   const confirmPw = document.getElementById('confirmPassword').value;
   const msg = document.getElementById('passwordMsg');
@@ -404,9 +371,10 @@ function changePassword() {
     return;
   }
 
-  localStorage.setItem(PASSWORD_KEY, newPw);
-  msg.textContent = '密码已保存';
-  msg.style.color = '#2a2';
+  const hash = await sha256Hex(newPw);
+  msg.innerHTML = `新密码的 SHA-256 哈希：<br><code style="display:block;margin-top:6px;padding:8px;background:#f4f4f4;border-radius:6px;word-break:break-all;font-size:0.78rem;">${hash}</code><br>复制它，替换 <code>admin.js</code> 顶部的 <code>PASSWORD_HASH</code> 常量，然后部署新版本。`;
+  msg.style.color = '#111';
+
   document.getElementById('newPassword').value = '';
   document.getElementById('confirmPassword').value = '';
 }
@@ -433,27 +401,19 @@ function copyExport() {
 // 生成完整的 script.js 代码
 async function generateScriptJs() {
   try {
-    const response = await fetch('script.js?v=23');
+    // 不依赖硬编码版本号：强制 cache-bust 拿最新文件，避免 script.js 升到 v=44+ 后还能读到旧版
+    const response = await fetch('script.js?t=' + Date.now(), { cache: 'no-store' });
     let code = await response.text();
 
     // 生成新的 posts 数组代码
-    const localPosts = adminPosts.filter(p => !String(p.id).startsWith('f'));
-    const feishu = adminPosts.filter(p => String(p.id).startsWith('f'));
+    const localPosts = adminPosts;
 
     let postsCode = 'const posts = [\n';
 
-    // 本地文章
     localPosts.forEach((post, i) => {
       const bodyLines = (post.body || []).map(b => `      '${b.replace(/'/g, "\\'")}'`).join(',\n');
       const sourceLine = post.source ? `\n    source: '${post.source.replace(/'/g, "\\'")}',` : '';
-      postsCode += `  {\n    id: '${post.id}',\n    title: '${post.title.replace(/'/g, "\\'")}',\n    summary: '${(post.summary || '').replace(/'/g, "\\'")}',\n    tag: '${post.tag || '日常'}',\n    date: '${post.date || ''}',\n    reading: '${post.reading || ''}',${sourceLine}\n    body: [\n${bodyLines}\n    ]\n  }${i < localPosts.length - 1 || feishu.length ? ',' : ''}\n`;
-    });
-
-    // 飞书论文
-    feishu.forEach((post, i) => {
-      const bodyLines = (post.body || []).map(b => `      "${b.replace(/"/g, '\\"')}"`).join(',\n');
-      const sourceLine = post.source ? `\n    "source": "${post.source.replace(/"/g, '\\"')}",` : '';
-      postsCode += `  {\n    "id": "${post.id}",\n    "title": "${post.title.replace(/"/g, '\\"')}",\n    "summary": "${(post.summary || '').replace(/"/g, '\\"')}",\n    "tag": "${post.tag || '论文'}",${sourceLine}\n    "date": "${post.date || ''}",\n    "reading": "${post.reading || ''}",\n    "body": [\n${bodyLines}\n    ]\n  }${i < feishu.length - 1 ? ',' : ''}\n`;
+      postsCode += `  {\n    id: '${post.id}',\n    title: '${post.title.replace(/'/g, "\\'")}',\n    summary: '${(post.summary || '').replace(/'/g, "\\'")}',\n    tag: '${post.tag || '日常'}',\n    date: '${post.date || ''}',\n    reading: '${post.reading || ''}',${sourceLine}\n    body: [\n${bodyLines}\n    ]\n  }${i < localPosts.length - 1 ? ',' : ''}\n`;
     });
 
     postsCode += '];\n';
@@ -474,12 +434,25 @@ async function generateScriptJs() {
 
 // 工具函数
 function escapeHtml(str) {
-  if (!str) return '';
+  if (str === undefined || str === null) return '';
   return String(str)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;'); // 单引号转义：防 onclick="openEditor('${id}')" 这类 JS 属性注入
+}
+
+// 用于拼接进 JS 字符串字面量（onclick=""）的属性值
+function escapeJsString(str) {
+  if (str === undefined || str === null) return '';
+  return String(str)
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/"/g, '\\"')
+    .replace(/</g, '\\x3c')
+    .replace(/>/g, '\\x3e')
+    .replace(/\r?\n/g, '\\n');
 }
 
 function formatToday() {
@@ -625,7 +598,9 @@ function saveGitHubToken() {
 }
 
 async function publishToGitHub() {
-  const token = sessionStorage.getItem(GITHUB_TOKEN_KEY) || localStorage.getItem(GITHUB_TOKEN_KEY);
+  // 只读 sessionStorage 中的 Token，不再回退到 localStorage
+  // （v=43 之前用过的旧 Token 一律作废，需用户在「设置」里重新粘贴一次）
+  const token = sessionStorage.getItem(GITHUB_TOKEN_KEY);
   if (!token) {
     alert('请先保存 GitHub Token（在「设置」标签页中配置）');
     switchTab('settings');
@@ -710,11 +685,20 @@ async function publishToGitHub() {
 document.addEventListener('DOMContentLoaded', () => {
   init();
 
-  // 加载已保存的 GitHub Token
-  const savedToken = localStorage.getItem(GITHUB_TOKEN_KEY);
+  // 加载已保存的 GitHub Token（兼容 v=43 之前残留的 localStorage Token，仅用于回填输入框）
+  const savedToken = sessionStorage.getItem(GITHUB_TOKEN_KEY) || localStorage.getItem(GITHUB_TOKEN_KEY);
   const tokenInput = document.getElementById('githubToken');
   if (savedToken && tokenInput) {
     tokenInput.value = savedToken;
+  }
+
+  // 如果发现旧版本在 localStorage 里留过 Token，显示提示让用户知道需要重新保存
+  if (localStorage.getItem(GITHUB_TOKEN_KEY) && !sessionStorage.getItem(GITHUB_TOKEN_KEY)) {
+    const tokenMsg = document.getElementById('tokenMsg');
+    if (tokenMsg) {
+      tokenMsg.textContent = ' 检测到旧版本的 Token，请重新保存一次以迁移到本次会话';
+      tokenMsg.style.color = '#991b1b';
+    }
   }
 
   // 加载已保存的仓库配置

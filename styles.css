@@ -1683,37 +1683,47 @@ body[data-theme="dark"] .transition-cursor {
 
 /* ===== 论文库搜索 ===== */
 .search-bar {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 12px;
   padding: 16px 24px;
   margin-bottom: 24px;
 }
 
 .search-bar .search-icon {
-  width: 20px;
-  height: 20px;
-  color: #8f8f8f;
-  flex-shrink: 0;
+  position: absolute;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: #8a8a8a;
+  pointer-events: none;
 }
 
 .search-bar input[type="search"] {
   flex: 1;
+  width: 100%;
   border: none;
   background: transparent;
   font-size: 1rem;
   color: #111;
   outline: none;
-  padding: 4px 0;
+  padding: 6px 0 6px 52px; /* 左侧 52px 留给图标 + 视觉间距，避免与 placeholder "搜" 字混淆 */
 }
 
 .search-bar input[type="search"]::placeholder {
-  color: #aaa;
+  color: #b5b5b5;
 }
 
+/* 隐藏 webkit 默认 ✕ 按钮，并让自定义清除按钮紧贴右边缘 */
 .search-bar input[type="search"]::-webkit-search-decoration,
-.search-bar input[type="search"]::-webkit-search-cancel-button {
+.search-bar input[type="search"]::-webkit-search-cancel-button,
+.search-bar input[type="search"]::-webkit-search-results-button,
+.search-bar input[type="search"]::-webkit-search-results-decoration {
   display: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 @media (max-width: 600px) {
@@ -1722,6 +1732,12 @@ body[data-theme="dark"] .transition-cursor {
   }
   .search-bar input[type="search"] {
     font-size: 0.95rem;
+    padding-left: 44px;
+  }
+  .search-bar .search-icon {
+    left: 16px;
+    width: 16px;
+    height: 16px;
   }
 }
 
@@ -2539,33 +2555,6 @@ body[data-theme="dark"] .article-meta {
 }
 body[data-theme="dark"] .wiki-content ul {
   color: #ffffff;
-}
-
-/* ===== 图片灯箱 ===== */
-.lightbox-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.92);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-  cursor: zoom-out;
-  padding: 28px;
-}
-.lightbox-overlay.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-.lightbox-overlay img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  border-radius: 10px;
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
 }
 
 /* ===== About 站点数据 ===== */

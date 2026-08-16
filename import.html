@@ -4,9 +4,11 @@
   <meta name="robots" content="noindex, nofollow" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta http-equiv="Referrer-Policy" content="no-referrer" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <title>导入数据 · zhilinOfficial Blog</title>
-  <link rel="stylesheet" href="styles.css?v=43" />
+  <link rel="stylesheet" href="styles.css?v=45" />
   <style>
     .import-container {
       max-width: 520px;
@@ -262,14 +264,10 @@
 
         localStorage.setItem('blog-admin-posts', JSON.stringify(data));
 
-        const localCount = data.filter(p => !String(p.id).startsWith('f')).length;
-        const feishuCount = data.filter(p => String(p.id).startsWith('f')).length;
-
         resultEl.className = 'import-result success';
         resultEl.innerHTML = `
           <div> 导入成功</div>
-          <div class="detail">共 ${data.length} 篇文章已保存到本设备
-          （本地文章 ${localCount} 篇 · 飞书论文 ${feishuCount} 篇）</div>
+          <div class="detail">共 ${data.length} 篇文章已保存到本设备</div>
         `;
         navEl.style.display = 'flex';
       } catch (e) {

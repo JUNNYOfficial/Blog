@@ -605,17 +605,28 @@ async function loadRemotePosts() {
   }
 }
 
+// HTML 转义：防止文章数据通过 innerHTML 注入
+function escapeHtml(str) {
+  if (str === undefined || str === null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function createArticleCard(post) {
   const card = document.createElement('a');
   card.className = 'article-card';
   card.href = getPostUrl(post);
   card.innerHTML = `
-    <p class="eyebrow">${post.tag}</p>
-    <h2 class="article-card-title">${post.title}</h2>
-    <p class="article-card-summary">${post.summary}</p>
+    <p class="eyebrow">${escapeHtml(post.tag)}</p>
+    <h2 class="article-card-title">${escapeHtml(post.title)}</h2>
+    <p class="article-card-summary">${escapeHtml(post.summary)}</p>
     <div class="article-card-footer">
-      <span>${post.date}</span>
-      <span>${post.reading}</span>
+      <span>${escapeHtml(post.date)}</span>
+      <span>${escapeHtml(post.reading)}</span>
     </div>
   `;
   return card;
@@ -698,8 +709,8 @@ function renderDaily() {
     card.className = 'daily-card';
     card.href = `article.html?id=${post.id}`;
     card.innerHTML = `
-      <h4>${post.title}</h4>
-      <p>${post.summary || ''}</p>
+      <h4>${escapeHtml(post.title)}</h4>
+      <p>${escapeHtml(post.summary)}</p>
     `;
     grid.appendChild(card);
   });
@@ -746,15 +757,15 @@ function renderDailyPosts() {
     card.innerHTML = `
       <div class="daily-post-header">
         <div class="daily-post-meta">
-          <span class="daily-date">${post.date}</span>
-          <span class="daily-reading">${post.reading}</span>
+          <span class="daily-date">${escapeHtml(post.date)}</span>
+          <span class="daily-reading">${escapeHtml(post.reading)}</span>
         </div>
         <div class="daily-post-type">
           <span class="type-badge">日常</span>
         </div>
       </div>
-      <h3 class="daily-post-title">${post.title}</h3>
-      <p class="daily-post-summary">${post.summary}</p>
+      <h3 class="daily-post-title">${escapeHtml(post.title)}</h3>
+      <p class="daily-post-summary">${escapeHtml(post.summary)}</p>
       <div class="daily-post-actions">
         <a href="${getPostUrl(post)}" class="read-more-link">
           <span>继续阅读</span>
@@ -773,7 +784,7 @@ function renderHome() {
   const notesGrid = document.getElementById('homeNotesGrid');
   const dailyGrid = document.getElementById('homeDailyGrid');
 
-  // 论文笔记：取最新的2篇飞书论文
+  // 论文笔记：取最新的2篇论文
   if (notesGrid) {
     const papers = posts.filter(p => p.id.startsWith('f')).slice(-2).reverse();
     notesGrid.innerHTML = '';
@@ -782,9 +793,9 @@ function renderHome() {
       card.className = 'note-card';
       card.href = getPostUrl(post);
       card.innerHTML = `
-        <p class="eyebrow">${post.source || '论文笔记'}</p>
-        <h4>${post.title}</h4>
-        <p>${post.summary || ''}</p>
+        <p class="eyebrow">${escapeHtml(post.source) || '论文笔记'}</p>
+        <h4>${escapeHtml(post.title)}</h4>
+        <p>${escapeHtml(post.summary)}</p>
       `;
       notesGrid.appendChild(card);
     });
@@ -799,8 +810,8 @@ function renderHome() {
       card.className = 'daily-card';
       card.href = `article.html?id=${post.id}`;
       card.innerHTML = `
-        <h4>${post.title}</h4>
-        <p>${post.summary || ''}</p>
+        <h4>${escapeHtml(post.title)}</h4>
+        <p>${escapeHtml(post.summary)}</p>
       `;
       dailyGrid.appendChild(card);
     });
@@ -856,9 +867,9 @@ function renderArticle() {
       const idx = tocHeadings.length;
       const id = `sec-${idx}`;
       tocHeadings.push({ id, text: t });
-      return `<h4 class="article-heading" id="${id}">${paragraph}</h4>`;
+      return `<h4 class="article-heading" id="${id}">${escapeHtml(paragraph)}</h4>`;
     }
-    return `<p>${paragraph}</p>`;
+    return `<p>${escapeHtml(paragraph)}</p>`;
   }).join('');
 
   // 填充目录（复用论文页 .article-toc 样式；无小节则隐藏空卡片）
@@ -866,7 +877,7 @@ function renderArticle() {
   if (tocEl) {
     if (tocHeadings.length >= 2) {
       tocEl.innerHTML = '<p class="eyebrow">目录</p><ul>' +
-        tocHeadings.map(h => `<li><a href="#${h.id}">${h.text}</a></li>`).join('') +
+        tocHeadings.map(h => `<li><a href="#${h.id}">${escapeHtml(h.text)}</a></li>`).join('') +
         '</ul>';
     } else {
       tocEl.style.display = 'none';
@@ -891,8 +902,8 @@ function renderArticle() {
       item.className = 'related-item';
       item.href = getPostUrl(post);
       item.innerHTML = `
-        <h4 class="related-item-title">${post.title}</h4>
-        <p class="related-item-meta">${post.tag} · ${post.date}</p>
+        <h4 class="related-item-title">${escapeHtml(post.title)}</h4>
+        <p class="related-item-meta">${escapeHtml(post.tag)} · ${escapeHtml(post.date)}</p>
       `;
       related.appendChild(item);
     });
@@ -908,11 +919,11 @@ function renderArticle() {
       <div class="article-nav">
         ${prevPost ? `<a href="${getPostUrl(prevPost)}">
           <span class="article-nav-label">← 上一篇</span>
-          <span class="article-nav-title">${prevPost.title}</span>
+          <span class="article-nav-title">${escapeHtml(prevPost.title)}</span>
         </a>` : '<span></span>'}
         ${nextPost ? `<a href="${getPostUrl(nextPost)}" class="article-nav-next">
           <span class="article-nav-label">下一篇 →</span>
-          <span class="article-nav-title">${nextPost.title}</span>
+          <span class="article-nav-title">${escapeHtml(nextPost.title)}</span>
         </a>` : '<span></span>'}
       </div>
     `;
@@ -998,7 +1009,7 @@ function renderNotes() {
       header.className = 'notes-category-header';
       header.innerHTML = `
         <p class="eyebrow">${groups[cat].length} 篇</p>
-        <h3>${cat}</h3>
+        <h3>${escapeHtml(cat)}</h3>
       `;
       section.appendChild(header);
 
@@ -1015,11 +1026,11 @@ function renderNotes() {
         card.className = 'note-card';
         card.href = getPostUrl(post);
         card.innerHTML = `
-          <h4>${post.title}</h4>
-          <p>${post.summary || ''}</p>
+          <h4>${escapeHtml(post.title)}</h4>
+          <p>${escapeHtml(post.summary)}</p>
           <div class="note-card-footer">
-            <span>${post.date}</span>
-            <span>${post.reading}</span>
+            <span>${escapeHtml(post.date)}</span>
+            <span>${escapeHtml(post.reading)}</span>
           </div>
         `;
         grid.appendChild(card);
@@ -1038,11 +1049,11 @@ function renderNotes() {
           card.className = 'note-card';
           card.href = getPostUrl(post);
           card.innerHTML = `
-            <h4>${post.title}</h4>
-            <p>${post.summary || ''}</p>
+            <h4>${escapeHtml(post.title)}</h4>
+            <p>${escapeHtml(post.summary)}</p>
             <div class="note-card-footer">
-              <span>${post.date}</span>
-              <span>${post.reading}</span>
+              <span>${escapeHtml(post.date)}</span>
+              <span>${escapeHtml(post.reading)}</span>
             </div>
           `;
           expandGrid.appendChild(card);
@@ -1203,27 +1214,28 @@ function renderNotes() {
   }
 })();
 
-/* ===== 图片点击放大 ===== */
+/* ===== 图片点击放大（统一灯箱，覆盖 .article-body 及其他内容区图片）===== */
 (function () {
   const overlay = document.createElement('div');
   overlay.className = 'img-overlay';
   overlay.setAttribute('aria-hidden', 'true');
   overlay.innerHTML = '<img alt="放大查看" />';
   document.body.appendChild(overlay);
-
-  overlay.addEventListener('click', () => overlay.classList.remove('active'));
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') overlay.classList.remove('active');
-  });
-
+  const lbImg = overlay.querySelector('img');
+  const close = () => { overlay.classList.remove('active'); overlay.setAttribute('aria-hidden', 'true'); };
+  overlay.addEventListener('click', close);
   document.addEventListener('click', (e) => {
     const img = e.target.closest('img');
     if (!img) return;
     if (img.classList.contains('brand-mark')) return;
     if (img.closest('.img-overlay')) return;
     if (img.width < 80 && img.height < 80) return;
-    overlay.querySelector('img').src = img.src;
+    lbImg.src = img.currentSrc || img.src;
     overlay.classList.add('active');
+    overlay.setAttribute('aria-hidden', 'false');
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) close();
   });
 })();
 
@@ -1284,29 +1296,6 @@ async function initPage() {
   else if (page === 'about') renderAboutStats();
 }
 initPage();
-
-/* ===== 图片灯箱（点击 .article-body 内图片放大）===== */
-(function () {
-  const overlay = document.createElement('div');
-  overlay.className = 'lightbox-overlay';
-  overlay.setAttribute('aria-hidden', 'true');
-  overlay.innerHTML = '<img alt="放大图片" />';
-  document.body.appendChild(overlay);
-  const lbImg = overlay.querySelector('img');
-  const close = () => { overlay.classList.remove('show'); overlay.setAttribute('aria-hidden', 'true'); };
-  overlay.addEventListener('click', close);
-  document.addEventListener('click', (e) => {
-    const t = e.target;
-    if (t.tagName === 'IMG' && t.closest('.article-body')) {
-      lbImg.src = t.currentSrc || t.src;
-      overlay.classList.add('show');
-      overlay.setAttribute('aria-hidden', 'false');
-    }
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && overlay.classList.contains('show')) close();
-  });
-})();
 
 /* ===== 键盘快捷键（/ 搜索 · ←→ 翻页 · Esc 关灯箱）===== */
 (function () {
