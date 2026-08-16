@@ -2,9 +2,16 @@
 const fs = require('fs');
 const path = require('path');
 
-const FEISHU_APP_ID = 'cli_a961a7a5277bdcc0';
-const FEISHU_APP_SECRET = 'FEOrrzYAxLA9nGinTDpfrb8Z2kABCXpL';
-const DOC_TOKEN = 'BaHed6fcloBlyBxpkYKc4f9onth';
+// 凭据从环境变量读取，禁止硬编码进仓库：
+//   export FEISHU_APP_ID=... FEISHU_APP_SECRET=... FEISHU_DOC_TOKEN=...
+const FEISHU_APP_ID = process.env.FEISHU_APP_ID;
+const FEISHU_APP_SECRET = process.env.FEISHU_APP_SECRET;
+const DOC_TOKEN = process.env.FEISHU_DOC_TOKEN || 'BaHed6fcloBlyBxpkYKc4f9onth';
+
+if (!FEISHU_APP_ID || !FEISHU_APP_SECRET) {
+  console.error('缺少环境变量 FEISHU_APP_ID / FEISHU_APP_SECRET，请先 export 后再运行。');
+  process.exit(1);
+}
 
 async function getToken() {
   const res = await fetch('https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal', {

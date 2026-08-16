@@ -1,11 +1,25 @@
-/* ===== 页面切换过渡：zhilin Thinking…… ===== */
+/* ===== 页面切换过渡：zhilin Thinking… ===== */
 (function () {
   const body = document.body;
 
   const overlay = document.createElement('div');
   overlay.className = 'page-transition-overlay';
   overlay.setAttribute('aria-hidden', 'true');
-  overlay.innerHTML = '<div class="transition-mark">zhilin Thinking……</div>';
+
+  // 每次展示时重新构建字符节点，让打字机动画从头播放
+  function buildMark() {
+    const text = 'zhilin Thinking…';
+    overlay.innerHTML =
+      '<div class="transition-mark">' +
+      text
+        .split('')
+        .map((ch, i) => `<span style="animation-delay:${i * 40}ms">${ch === ' ' ? '&nbsp;' : ch}</span>`)
+        .join('') +
+      '<span class="transition-cursor"></span>' +
+      '</div>';
+  }
+
+  buildMark();
   document.documentElement.appendChild(overlay);
 
   function playEnter() {
@@ -49,6 +63,7 @@
     if (link.target === '_blank') return;
 
     e.preventDefault();
+    buildMark();
     overlay.classList.add('visible');
     body.classList.add('page-transition', 'page-exit');
     setTimeout(() => {

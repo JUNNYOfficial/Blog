@@ -2,146 +2,154 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>zhilinOfficial Blog</title>
-    <link>https://zhilinofficial.github.io/Blog/</link>
+    <link>https://junnyshang.online/</link>
     <description>脑科学笔记 · 日常记录 · 极简设计</description>
     <language>zh-CN</language>
-    <lastBuildDate>Sat, 25 Apr 2026 00:00:00 +0800</lastBuildDate>
-    <atom:link href="https://zhilinofficial.github.io/Blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Sun, 16 Aug 2026 19:26:05 +0800</lastBuildDate>
+    <atom:link href="https://junnyshang.online/feed.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>为什么我的选择看起来总和别人不一样</title>
+      <link>https://junnyshang.online/article.html?id=2</link>
+      <guid>https://junnyshang.online/article.html?id=2</guid>
+      <pubDate>Mon, 27 Apr 2026 00:00:00 +0800</pubDate>
+      <category>日常</category>
+      <description><![CDATA[一、先说明：这不是优越感我必须先澄清一点。 当我下面解释我为何做出和大家不同的选择时，目的不是为了证明我比别人清醒或高级。不同的资源条件、约束边界和目标函数，自然会导出不同的策略。如果一个人手里只有一年份的弹药，他的打法和手握五年储备的人不可能一样。...]]></description>
+    </item>
 
     <item>
       <title>13 岁，第一次打黑客松</title>
-      <link>https://zhilinofficial.github.io/Blog/article.html?id=1</link>
-      <guid>https://zhilinofficial.github.io/Blog/article.html?id=1</guid>
+      <link>https://junnyshang.online/article.html?id=1</link>
+      <guid>https://junnyshang.online/article.html?id=1</guid>
       <pubDate>Sat, 25 Apr 2026 00:00:00 +0800</pubDate>
       <category>日常</category>
-      <description><![CDATA[我第一次听说黑客松，是在一个普通的下午。刷手机的时候看到一条推送：「48 小时，从零到一，做出一个能用的产品。」...]]></description>
+      <description><![CDATA[我第一次听说黑客松，是在一个普通的下午。刷手机的时候看到一条推送：「48 小时，从零到一，做出一个能用的产品。」 我当时连 Git 都不会用。连什么是 API 、SDK 都不知道。 但我说，我去试试。报名的时候，对方问我：「你多大？」 我说十三。 对面沉默了一下。然后说：「好，你来吧。」 我后来才知...]]></description>
     </item>
 
     <item>
       <title>小脑编码时间统计先验知识</title>
-      <link>https://zhilinofficial.github.io/Blog/papers/paper-001.html</link>
-      <guid>https://zhilinofficial.github.io/Blog/papers/paper-001.html</guid>
+      <link>https://junnyshang.online/papers/paper-001.html</link>
+      <guid>https://junnyshang.online/papers/paper-001.html</guid>
       <pubDate>Fri, 24 Apr 2026 00:00:00 +0800</pubDate>
       <category>论文</category>
-      <description><![CDATA[英文标题：Neural circuits encode prior knowledge of temporal statistics...]]></description>
+      <description><![CDATA[英文标题： Neural circuits encode prior knowledge of temporal statistics作者： Julius Koppen, Ilse Klinkhame......]]></description>
     </item>
 
     <item>
       <title>人脑神经肽系统全脑图谱</title>
-      <link>https://zhilinofficial.github.io/Blog/papers/paper-002.html</link>
-      <guid>https://zhilinofficial.github.io/Blog/papers/paper-002.html</guid>
+      <link>https://junnyshang.online/papers/paper-002.html</link>
+      <guid>https://junnyshang.online/papers/paper-002.html</guid>
       <pubDate>Fri, 24 Apr 2026 00:00:00 +0800</pubDate>
       <category>论文</category>
-      <description><![CDATA[英文标题：Organization of neuropeptide systems in the human brain...]]></description>
+      <description><![CDATA[英文标题： Organization of neuropeptide systems in the human brain作者： Eric G. Ceballos, Ahmad Farahani, Z......]]></description>
     </item>
 
     <item>
       <title>干扰素信号驱动关节炎疼痛的持续化</title>
-      <link>https://zhilinofficial.github.io/Blog/papers/paper-003.html</link>
-      <guid>https://zhilinofficial.github.io/Blog/papers/paper-003.html</guid>
+      <link>https://junnyshang.online/papers/paper-003.html</link>
+      <guid>https://junnyshang.online/papers/paper-003.html</guid>
       <pubDate>Fri, 24 Apr 2026 00:00:00 +0800</pubDate>
       <category>论文</category>
-      <description><![CDATA[英文标题：Persistent interferon signaling causes sensory neuron plasticity and pain...]]></description>
+      <description><![CDATA[英文标题： Persistent interferon signaling causes sensory neuron plasticity and pain before and during ar......]]></description>
     </item>
 
     <item>
       <title>星形胶质细胞钙依赖谷氨酸释放</title>
-      <link>https://zhilinofficial.github.io/Blog/papers/paper-004.html</link>
-      <guid>https://zhilinofficial.github.io/Blog/papers/paper-004.html</guid>
+      <link>https://junnyshang.online/papers/paper-004.html</link>
+      <guid>https://junnyshang.online/papers/paper-004.html</guid>
       <pubDate>Fri, 24 Apr 2026 00:00:00 +0800</pubDate>
       <category>论文</category>
-      <description><![CDATA[英文标题：Astrocyte Ca2+-dependent glutamate release...]]></description>
+      <description><![CDATA[英文标题： Astrocyte Ca2+-dependent glutamate release期刊： Nature NeuroscienceDOI： 10.1038/s41593-026-02251......]]></description>
     </item>
 
     <item>
       <title>胶质母细胞瘤恶性细胞群落空间结构</title>
-      <link>https://zhilinofficial.github.io/Blog/papers/paper-005.html</link>
-      <guid>https://zhilinofficial.github.io/Blog/papers/paper-005.html</guid>
+      <link>https://junnyshang.online/papers/paper-005.html</link>
+      <guid>https://junnyshang.online/papers/paper-005.html</guid>
       <pubDate>Fri, 24 Apr 2026 00:00:00 +0800</pubDate>
       <category>论文</category>
-      <description><![CDATA[英文标题：Spatial and single-cell characterization of human glioblastoma tumor microenvironment...]]></description>
+      <description><![CDATA[英文标题： Spatial and single-cell characterization of human glioblastoma tumor microenvironment reveals ......]]></description>
     </item>
 
     <item>
       <title>语言理解中的成分约束词预测</title>
-      <link>https://zhilinofficial.github.io/Blog/papers/paper-006.html</link>
-      <guid>https://zhilinofficial.github.io/Blog/papers/paper-006.html</guid>
+      <link>https://junnyshang.online/papers/paper-006.html</link>
+      <guid>https://junnyshang.online/papers/paper-006.html</guid>
       <pubDate>Fri, 24 Apr 2026 00:00:00 +0800</pubDate>
       <category>论文</category>
-      <description><![CDATA[英文标题：Constituent-constrained word prediction during language comprehension...]]></description>
+      <description><![CDATA[英文标题： Constituent-constrained word prediction during language comprehension作者： Jiajie Zou, David Poe......]]></description>
     </item>
 
     <item>
       <title>神经肽Y调控恐惧记忆建立与消退</title>
-      <link>https://zhilinofficial.github.io/Blog/papers/paper-007.html</link>
-      <guid>https://zhilinofficial.github.io/Blog/papers/paper-007.html</guid>
+      <link>https://junnyshang.online/papers/paper-007.html</link>
+      <guid>https://junnyshang.online/papers/paper-007.html</guid>
       <pubDate>Fri, 24 Apr 2026 00:00:00 +0800</pubDate>
       <category>论文</category>
-      <description><![CDATA[英文标题：Neuropeptide Y co-opts neuronal ensembles for memory lability and stability...]]></description>
+      <description><![CDATA[英文标题： Neuropeptide Y co-opts neuronal ensembles for memory lability and stability作者： 吴延娇#、谷雪#、孔雅蕾、杨朔......]]></description>
     </item>
 
     <item>
       <title>HSV-1 H129株跨突触传播分子机制</title>
-      <link>https://zhilinofficial.github.io/Blog/papers/paper-008.html</link>
-      <guid>https://zhilinofficial.github.io/Blog/papers/paper-008.html</guid>
+      <link>https://junnyshang.online/papers/paper-008.html</link>
+      <guid>https://junnyshang.online/papers/paper-008.html</guid>
       <pubDate>Fri, 24 Apr 2026 00:00:00 +0800</pubDate>
       <category>论文</category>
-      <description><![CDATA[英文标题：Nature Neuroscience, 2026年4月14日...]]></description>
+      <description><![CDATA[英文标题： （Nature Neuroscience, 2026年4月14日）作者： 罗敏华团队机构： 中国科学院武汉病毒研究所...]]></description>
     </item>
 
     <item>
       <title>分类是大脑的内在计算策略</title>
-      <link>https://zhilinofficial.github.io/Blog/papers/paper-009.html</link>
-      <guid>https://zhilinofficial.github.io/Blog/papers/paper-009.html</guid>
+      <link>https://junnyshang.online/papers/paper-009.html</link>
+      <guid>https://junnyshang.online/papers/paper-009.html</guid>
       <pubDate>Fri, 24 Apr 2026 00:00:00 +0800</pubDate>
       <category>论文</category>
-      <description><![CDATA[英文标题：Categorization is 'baked' into the brain...]]></description>
+      <description><![CDATA[英文标题： Categorization is 'baked' into the brain作者： Lisa Feldman Barrett, Michael Miller发表日期： 2026年3月...]]></description>
     </item>
 
     <item>
       <title>重新定义脊椎动物运动的中央模式发生器</title>
-      <link>https://zhilinofficial.github.io/Blog/papers/paper-010.html</link>
-      <guid>https://zhilinofficial.github.io/Blog/papers/paper-010.html</guid>
+      <link>https://junnyshang.online/papers/paper-010.html</link>
+      <guid>https://junnyshang.online/papers/paper-010.html</guid>
       <pubDate>Fri, 24 Apr 2026 00:00:00 +0800</pubDate>
       <category>论文</category>
-      <description><![CDATA[英文标题：Redefining the central pattern generator for vertebrate locomotion...]]></description>
+      <description><![CDATA[英文标题： Redefining the central pattern generator for vertebrate locomotion作者： Abdeljabbar El Manira发表日......]]></description>
     </item>
 
     <item>
       <title>神经科学中的表征概念维度</title>
-      <link>https://zhilinofficial.github.io/Blog/papers/paper-011.html</link>
-      <guid>https://zhilinofficial.github.io/Blog/papers/paper-011.html</guid>
+      <link>https://junnyshang.online/papers/paper-011.html</link>
+      <guid>https://junnyshang.online/papers/paper-011.html</guid>
       <pubDate>Fri, 24 Apr 2026 00:00:00 +0800</pubDate>
       <category>论文</category>
-      <description><![CDATA[英文标题：Clarifying the conceptual dimensions of representation in neuroscience...]]></description>
+      <description><![CDATA[英文标题： Clarifying the conceptual dimensions of representation in neuroscience作者： Stephan Pohl, Edgar ......]]></description>
     </item>
 
     <item>
       <title>线粒体动态与神经发育障碍</title>
-      <link>https://zhilinofficial.github.io/Blog/papers/paper-012.html</link>
-      <guid>https://zhilinofficial.github.io/Blog/papers/paper-012.html</guid>
+      <link>https://junnyshang.online/papers/paper-012.html</link>
+      <guid>https://junnyshang.online/papers/paper-012.html</guid>
       <pubDate>Fri, 24 Apr 2026 00:00:00 +0800</pubDate>
       <category>论文</category>
-      <description><![CDATA[英文标题：Mitochondrial dynamics in neurodevelopment and neurodevelopmental disorders...]]></description>
+      <description><![CDATA[英文标题： Mitochondrial dynamics in neurodevelopment and neurodevelopmental disorders作者： Carissa L. Siro......]]></description>
     </item>
 
     <item>
       <title>气候变化中的神经适应</title>
-      <link>https://zhilinofficial.github.io/Blog/papers/paper-013.html</link>
-      <guid>https://zhilinofficial.github.io/Blog/papers/paper-013.html</guid>
+      <link>https://junnyshang.online/papers/paper-013.html</link>
+      <guid>https://junnyshang.online/papers/paper-013.html</guid>
       <pubDate>Fri, 24 Apr 2026 00:00:00 +0800</pubDate>
       <category>论文</category>
-      <description><![CDATA[英文标题：Neural adaptation to climate change: mechanisms, limits and opportunities...]]></description>
+      <description><![CDATA[英文标题： Neural adaptation to climate change: mechanisms, limits and opportunities作者： Jan Siemens, Patr......]]></description>
     </item>
 
     <item>
       <title>百万级人群研究：重复扩增与脑萎缩</title>
-      <link>https://zhilinofficial.github.io/Blog/papers/paper-014.html</link>
-      <guid>https://zhilinofficial.github.io/Blog/papers/paper-014.html</guid>
+      <link>https://junnyshang.online/papers/paper-014.html</link>
+      <guid>https://junnyshang.online/papers/paper-014.html</guid>
       <pubDate>Fri, 24 Apr 2026 00:00:00 +0800</pubDate>
       <category>论文</category>
-      <description><![CDATA[英文标题：Population-scale repeat expansions elucidate disease risk and brain atrophy...]]></description>
+      <description><![CDATA[英文标题： Population-scale repeat expansions elucidate disease risk and brain atrophy作者： Sahar Gelfman 等......]]></description>
     </item>
-
   </channel>
 </rss>

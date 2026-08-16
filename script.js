@@ -847,7 +847,43 @@ function renderArticle() {
   tag.textContent = article.source || article.tag;
   date.textContent = article.date;
   reading.textContent = article.reading;
-  body.innerHTML = article.body.map(paragraph => `<p>${paragraph}</p>`).join('');
+  // 渲染正文：识别「一、二、三、」式小标题，转为可跳转的 h4 并生成目录
+  const headingRe = /^[一二三四五六七八九十]+、/;
+  const tocHeadings = [];
+  body.innerHTML = article.body.map(paragraph => {
+    const t = paragraph.trim();
+    if (headingRe.test(t)) {
+      const idx = tocHeadings.length;
+      const id = `sec-${idx}`;
+      tocHeadings.push({ id, text: t });
+      return `<h4 class="article-heading" id="${id}">${paragraph}</h4>`;
+    }
+    return `<p>${paragraph}</p>`;
+  }).join('');
+
+  // 填充目录（复用论文页 .article-toc 样式；无小节则隐藏空卡片）
+  const tocEl = document.getElementById('articleToc');
+  if (tocEl) {
+    if (tocHeadings.length >= 2) {
+      tocEl.innerHTML = '<p class="eyebrow">目录</p><ul>' +
+        tocHeadings.map(h => `<li><a href="#${h.id}">${h.text}</a></li>`).join('') +
+        '</ul>';
+    } else {
+      tocEl.style.display = 'none';
+    }
+  }
+
+  // 动态更新标题与社交分享 meta（article.html 是 JS 渲染壳，静态 meta 是通用的）
+  document.title = `${article.title} · zhilinOfficial Blog`;
+  const descText = article.summary || article.body[0]?.slice(0, 120) || '';
+  const setMeta = (selector, attr, val) => {
+    const el = document.querySelector(selector);
+    if (el) el.setAttribute(attr, val);
+  };
+  setMeta('meta[name="description"]', 'content', descText);
+  setMeta('meta[property="og:title"]', 'content', `${article.title} · zhilinOfficial Blog`);
+  setMeta('meta[property="og:description"]', 'content', descText);
+  setMeta('meta[property="og:url"]', 'content', `${location.origin}${location.pathname}?id=${article.id}`);
 
   if (related) {
     posts.filter(item => item.id !== article.id).slice(0, 5).forEach(post => {
@@ -882,18 +918,12 @@ function renderArticle() {
     `;
   }
 
-  // 阅读量统计
+  // 阅读次数（本地计数，不依赖第三方服务）
   if (readCountEl) {
-    (async () => {
-      try {
-        const ns = 'zhilin-blog-reads';
-        const key = `article-${article.id}`;
-        const res = await fetch(`https://api.countapi.xyz/hit/${ns}/${key}`).then(r => r.json());
-        readCountEl.textContent = `阅读量 ${res.value}`;
-      } catch (e) {
-        console.log('Read count unavailable');
-      }
-    })();
+    const key = `read-count-${article.id}`;
+    const n = (parseInt(localStorage.getItem(key) || '0', 10) || 0) + 1;
+    localStorage.setItem(key, String(n));
+    readCountEl.textContent = `本文你已阅读 ${n} 次`;
   }
 }
 
@@ -1113,48 +1143,12 @@ function renderNotes() {
   update();
 })();
 
-/* ===== 访客计数 ===== */
-(function () {
-  const footer = document.querySelector('.site-footer');
-  if (!footer) return;
-
-  const countEl = document.createElement('p');
-  countEl.className = 'visitor-count';
-  countEl.id = 'visitorCount';
-  footer.appendChild(countEl);
-
-  (async function () {
-    try {
-      const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-      const ns = 'zhilin-blog-visitors';
-
-      let totalRes, todayRes;
-
-      if (!sessionStorage.getItem('visitor-counted')) {
-        sessionStorage.setItem('visitor-counted', '1');
-        [totalRes, todayRes] = await Promise.all([
-          fetch(`https://api.countapi.xyz/hit/${ns}/total`).then(r => r.json()),
-          fetch(`https://api.countapi.xyz/hit/${ns}/visits-${today}`).then(r => r.json())
-        ]);
-      } else {
-        [totalRes, todayRes] = await Promise.all([
-          fetch(`https://api.countapi.xyz/get/${ns}/total`).then(r => r.json()),
-          fetch(`https://api.countapi.xyz/get/${ns}/visits-${today}`).then(r => r.json())
-        ]);
-      }
-
-      countEl.textContent = `今日访客 ${todayRes.value} · 总计 ${totalRes.value}`;
-    } catch (e) {
-      console.log('Visitor count unavailable');
-    }
-  })();
-})();
-
 /* ===== 深色模式 ===== */
 (function initDarkMode() {
   const saved = localStorage.getItem('theme');
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const isDark = saved === 'dark' || (!saved && prefersDark);
+  // 显式三态：'dark' / 'light' 为用户选择，null 才跟随系统
+  const isDark = saved ? saved === 'dark' : prefersDark;
   if (isDark) {
     document.body.dataset.theme = 'dark';
   }
@@ -1171,7 +1165,7 @@ function renderNotes() {
         const mode = btn.dataset.mode;
         const dark = mode === 'dark';
         document.body.dataset.theme = dark ? 'dark' : '';
-        localStorage.setItem('theme', dark ? 'dark' : '');
+        localStorage.setItem('theme', mode);
         pill.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
       });
     });
@@ -1270,7 +1264,11 @@ function renderSearch() {
     filtered.forEach(post => results.appendChild(createArticleCard(post)));
   }
 
-  input.addEventListener('input', (e) => doSearch(e.target.value));
+  let searchDebounce;
+  input.addEventListener('input', (e) => {
+    clearTimeout(searchDebounce);
+    searchDebounce = setTimeout(() => doSearch(e.target.value), 150);
+  });
   input.focus();
 }
 
@@ -1283,5 +1281,94 @@ async function initPage() {
   else if (page === 'daily-posts') renderDailyPosts();
   else if (page === 'notes') renderNotes();
   else if (page === 'search') renderSearch();
+  else if (page === 'about') renderAboutStats();
 }
 initPage();
+
+/* ===== 图片灯箱（点击 .article-body 内图片放大）===== */
+(function () {
+  const overlay = document.createElement('div');
+  overlay.className = 'lightbox-overlay';
+  overlay.setAttribute('aria-hidden', 'true');
+  overlay.innerHTML = '<img alt="放大图片" />';
+  document.body.appendChild(overlay);
+  const lbImg = overlay.querySelector('img');
+  const close = () => { overlay.classList.remove('show'); overlay.setAttribute('aria-hidden', 'true'); };
+  overlay.addEventListener('click', close);
+  document.addEventListener('click', (e) => {
+    const t = e.target;
+    if (t.tagName === 'IMG' && t.closest('.article-body')) {
+      lbImg.src = t.currentSrc || t.src;
+      overlay.classList.add('show');
+      overlay.setAttribute('aria-hidden', 'false');
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('show')) close();
+  });
+})();
+
+/* ===== 键盘快捷键（/ 搜索 · ←→ 翻页 · Esc 关灯箱）===== */
+(function () {
+  document.addEventListener('keydown', (e) => {
+    const typing = /^(input|textarea|select)$/i.test(e.target.tagName) || e.target.isContentEditable;
+    if (e.key === '/' && !typing) {
+      const s = document.getElementById('paperSearch') || document.getElementById('searchInput');
+      if (s) { e.preventDefault(); s.focus(); }
+      return;
+    }
+    if (typing || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      const nav = document.getElementById('articleNav');
+      if (!nav) return;
+      const links = nav.querySelectorAll('a[href]');
+      if (!links.length) return;
+      const target = e.key === 'ArrowLeft' ? links[0] : links[links.length - 1];
+      if (target) location.href = target.href;
+    }
+  });
+})();
+
+/* ===== 阅读进度记忆（localStorage，自动回到上次位置）===== */
+(function () {
+  const key = 'read-progress:' + location.pathname + location.search;
+  let tries = 0;
+  (function restore() {
+    const saved = parseFloat(localStorage.getItem(key));
+    if (!(saved > 0 && saved < 0.95)) return;
+    const max = document.body.scrollHeight - window.innerHeight;
+    if (max > 240 || tries++ > 30) { window.scrollTo(0, Math.round(saved * max)); return; }
+    requestAnimationFrame(restore);
+  })();
+  let ticking;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const max = document.body.scrollHeight - window.innerHeight;
+      if (max > 0) localStorage.setItem(key, String(window.scrollY / max));
+      ticking = false;
+    });
+  }, { passive: true });
+})();
+
+/* ===== About 页站点数据 ===== */
+function renderAboutStats() {
+  const grid = document.getElementById('statsGrid');
+  if (!grid || !posts.length) return;
+  const total = posts.length;
+  const papers = posts.filter(p => p.id.startsWith('f')).length;
+  const daily = total - papers;
+  const totalChars = posts.reduce((sum, p) => sum + (p.body || []).join('').length, 0);
+  const readMin = Math.round(totalChars / 400);
+  const fmt = n => n >= 10000 ? (n / 10000).toFixed(1) + ' 万' : String(n);
+  grid.innerHTML = [
+    ['文章总数', total],
+    ['论文笔记', papers],
+    ['日常记录', daily],
+    ['累计字数', fmt(totalChars)],
+    ['预计阅读', readMin + ' 分钟'],
+  ].map(([label, val]) => `<div class="stat-item"><span class="stat-num">${val}</span><span class="stat-label">${label}</span></div>`).join('');
+  const wrap = document.getElementById('aboutStats');
+  if (wrap) wrap.hidden = false;
+}

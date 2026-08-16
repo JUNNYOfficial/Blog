@@ -40,14 +40,6 @@ body {
   transition: width 0.1s linear;
 }
 
-/* ===== 访客计数 ===== */
-.visitor-count {
-  margin: 8px 0 0;
-  font-size: 0.85rem;
-  color: #9a9a9a;
-  letter-spacing: 0.02em;
-}
-
 /* ===== 文章导航（上一篇 / 下一篇） ===== */
 .article-nav-panel {
   margin-top: 32px;
@@ -1061,6 +1053,15 @@ h3 {
   margin: 0;
 }
 
+.article-body .article-heading {
+  margin: 4px 0 0;
+  font-size: 1.16rem;
+  font-weight: 600;
+  color: #111111;
+  letter-spacing: -0.01em;
+  scroll-margin-top: 80px;
+}
+
 .article-meta {
   display: flex;
   align-items: center;
@@ -1422,12 +1423,57 @@ body.page-enter {
   letter-spacing: 0.04em;
 }
 
+/* 打字机效果：字符逐个浮现 */
+.transition-mark span {
+  display: inline-block;
+  opacity: 0;
+  animation: charIn 0.26s ease forwards;
+}
+
+@keyframes charIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 闪烁光标 */
+.transition-cursor {
+  width: 2px;
+  height: 1.15em;
+  margin-left: 3px;
+  background: #111111;
+  vertical-align: -0.18em;
+  animation: charIn 0.26s ease forwards, cursorBlink 0.75s steps(1) infinite;
+}
+
+@keyframes cursorBlink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .transition-mark span,
+  .transition-cursor {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   .page-transition-overlay {
     background: #111111;
   }
   .transition-mark {
     color: #e5e5e5;
+  }
+  .transition-cursor {
+    background: #e5e5e5;
   }
 }
 
@@ -1437,6 +1483,10 @@ body[data-theme="dark"] .page-transition-overlay {
 
 body[data-theme="dark"] .transition-mark {
   color: #e5e5e5;
+}
+
+body[data-theme="dark"] .transition-cursor {
+  background: #e5e5e5;
 }
 
 /* 内容块 stagger 入场 */
@@ -1867,38 +1917,67 @@ body[data-theme="dark"] .transition-mark {
 
 /* ===== 论文详情页目录 ===== */
 .article-toc {
-  margin: 24px 0 32px;
-  padding: 20px 24px;
-  border: 1px solid #e9e9e9;
+  margin: 28px 0 36px;
+  padding: 22px 26px;
+  border: 1px solid #e6e6e6;
   border-radius: 20px;
   background: #fafafa;
 }
 
 .article-toc .eyebrow {
-  margin: 0 0 12px;
+  margin: 0 0 14px;
+  display: block;
 }
 
 .article-toc ul {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  gap: 6px;
+  display: block;
+}
+
+.article-toc li {
+  list-style: none;
+  display: block;
+  margin: 0;
+}
+
+.article-toc li + li {
+  margin-top: 2px;
 }
 
 .article-toc li a {
   display: block;
-  padding: 6px 10px;
-  border-radius: 10px;
-  color: #111111;
-  font-size: 0.92rem;
+  padding: 9px 14px;
+  border-radius: 12px;
+  color: #111111 !important;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.45;
   text-decoration: none;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  opacity: 1 !important;
+  -webkit-text-fill-color: #111111;
+  background-color: transparent;
+  transition: background-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.article-toc li a:link,
+.article-toc li a:visited,
+.article-toc li a:focus,
+.article-toc li a:active {
+  color: #111111 !important;
+  text-decoration: none;
 }
 
 .article-toc li a:hover {
-  background-color: #f0f0f0;
-  color: #111111;
+  background-color: #efefef;
+  color: #111111 !important;
+  transform: translateX(2px);
+}
+
+.article-toc li a:focus-visible {
+  outline: 2px solid #111111;
+  outline-offset: 2px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -1907,11 +1986,12 @@ body[data-theme="dark"] .transition-mark {
     background: #1a1a1a;
   }
   .article-toc li a {
-    color: #ffffff;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff;
   }
   .article-toc li a:hover {
     background-color: #2a2a2a;
-    color: #ffffff;
+    color: #ffffff !important;
   }
   .notes-expand-btn {
     background: #1a1a1a;
@@ -1929,6 +2009,19 @@ body[data-theme="dark"] .transition-mark {
   .section-more:hover {
     color: #ffffff;
   }
+}
+
+body[data-theme="dark"] .article-toc {
+  border-color: #2a2a2a;
+  background: #1a1a1a;
+}
+body[data-theme="dark"] .article-toc li a {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff;
+}
+body[data-theme="dark"] .article-toc li a:hover {
+  background-color: #2a2a2a;
+  color: #ffffff !important;
 }
 
 
@@ -2120,6 +2213,16 @@ color: #ffffff;
 }
 body[data-theme="dark"] .article-body hr {
 border-top-color: #2a2a2a;
+}
+body[data-theme="dark"] .article-body {
+color: #e8e8e8;
+}
+body[data-theme="dark"] .article-body .article-heading {
+color: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  .article-body { color: #e8e8e8; }
+  .article-body .article-heading { color: #ffffff; }
 }
 body[data-theme="dark"] .icon-link {
 border-color: #2a2a2a;
@@ -2436,4 +2539,72 @@ body[data-theme="dark"] .article-meta {
 }
 body[data-theme="dark"] .wiki-content ul {
   color: #ffffff;
+}
+
+/* ===== 图片灯箱 ===== */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  cursor: zoom-out;
+  padding: 28px;
+}
+.lightbox-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+.lightbox-overlay img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
+}
+
+/* ===== About 站点数据 ===== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 16px;
+}
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 20px;
+  border: 1px solid #e9e9e9;
+  border-radius: 16px;
+  background: #fafafa;
+}
+.stat-num {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #111111;
+  letter-spacing: -0.02em;
+}
+.stat-label {
+  font-size: 0.85rem;
+  color: #6a6a6a;
+}
+body[data-theme="dark"] .stat-item {
+  border-color: #2a2a2a;
+  background: #1a1a1a;
+}
+body[data-theme="dark"] .stat-num {
+  color: #ffffff;
+}
+body[data-theme="dark"] .stat-label {
+  color: #9a9a9a;
+}
+@media (prefers-color-scheme: dark) {
+  .stat-item { border-color: #2a2a2a; background: #1a1a1a; }
+  .stat-num { color: #ffffff; }
+  .stat-label { color: #9a9a9a; }
 }

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /sync.html
+Disallow: /import.html
+
+Sitemap: https://junnyshang.online/sitemap.xml

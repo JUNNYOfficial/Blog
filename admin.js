@@ -1,30 +1,38 @@
 // ===== 管理后台 =====
 
 const AUTH_KEY = 'blog-admin-auth';
-const PASSWORD_KEY = 'blog-admin-password';
 const POSTS_KEY = 'blog-admin-posts';
-const DEFAULT_PASSWORD = 'zhilinOfficial2026';
+// 不再以明文存储默认密码，只存 SHA-256 哈希（源码可见也无法直接反推出密码）
+const PASSWORD_HASH = 'daefefbf5f240d48b27d11fcb011110059c116f68b8351adebd4cab92b2f38e4';
 
 let adminPosts = [];
 let feishuPosts = [];
 let editingId = null;
 
+// 登录态放 sessionStorage：关掉浏览器标签页即失效，避免长期驻留
+function isAuthed() {
+  return sessionStorage.getItem(AUTH_KEY) === '1';
+}
+
 // 初始化
 function init() {
-  const isAuthed = localStorage.getItem(AUTH_KEY) === '1';
-  if (isAuthed) {
+  if (isAuthed()) {
     showAdmin();
   }
 }
 
+async function sha256Hex(text) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
 // 登录
-function handleLogin() {
+async function handleLogin() {
   const input = document.getElementById('loginPassword');
   const error = document.getElementById('loginError');
-  const storedPassword = localStorage.getItem(PASSWORD_KEY) || DEFAULT_PASSWORD;
-
-  if (input.value === storedPassword) {
-    localStorage.setItem(AUTH_KEY, '1');
+  const hash = await sha256Hex(input.value);
+  if (hash === PASSWORD_HASH) {
+    sessionStorage.setItem(AUTH_KEY, '1');
     error.style.display = 'none';
     showAdmin();
   } else {
@@ -35,7 +43,7 @@ function handleLogin() {
 
 // 退出
 function handleLogout() {
-  localStorage.removeItem(AUTH_KEY);
+  sessionStorage.removeItem(AUTH_KEY);
   location.reload();
 }
 
@@ -610,14 +618,14 @@ function saveGitHubToken() {
     msg.style.color = '#991b1b';
     return;
   }
-  localStorage.setItem(GITHUB_TOKEN_KEY, token);
+  sessionStorage.setItem(GITHUB_TOKEN_KEY, token);
   const msg = document.getElementById('tokenMsg');
-  msg.textContent = ' Token 已保存到本设备';
+  msg.textContent = ' Token 已保存（仅本次会话有效，关闭标签页自动清除）';
   msg.style.color = '#166534';
 }
 
 async function publishToGitHub() {
-  const token = localStorage.getItem(GITHUB_TOKEN_KEY);
+  const token = sessionStorage.getItem(GITHUB_TOKEN_KEY) || localStorage.getItem(GITHUB_TOKEN_KEY);
   if (!token) {
     alert('请先保存 GitHub Token（在「设置」标签页中配置）');
     switchTab('settings');
