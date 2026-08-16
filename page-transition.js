@@ -13,7 +13,7 @@
       '<div class="transition-mark">' +
       text
         .split('')
-        .map((ch, i) => `<span style="animation-delay:${i * 40}ms">${ch === ' ' ? '&nbsp;' : ch}</span>`)
+        .map((ch, i) => `<span style="animation-delay:${i * 55}ms">${ch === ' ' ? '&nbsp;' : ch}</span>`)
         .join('') +
       '<span class="transition-cursor"></span>' +
       '</div>';
@@ -32,7 +32,7 @@
     });
     setTimeout(() => {
       body.classList.remove('page-transition');
-    }, 700);
+    }, 800);
   }
 
   playEnter();
@@ -68,6 +68,6 @@
     body.classList.add('page-transition', 'page-exit');
     setTimeout(() => {
       window.location.href = href;
-    }, 600);
+    }, 1300);
   });
 })();

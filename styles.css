@@ -1408,7 +1408,7 @@ body.page-enter {
   background: #fafafa;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.45s ease;
+  transition: opacity 0.5s ease;
 }
 
 .page-transition-overlay.visible {
@@ -1427,7 +1427,7 @@ body.page-enter {
 .transition-mark span {
   display: inline-block;
   opacity: 0;
-  animation: charIn 0.26s ease forwards;
+  animation: charIn 0.3s ease forwards;
 }
 
 @keyframes charIn {
@@ -1448,7 +1448,7 @@ body.page-enter {
   margin-left: 3px;
   background: #111111;
   vertical-align: -0.18em;
-  animation: charIn 0.26s ease forwards, cursorBlink 0.75s steps(1) infinite;
+  animation: charIn 0.3s ease forwards, cursorBlink 0.75s steps(1) infinite;
 }
 
 @keyframes cursorBlink {
