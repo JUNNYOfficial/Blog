@@ -640,6 +640,16 @@ function getPostUrl(post) {
   return `article.html?id=${post.id}`;
 }
 
+function parseChineseDate(dateStr) {
+  const m = String(dateStr).match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+  if (!m) return 0;
+  return new Date(parseInt(m[1], 10), parseInt(m[2], 10) - 1, parseInt(m[3], 10)).getTime();
+}
+
+function sortPostsByDate(list) {
+  return [...list].sort((a, b) => parseChineseDate(b.date) - parseChineseDate(a.date));
+}
+
 function renderArticleCards(list) {
   const grid = document.getElementById('articleGrid');
   if (!grid) return;
@@ -780,44 +790,37 @@ function renderDailyPosts() {
 }
 
 function renderHome() {
-  // 首页导航页：每个分类展示2篇精选
-  const notesGrid = document.getElementById('homeNotesGrid');
-  const dailyGrid = document.getElementById('homeDailyGrid');
+  const grid = document.getElementById('homeArticleGrid');
+  if (!grid) return;
 
-  // 论文笔记：取最新的2篇论文
-  if (notesGrid) {
-    const papers = posts.filter(p => p.id.startsWith('f')).slice(-2).reverse();
-    notesGrid.innerHTML = '';
-    papers.forEach(post => {
-      const card = document.createElement('a');
-      card.className = 'note-card';
-      card.href = getPostUrl(post);
-      card.innerHTML = `
-        <p class="eyebrow">${escapeHtml(post.source) || '论文笔记'}</p>
-        <h4>${escapeHtml(post.title)}</h4>
-        <p>${escapeHtml(post.summary)}</p>
-      `;
-      notesGrid.appendChild(card);
-    });
+  const latest = sortPostsByDate(posts).slice(0, 8);
+  grid.innerHTML = '';
+  if (!latest.length) {
+    const empty = document.createElement('p');
+    empty.className = 'empty-state';
+    empty.textContent = '暂无文章，稍后再来看看。';
+    grid.appendChild(empty);
+    return;
   }
+  latest.forEach(post => grid.appendChild(createArticleCard(post)));
 
-  // 日常记录：取最新的2篇日常笔记
-  if (dailyGrid) {
-    const dailyPosts = posts.filter(p => p.tag === '日常').slice(-2).reverse();
-    dailyGrid.innerHTML = '';
-    dailyPosts.forEach(post => {
-      const card = document.createElement('a');
-      card.className = 'daily-card';
-      card.href = `article.html?id=${post.id}`;
-      card.innerHTML = `
-        <h4>${escapeHtml(post.title)}</h4>
-        <p>${escapeHtml(post.summary)}</p>
-      `;
-      dailyGrid.appendChild(card);
-    });
+  const countEl = document.getElementById('homeArticleCount');
+  if (countEl) countEl.textContent = posts.length;
+}
+
+function renderAllArticles() {
+  const grid = document.getElementById('articleGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  const sorted = sortPostsByDate(posts);
+  if (!sorted.length) {
+    const empty = document.createElement('p');
+    empty.className = 'empty-state';
+    empty.textContent = '暂无文章，稍后再来看看。';
+    grid.appendChild(empty);
+    return;
   }
-
-  setSectionObserver();
+  sorted.forEach(post => grid.appendChild(createArticleCard(post)));
 }
 
 function handleShare() {
@@ -1281,13 +1284,22 @@ function renderSearch() {
     clearTimeout(searchDebounce);
     searchDebounce = setTimeout(() => doSearch(e.target.value), 150);
   });
-  input.focus();
+
+  const params = new URLSearchParams(window.location.search);
+  const initialQuery = params.get('q') || '';
+  if (initialQuery) {
+    input.value = initialQuery;
+    doSearch(initialQuery);
+  } else {
+    input.focus();
+  }
 }
 
 async function initPage() {
   await loadRemotePosts();
   const page = document.body.dataset.page;
   if (page === 'home') renderHome();
+  else if (page === 'articles') renderAllArticles();
   else if (page === 'article') renderArticle();
   else if (page === 'daily') renderDaily();
   else if (page === 'daily-posts') renderDailyPosts();

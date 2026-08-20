@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <title>八月总结：纳秒、围栏、输入法，和一些没想明白的事 · zhilinOfficial Blog</title>
+  <meta name="description" content="2026 年八月月度总结——四个项目方向的产出与思考：纳秒级几何内核、非典型电子围栏与 LLM 安全网关、macOS 极简输入法 CoreType、本地工作台。" />
+  <meta property="og:title" content="八月总结：纳秒、围栏、输入法，和一些没想明白的事" />
+  <meta property="og:description" content="2026 年八月月度总结——四个项目方向的产出与思考。" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://junnyshang.online/august-summary-2026.html" />
+  <meta property="og:image" content="https://junnyshang.online/avatar.jpg" />
+  <meta property="og:site_name" content="zhilinOfficial Blog" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="theme-color" content="#111111" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23111'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='60' font-family='system-ui' font-weight='700'%3EJ%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css?v=46" />
+  <style>
+    /* ===== 覆盖：静态正文不使用 grid ===== */
+    .article-body {
+      display: block;
+      font-size: 1.02rem;
+      line-height: 1.8;
+    }
+    .article-body p {
+      margin: 0 0 1.35rem;
+    }
+
+    /* ===== 侧栏布局优化 ===== */
+    .article-layout {
+      margin-top: 24px;
+      align-items: start;
+    }
+    .article-sidebar .sidebar-inner {
+      position: sticky;
+      top: 28px;
+    }
+    .article-sidebar .eyebrow {
+      margin-bottom: 16px;
+    }
+    .toc-nav {
+      margin-top: 0;
+      gap: 6px;
+    }
+    .toc-nav a {
+      position: relative;
+      padding-left: 18px;
+      border-color: transparent;
+      background: transparent;
+      color: #4f4f4f;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+    }
+    .toc-nav a::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #d4d4d4;
+      transition: background-color 0.2s ease;
+    }
+    .toc-nav a:hover {
+      background: #f5f5f5;
+      border-color: #e5e5e5;
+      color: #111111;
+    }
+    .toc-nav a.active,
+    .toc-nav a.active:hover {
+      background: #111111;
+      border-color: #111111;
+      color: #ffffff;
+    }
+    .toc-nav a.active::before,
+    .toc-nav a:hover::before {
+      background: currentColor;
+    }
+
+    /* ===== 正文增强样式 ===== */
+    .article-body h2 {
+      margin: 56px 0 20px;
+      padding-top: 24px;
+      border-top: 1px solid #eaeaea;
+      scroll-margin-top: 80px;
+      font-size: clamp(1.35rem, 2vw, 1.9rem);
+    }
+    .article-body h2:first-of-type {
+      border-top: none;
+      margin-top: 8px;
+    }
+    .article-body h3 {
+      margin: 32px 0 14px;
+      scroll-margin-top: 80px;
+      font-size: 1.2rem;
+    }
+    .article-body strong {
+      font-weight: 600;
+      color: #111111;
+    }
+    .article-body code {
+      font-family: ui-monospace, "SF Mono", "Cascadia Code", "Fira Code", monospace;
+      font-size: 0.88em;
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: #f4f4f4;
+      color: #333;
+    }
+    .article-body ul,
+    .article-body ol {
+      margin: 0 0 1.35rem;
+      padding-left: 1.4rem;
+    }
+    .article-body li {
+      margin-bottom: 0.6rem;
+    }
+    .article-body blockquote {
+      margin: 1.5rem 0;
+      padding: 16px 20px;
+      border-left: 3px solid #d4d4d4;
+      border-radius: 0 12px 12px 0;
+      background: #fafafa;
+      color: #555;
+    }
+    .article-body blockquote p {
+      margin: 0;
+    }
+    .article-body hr {
+      border: none;
+      border-top: 1px solid #eaeaea;
+      margin: 40px 0;
+    }
+
+    /* 数据高亮 */
+    .data-highlight {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: #111111;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.92em;
+    }
+
+    /* 移动端目录切换按钮 */
+    .toc-toggle {
+      display: none;
+      width: 100%;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      border: 1px solid #e5e5e5;
+      border-radius: 16px;
+      background: #fafafa;
+      color: #111111;
+      font-size: 0.95rem;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    .toc-toggle svg {
+      width: 18px;
+      height: 18px;
+      transition: transform 0.2s ease;
+    }
+    .toc-toggle[aria-expanded="true"] svg {
+      transform: rotate(180deg);
+    }
+    .mobile-toc {
+      display: none;
+      margin: 24px 0 32px;
+    }
+
+    /* ===== 返回顶部 ===== */
+    .back-to-top {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid #e5e5e5;
+      background: #ffffff;
+      color: #4f4f4f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.3s ease, transform 0.3s ease, border-color 0.2s ease, background-color 0.2s ease;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .back-to-top:hover {
+      border-color: #c7c7c7;
+      background-color: #f8f8f8;
+    }
+    .back-to-top svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* ===== Toast ===== */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(16px);
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: rgba(17,17,17,0.92);
+      color: #fff;
+      font-size: 0.95rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 200;
+    }
+    .toast.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ===== 暗色模式 ===== */
+    body[data-theme="dark"] .article-body,
+    @media (prefers-color-scheme: dark) {
+      .article-body { color: #d0d0d0; }
+      .article-body h2 { border-top-color: #2a2a2a; }
+      .article-body strong { color: #ffffff; }
+      .article-body code { background: #1a1a1a; color: #d0d0d0; }
+      .article-body blockquote { background: #1a1a1a; border-left-color: #3a3a3a; color: #aaa; }
+      .article-body hr { border-top-color: #2a2a2a; }
+      .toc-nav a { color: #b0b0b0; }
+      .toc-nav a:hover { background: #1a1a1a; border-color: #2a2a2a; color: #ffffff; }
+      .toc-nav a.active,
+      .toc-nav a.active:hover { background: #ffffff; border-color: #ffffff; color: #111111; }
+      .data-highlight { background: #ffffff; color: #111111; }
+      .back-to-top { background: #1a1a1a; border-color: #2a2a2a; color: #ffffff; }
+      .back-to-top:hover { background: #222222; border-color: #3a3a3a; }
+      .toc-toggle { background: #1a1a1a; border-color: #2a2a2a; color: #ffffff; }
+    }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 1100px) {
+      .article-sidebar {
+        position: static;
+      }
+      .article-sidebar .sidebar-inner {
+        position: static;
+      }
+      .toc-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .toc-nav a {
+        padding: 8px 12px;
+        padding-left: 12px;
+        border: 1px solid #e5e5e5;
+        border-radius: 18px;
+        font-size: 0.88rem;
+      }
+      .toc-nav a::before {
+        display: none;
+      }
+    }
+
+    @media (max-width: 840px) {
+      .article-layout {
+        margin-top: 16px;
+      }
+      .article-frame {
+        padding: 24px;
+        border-radius: 24px;
+      }
+      .article-body h2 { margin-top: 44px; font-size: 1.3rem; }
+      .article-body { font-size: 0.98rem; }
+    }
+
+    @media (max-width: 600px) {
+      .article-frame {
+        padding: 20px;
+        border-radius: 20px;
+      }
+      .article-body { font-size: 0.95rem; line-height: 1.75; }
+      .article-body h2 { font-size: 1.2rem; margin-top: 36px; padding-top: 16px; }
+      .article-body h3 { font-size: 1.08rem; }
+      .back-to-top { right: 16px; bottom: 16px; width: 40px; height: 40px; }
+      .toc-nav a {
+        padding: 6px 10px;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body data-page="article">
+  <!-- 阅读进度 -->
+  <div class="reading-progress" aria-hidden="true">
+    <div class="reading-progress-bar" id="progressBar"></div>
+  </div>
+
+  <div class="page-shell article-shell">
+    <!-- 顶部导航 -->
+    <header class="article-header">
+      <a class="icon-link back-link" href="index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <div class="article-actions">
+        <button class="icon-button" id="shareBtn" aria-label="分享文章">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 12l3-3 3 3 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M17 15v4H7v-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- 主体：左侧目录 + 右侧正文 -->
+    <div class="wiki-layout article-layout">
+      <aside class="wiki-sidebar article-sidebar" aria-label="目录">
+        <div class="sidebar-inner">
+          <p class="eyebrow">目录</p>
+          <nav class="wiki-nav toc-nav" id="tocNav">
+            <a class="toc-link active" href="#project-1">一、面向数学研究的 AI 计算验证原型</a>
+            <a class="toc-link" href="#project-2">二、非典型电子围栏 &amp; LLM 注入攻击防护</a>
+            <a class="toc-link" href="#project-3">三、CoreType — macOS 极简输入法</a>
+            <a class="toc-link" href="#project-4">四、本地工作台</a>
+            <a class="toc-link" href="#reflection">本月感想 &amp; 下月展望</a>
+          </nav>
+        </div>
+      </aside>
+
+      <main class="article-main">
+        <section class="article-frame">
+          <article>
+            <p class="eyebrow" id="articleTag">月度总结</p>
+            <h1 id="articleTitle">八月总结：纳秒、围栏、输入法，和一些没想明白的事</h1>
+            <div class="article-meta">
+              <span id="articleDate">2026年8月20日</span>
+              <span>·</span>
+              <span id="articleReading">8 分钟阅读</span>
+            </div>
+
+            <div class="article-body" id="articleBody">
+              <p>八月的最后几天，我坐在这里想，这个月到底干了啥。</p>
+              <p>翻了翻 commit 记录和项目文件夹，发现这个月还挺充实的——做了四个方向的东西，横跨数学、安全、输入法和日常工具。说实话，其中有几个项目我自己都没想到能在这个月推到这个程度。</p>
+              <p>按项目来聊聊吧。</p>
+
+              <hr>
+
+              <!-- Project 1 -->
+              <section class="project-section" id="project-1">
+                <h2>一、一个面向数学研究的 AI 计算验证原型</h2>
+                <p>这个项目我不想聊太多背景细节（原因你们懂的），但技术上做的事情可以公开说。</p>
+                <p>简单讲，它是基于 2025 年一篇数学论文的思路，尝试搭建一个「AI 快速思考 + 精确计算验证」的双引擎原型系统。一边用小模型做启发式推理和路径搜索，另一边用 C++ 和 Python 做严格的数值计算来验证。论文本身是公开的学术成果，涉及的是三维 Kakeya 集猜想相关的东西——感兴趣的人可以自己搜，我不在这里展开数学了。</p>
+                <p>这个月我在这个项目上主要做了三件事：</p>
+
+                <h3>第一件：纳秒级几何内核</h3>
+                <p>在已有的 float64 C++ 内核基础上，新写了一个 float32 版本。核心优化包括：内存带宽减半（float32 vs float64）、预计算倒数把内层循环的除法变成乘法、用无分支 clamp 替代分段投影、再加上 Apple M4 的 <code>-O3 -mcpu=apple-m4 -ffast-math</code> 编译参数。</p>
+                <p>结果是纯 C++ 微基准跑到了约 <span class="data-highlight">0.99 ns / tube-point pair</span>。Python 包装层因为有 pybind11 开销，在蒙特卡洛体积和体素体积计算上也能到约 <strong>1.1 ns/pair</strong>，相比原来的 float64 版本快了将近一倍。</p>
+                <p>跑了三次独立测量，结果分别是 0.9796、0.9929、0.9963 ns——挺稳的。</p>
+
+                <h3>第二件：模型路由层</h3>
+                <p>给 AI 推理那侧加了一个大小模型路由层，用关键词匹配决定每个问题走 fast 模型、cascade（小模型起头大模型续作）还是 deep（直接上大模型）。跑了 100 轮基准测试，5 个类别（数学、项目专用、代码、写作、通用），每类 20 条。</p>
+                <p>准确率 <span class="data-highlight">100/100</span>，路由决策平均延迟 <span class="data-highlight">0.009 ms</span>。预测模式分布也比较合理：40% fast、20% cascade、40% deep。</p>
+
+                <h3>第三件：主算法骨架 + 全量验证</h3>
+                <p>写了一个不依赖 LLM 的主算法骨架（ProofOrchestrator），能独立完成 sticky 检查 → grains 分解 → Move 选择 → 体积下界验证的循环，同时预留了 AI 评分接口。</p>
+                <p>验证方面也下了功夫：</p>
+                <ul>
+                  <li>原有 457 个测试项里修了 4 个问题（NumPy 2.0 的 <code>np.erfcinv</code> 被移除、docstring 语法错误、BLAS 数值噪音），修复后全量 <span class="data-highlight">394 个测试通过</span>。</li>
+                  <li>新增 20 个专项测试（nano 内核正确性 + 骨架单元测试 + stress test），全部通过。</li>
+                  <li>跑了 300 次随机 stress test（3 类各 100 次），<span class="data-highlight">0 失败</span>，总耗时 0.73 秒。</li>
+                  <li>端到端验证：15 条随机管，骨架在 0.02 秒内完成，sticky 检查通过，体积比 1.458。</li>
+                </ul>
+                <p>最后整理了一份完整的验证报告，包含所有原始命令输出和复用命令清单。算是把这个阶段的工作收了个口。</p>
+              </section>
+
+              <hr>
+
+              <!-- Project 2 -->
+              <section class="project-section" id="project-2">
+                <h2>二、非典型电子围栏 &amp; LLM 注入攻击防护</h2>
+                <p>这个项目起源于一个想法：LLM 的安全问题不只是「模型说什么」，还有「谁能管这个模型」「数据怎么不裸奔」。</p>
+                <p>最后做成了一个 monorepo，包含三个子项目，全部零依赖（只用 <code>node:crypto</code> 和 <code>node:http</code>，Node 18+ 即可跑）：</p>
+
+                <h3>SKG（信号-密钥围栏）</h3>
+                <p>一个「非典型电子围栏」——围栏不是地理坐标，而是由签发密钥 + 环境信号指纹（WiFi BSSID / 基站 ID）来定义。评估端只学到「在不在围栏内」这一比特信息，原始设备 ID 用 RSA-OAEP 密封，只有签发方私钥能解封。</p>
+
+                <h3>TriggerGuard（LLM 安全网关）</h3>
+                <p>OpenAI 兼容的反向代理，输入侧做提示注入 / 越狱检测（20+ 条规则，含 leetspeak 和零宽字符混淆对抗），输出侧做后门触发和外泄检测，流式 SSE 能在中途截断。带哈希链审计日志。</p>
+
+                <h3>SKG-Guard（合并 MVP）</h3>
+                <p>把上面两个融合成一个可部署的网关。分工一句话：<strong>网关管内容安不安全，SKG 管谁能管网关、数据怎么不裸奔、密钥放哪。</strong></p>
+                <p>合并版还做了几件事我觉得比较有意思：</p>
+                <ul>
+                  <li><strong>私钥外置：</strong>签发私钥不在网关进程里，单独跑一个签名服务（HSM 参考实现）。网关启动时只取公钥，<code>authority.json</code> 零私钥。</li>
+                  <li><strong>设备端 SDK：</strong>零依赖单文件，浏览器 / Node 双端。宿主只需实现一个信号采集桥（一个方法：<code>collectSignals()</code> 返回 WiFi 和基站列表），SDK 负责上报包构造、防重放、请求注入。给了 Android / iOS / Node.js / Web 四个平台的最小示例。</li>
+                  <li><strong>Epoch 聚合：</strong>每次管理访问入池，<code>seal=1</code> 后打乱顺序只公布 granted/denied 聚合计数，切断时序关联。</li>
+                  <li><strong>Docker 部署：</strong>双容器（签名服务 + 网关），<code>node:22-alpine</code> 非 root，卷持久化。在 macOS arm64 / colima / Docker 29 上实测了完整冒烟流程。</li>
+                </ul>
+                <p>测试方面写了 <span class="data-highlight">25 条安全性质断言</span>（含外置签名服务端到端和设备 SDK 链路），全部通过。</p>
+                <p>文档方面也写得很详细——从威胁模型到诚实边界（MVP 的局限性）都列了清楚。比如我明确写了「围栏信号是演示级的」「签名服务是参考实现，私钥仍以 PEM 落盘」「浏览器拿不到 BSSID 必须由原生壳采集」。我觉得把这些局限性说清楚比藏着好。</p>
+              </section>
+
+              <hr>
+
+              <!-- Project 3 -->
+              <section class="project-section" id="project-3">
+                <h2>三、CoreType — macOS 极简输入法</h2>
+                <p>这个项目的起因很简单：我想做一个输入法，靠缩写展开 + 智能词库来实现「打字快到飞起」的体验。</p>
+                <p>用 Swift + IMK（InputMethodKit）框架，SwiftPM 管理工程。目前 MVP 还在开发中，但工程骨架已经搭好了：</p>
+                <p>核心引擎拆成了几个模块：</p>
+                <ul>
+                  <li><strong>Abbreviation</strong> — 缩写展开引擎</li>
+                  <li><strong>Lexicon</strong> — 词库存储</li>
+                  <li><strong>Candidate</strong> — 候选生成与排序</li>
+                  <li><strong>Prediction</strong> — 上下文预测</li>
+                  <li><strong>Refinement</strong> — 文雅词替换（让输出不那么生硬）</li>
+                </ul>
+                <p>关键设计决策是<strong>纯 Swift 核心引擎可独立测试</strong>（<code>swift test</code> 不需要 Xcode GUI），IMK 适配层只是个薄壳。各引擎之间用抽象协议解耦，方便后面换实现。还有一个 <code>build_bundle.sh</code> 脚本负责构建并组装 <code>.app</code> bundle 到 <code>~/Library/Input Methods/</code>。</p>
+                <p>目标覆盖率 80%+。目前在 W2-W5 的功能阶段，预计 Q3 内出 MVP。</p>
+                <p>说实话，做输入法比我想象中复杂得多——光 IMK 的配置就踩了不少坑。但核心引擎的解耦设计我是满意的，后面换后端或者加功能都不会牵一发动全身。</p>
+              </section>
+
+              <hr>
+
+              <!-- Project 4 -->
+              <section class="project-section" id="project-4">
+                <h2>四、本地工作台</h2>
+                <p>这个不算什么大项目，但这个月花了不少时间在上面，算是给自己造的工具。</p>
+                <p>一个单文件 HTML 的本地工作台，用 Tailwind CSS 做了一套黑白灰的设计系统。功能包括：</p>
+                <ul>
+                  <li>树状目录管理笔记和文件夹（右键菜单 + 拖拽排序）</li>
+                  <li>Markdown 编辑器，支持实时渲染</li>
+                  <li>番茄钟（带进度环动画）</li>
+                  <li>待办管理</li>
+                  <li>快捷入口</li>
+                  <li>导出 PDF / Markdown / 纯文本</li>
+                  <li>KaTeX 数学公式渲染、Mermaid 流程图、二维码生成和扫描</li>
+                  <li>深色 / 浅色主题切换</li>
+                  <li>本地 localStorage 自动保存</li>
+                  <li>数据导入导出</li>
+                </ul>
+                <p>从 8 月 5 号做到 8 月 20 号，中间断断续续地打磨。说实话做完之后自己每天都在用——番茄钟和 Markdown 笔记这两个功能用得最频繁。单文件的好处是双击就能打开，不用装任何东西，换机器也不怕。</p>
+              </section>
+
+              <hr>
+
+              <!-- Reflection -->
+              <section id="reflection">
+                <h2>本月感想 &amp; 下月展望</h2>
+                <p>这个月最大的感受是：<strong>项目可以并行推进，但注意力不能。</strong></p>
+                <p>四个方向同时跑，每个都有一股「再优化一点就好了」的冲动——nano 内核想压到亚纳秒、围栏想接真实 HSM、输入法想赶紧出可用版本、工作台想加更多功能。但人的精力是有限的，有些东西这个月只能做到「骨架完成，后续再说」的程度。</p>
+                <p>不过回头看，每个项目都有实质性的交付：研究原型跑通了完整验证流程、安全网关出了可部署的 MVP、输入法搭好了工程骨架、工作台已经在日常使用。算是没有空转。</p>
+                <p>下个月想做的事情：</p>
+                <ol>
+                  <li><strong>研究原型</strong>这边，把 AI 评分接口接上，让 ProofOrchestrator 的 Move 选择真正由 LLM 驱动——现在还是纯规则的，离「AI 证明搜索」还差最后一步。</li>
+                  <li><strong>安全网关</strong>这边，想试试接真实的 HSM/KMS（比如 AWS KMS），看看签名接口能不能无缝替换。</li>
+                  <li><strong>输入法</strong>争取出第一个能用的版本——至少缩写展开和候选排序要跑通。</li>
+                  <li><strong>工作台</strong>想加一个看板视图，把待办和笔记串起来。</li>
+                </ol>
+                <p>还有一些没想明白的事，比如 Lean 4 形式化骨架到底要不要在这个阶段投入精力——论文里的定理证明目前还是 <code>sorry</code>，要真正补完的话工作量不小。先看看 AI 评分接口接上之后的效果再说吧。</p>
+                <p>总之，八月没有虚度。九月继续。</p>
+              </section>
+            </div>
+          </article>
+        </section>
+
+        <!-- 上一篇 / 下一篇 -->
+        <nav class="article-nav-panel" aria-label="文章导航">
+          <div class="article-nav">
+            <a href="index.html">
+              <span class="article-nav-label">返回</span>
+              <span class="article-nav-title">首页</span>
+            </a>
+            <a href="daily.html" class="article-nav-next">
+              <span class="article-nav-label">继续浏览</span>
+              <span class="article-nav-title">日记</span>
+            </a>
+          </div>
+        </nav>
+
+        <footer class="site-footer article-footer">
+          <p>继续阅读 · 保持设计纯粹 · zhilinOfficial</p>
+        </footer>
+      </main>
+    </div>
+  </div>
+
+  <!-- 返回顶部 -->
+  <button class="back-to-top" id="backToTop" aria-label="返回顶部" title="返回顶部">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <script>
+    /* ===== 深色模式初始化 ===== */
+    (function initTheme() {
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const isDark = saved ? saved === 'dark' : prefersDark;
+      if (isDark) document.body.dataset.theme = 'dark';
+    })();
+
+    /* ===== 阅读进度条 ===== */
+    (function() {
+      var bar = document.getElementById('progressBar');
+      var ticking = false;
+      function updateProgress() {
+        var scrollTop = window.scrollY;
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        bar.style.width = pct + '%';
+        ticking = false;
+      }
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          window.requestAnimationFrame(updateProgress);
+          ticking = true;
+        }
+      }, { passive: true });
+      updateProgress();
+    })();
+
+    /* ===== 返回顶部 ===== */
+    (function() {
+      var btn = document.getElementById('backToTop');
+      var ticking = false;
+      function toggleBtn() {
+        if (window.scrollY > 300) btn.classList.add('visible');
+        else btn.classList.remove('visible');
+        ticking = false;
+      }
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          window.requestAnimationFrame(toggleBtn);
+          ticking = true;
+        }
+      }, { passive: true });
+      btn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    })();
+
+    /* ===== 分享 ===== */
+    (function() {
+      var btn = document.getElementById('shareBtn');
+      btn.addEventListener('click', function() {
+        if (navigator.share) {
+          navigator.share({ title: document.title, url: window.location.href }).catch(function() {});
+        } else {
+          var url = window.location.href;
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(url).then(function() { showToast('链接已复制到剪贴板'); });
+          } else {
+            var input = document.createElement('input');
+            input.value = url;
+            document.body.appendChild(input);
+            input.select();
+            document.execCommand('copy');
+            document.body.removeChild(input);
+            showToast('链接已复制到剪贴板');
+          }
+        }
+      });
+
+      function showToast(msg) {
+        var existing = document.querySelector('.toast');
+        if (existing) existing.remove();
+        var toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = msg;
+        document.body.appendChild(toast);
+        requestAnimationFrame(function() { toast.classList.add('visible'); });
+        setTimeout(function() {
+          toast.classList.remove('visible');
+          setTimeout(function() { toast.remove(); }, 300);
+        }, 2000);
+      }
+    })();
+
+    /* ===== 目录高亮 ===== */
+    (function() {
+      var links = Array.from(document.querySelectorAll('.toc-link'));
+      var sections = links.map(function(link) {
+        var id = link.getAttribute('href').slice(1);
+        return document.getElementById(id);
+      }).filter(Boolean);
+      if (sections.length === 0) return;
+
+      var ticking = false;
+      function updateActive() {
+        var scrollPos = window.scrollY + 120;
+        var activeIndex = 0;
+        for (var i = 0; i < sections.length; i++) {
+          if (sections[i].offsetTop <= scrollPos) activeIndex = i;
+        }
+        links.forEach(function(link, idx) {
+          link.classList.toggle('active', idx === activeIndex);
+        });
+        ticking = false;
+      }
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          window.requestAnimationFrame(updateActive);
+          ticking = true;
+        }
+      }, { passive: true });
+      updateActive();
+
+      links.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          var target = document.getElementById(link.getAttribute('href').slice(1));
+          if (target) {
+            var offset = target.getBoundingClientRect().top + window.scrollY - 80;
+            window.scrollTo({ top: offset, behavior: 'smooth' });
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
