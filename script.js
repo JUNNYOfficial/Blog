@@ -1,4 +1,5 @@
-const posts = [];
+// 文章数据：优先从 posts-data.js（<script> 标签加载，file:// 兼容）读取
+const posts = (window.POSTS_DATA ? [...window.POSTS_DATA] : []);
 
 
 // 管理后台：从 localStorage 读取覆盖数据
@@ -17,19 +18,17 @@ const posts = [];
   }
 })();
 
-// 从远程 posts.json 加载动态文章
+// 从远程 posts.json 热更新（仅 http 服务器环境下生效；file:// 下静默跳过）
 async function loadRemotePosts() {
   try {
     const res = await fetch('posts.json?t=' + Date.now(), { cache: 'no-store' });
     if (!res.ok) return;
     const remote = await res.json();
     if (!Array.isArray(remote) || !remote.length) return;
-
-    // 完全以 posts.json 为准，避免与本地硬编码数据不一致
     posts.length = 0;
     remote.forEach(p => posts.push(p));
   } catch (e) {
-    console.log('Remote posts not available:', e);
+    // file:// 协议下 fetch 会被阻止，此时依赖已加载的 POSTS_DATA，无需报错
   }
 }
 
@@ -591,7 +590,9 @@ function renderNotes() {
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   // 显式三态：'dark' / 'light' 为用户选择，null 才跟随系统
   const isDark = saved ? saved === 'dark' : prefersDark;
-  if (isDark) {
+  if (saved === 'light') {
+    document.body.dataset.theme = 'light';
+  } else if (isDark) {
     document.body.dataset.theme = 'dark';
   }
 
@@ -605,8 +606,7 @@ function renderNotes() {
     pill.querySelectorAll('button').forEach(btn => {
       btn.addEventListener('click', () => {
         const mode = btn.dataset.mode;
-        const dark = mode === 'dark';
-        document.body.dataset.theme = dark ? 'dark' : '';
+        document.body.dataset.theme = mode;
         localStorage.setItem('theme', mode);
         pill.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
       });

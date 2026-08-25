@@ -334,17 +334,17 @@
 
     /* 暗色模式 */
     @media (prefers-color-scheme: dark) {
-      .about-hero { border-color: #2a2a2a; }
-      .about-role, .about-bio, .timeline-desc, .timeline-org, .contact-grid .link-card p, .wechat-card p, .press-empty { color: #b0b0b0; }
-      .about-tags span, .project-card, .contact-grid .link-card, .press-box, .contact-main .stat-item, .wechat-card { border-color: #2a2a2a; background: transparent; }
-      .press-box { background: #1a1a1a; }
-      .project-tags span { background: #222; }
-      .timeline::before { background: #2a2a2a; }
-      .timeline-marker { background: #111; border-color: #fff; box-shadow: 0 0 0 3px #1a1a1a; }
-      .project-card > a, .press-box a { color: #e0e0e0; border-bottom-color: #555; }
-      .project-card > a:hover, .press-box a:hover { border-bottom-color: #fff; }
-      .contact-main .stat-num { color: #fff; }
-      .contact-main .stat-label { color: #9a9a9a; }
+    body:not([data-theme="light"]) .about-hero { border-color: #2a2a2a; }
+    body:not([data-theme="light"]) .about-role, body:not([data-theme="light"]) .about-bio, body:not([data-theme="light"]) .timeline-desc, body:not([data-theme="light"]) .timeline-org, body:not([data-theme="light"]) .contact-grid .link-card p, body:not([data-theme="light"]) .wechat-card p, body:not([data-theme="light"]) .press-empty { color: #b0b0b0; }
+    body:not([data-theme="light"]) .about-tags span, body:not([data-theme="light"]) .project-card, body:not([data-theme="light"]) .contact-grid .link-card, body:not([data-theme="light"]) .press-box, body:not([data-theme="light"]) .contact-main .stat-item, body:not([data-theme="light"]) .wechat-card { border-color: #2a2a2a; background: transparent; }
+    body:not([data-theme="light"]) .press-box { background: #1a1a1a; }
+    body:not([data-theme="light"]) .project-tags span { background: #222; }
+    body:not([data-theme="light"]) .timeline::before { background: #2a2a2a; }
+    body:not([data-theme="light"]) .timeline-marker { background: #111; border-color: #fff; box-shadow: 0 0 0 3px #1a1a1a; }
+    body:not([data-theme="light"]) .project-card > a, body:not([data-theme="light"]) .press-box a { color: #e0e0e0; border-bottom-color: #555; }
+    body:not([data-theme="light"]) .project-card > a:hover, body:not([data-theme="light"]) .press-box a:hover { border-bottom-color: #fff; }
+    body:not([data-theme="light"]) .contact-main .stat-num { color: #fff; }
+    body:not([data-theme="light"]) .contact-main .stat-label { color: #9a9a9a; }
     }
     body[data-theme="dark"] .about-hero { border-color: #2a2a2a; }
     body[data-theme="dark"] .about-role, body[data-theme="dark"] .about-bio, body[data-theme="dark"] .timeline-desc, body[data-theme="dark"] .timeline-org, body[data-theme="dark"] .contact-grid .link-card p, body[data-theme="dark"] .wechat-card p, body[data-theme="dark"] .press-empty { color: #b0b0b0; }
@@ -563,7 +563,8 @@
     <p class="hint">扫码添加微信好友，备注来意即可</p>
   </div>
 
-  <script src="script.js?v=48"></script>
+  <script src="posts-data.js?v=1"></script>
+  <script src="script.js?v=49"></script>
   <script src="page-transition.js?v=48"></script>
   <script>
     (function() {
