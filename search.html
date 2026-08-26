@@ -7,7 +7,7 @@
   <title>搜索 · JUNNY 张琦</title>
   <meta name="description" content="搜索 JUNNY 张琦博客的全部文章。" />
   <link rel="alternate" type="application/rss+xml" title="RSS" href="feed.xml" />
-  <link rel="stylesheet" href="styles.css?v=46" />
+  <link rel="stylesheet" href="styles.css?v=50" />
   <style>
     .search-hero {
       text-align: center;
@@ -74,6 +74,51 @@
       .search-hero {
         padding: 20px 0 28px;
       }
+    }
+
+    /* 暗色模式 */
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) .search-hero p,
+      body:not([data-theme="light"]) .search-results-info,
+      body:not([data-theme="light"]) .search-empty {
+        color: #9a9a9a;
+      }
+      body:not([data-theme="light"]) .search-empty h3 {
+        color: #e0e0e0;
+      }
+      body:not([data-theme="light"]) .search-box-input {
+        background: #1a1a1a;
+        border-color: #2a2a2a;
+        color: #e0e0e0;
+      }
+      body:not([data-theme="light"]) .search-box-input:focus {
+        background: #1a1a1a;
+        border-color: #555555;
+      }
+      body:not([data-theme="light"]) .search-box-icon {
+        color: #9a9a9a;
+      }
+    }
+
+    body[data-theme="dark"] .search-hero p,
+    body[data-theme="dark"] .search-results-info,
+    body[data-theme="dark"] .search-empty {
+      color: #9a9a9a;
+    }
+    body[data-theme="dark"] .search-empty h3 {
+      color: #e0e0e0;
+    }
+    body[data-theme="dark"] .search-box-input {
+      background: #1a1a1a;
+      border-color: #2a2a2a;
+      color: #e0e0e0;
+    }
+    body[data-theme="dark"] .search-box-input:focus {
+      background: #1a1a1a;
+      border-color: #555555;
+    }
+    body[data-theme="dark"] .search-box-icon {
+      color: #9a9a9a;
     }
   </style>
 </head>

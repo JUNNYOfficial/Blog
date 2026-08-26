@@ -1844,7 +1844,7 @@ body[data-theme="dark"] .transition-cursor {
   body:not([data-theme="light"]) .meta-label {
     color: #e0e0e0;
   }
-  body:not([data-theme="light"]) .hero-text, body:not([data-theme="light"]) .topic-card p, body:not([data-theme="light"]) .note-card p, body:not([data-theme="light"]) .article-card-summary, body:not([data-theme="light"]) .daily-post-summary {
+  body:not([data-theme="light"]) .hero-text, body:not([data-theme="light"]) .topic-card p, body:not([data-theme="light"]) .note-card p, body:not([data-theme="light"]) .article-card-summary, body:not([data-theme="light"]) .daily-post-summary, body:not([data-theme="light"]) .article-list-grid .article-card-summary {
     color: #d0d0d0;
   }
   body:not([data-theme="light"]) .article-card-footer, body:not([data-theme="light"]) .note-card-footer, body:not([data-theme="light"]) .daily-post-meta {
@@ -2159,7 +2159,7 @@ color: #9a9a9a;
 body[data-theme="dark"] .meta-label {
 color: #e0e0e0;
 }
-body[data-theme="dark"] .hero-text, body[data-theme="dark"] .topic-card p, body[data-theme="dark"] .note-card p, body[data-theme="dark"] .article-card-summary, body[data-theme="dark"] .daily-post-summary {
+body[data-theme="dark"] .hero-text, body[data-theme="dark"] .topic-card p, body[data-theme="dark"] .note-card p, body[data-theme="dark"] .article-card-summary, body[data-theme="dark"] .daily-post-summary, body[data-theme="dark"] .article-list-grid .article-card-summary {
 color: #d0d0d0;
 }
 body[data-theme="dark"] .article-card-footer, body[data-theme="dark"] .note-card-footer, body[data-theme="dark"] .daily-post-meta {
@@ -2223,11 +2223,13 @@ border-color: #2a2a2a;
     background: #1a1a1a;
 }
 body[data-theme="dark"] .article-toc li a {
-color: #ffffff;
+color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff;
 }
 body[data-theme="dark"] .article-toc li a:hover {
 background-color: #2a2a2a;
-    color: #ffffff;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff;
 }
 body[data-theme="dark"] .notes-expand-btn {
 background: #1a1a1a;
