@@ -5,8 +5,17 @@
     <link>https://junnyshang.online/</link>
     <description>脑科学笔记 · 日常记录 · 极简设计</description>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 16 Aug 2026 19:26:05 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 27 Aug 2026 00:00:00 +0800</lastBuildDate>
     <atom:link href="https://junnyshang.online/feed.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>恰到好处的8月总结（积累极多合作经验之后的）</title>
+      <link>https://junnyshang.online/article.html?id=4</link>
+      <guid>https://junnyshang.online/article.html?id=4</guid>
+      <pubDate>Thu, 27 Aug 2026 00:00:00 +0800</pubDate>
+      <category>日常</category>
+      <description><![CDATA[八月的最后几天，我坐在这里想，这个月到底干了啥。翻了翻 commit 记录和项目文件夹，发现这个月还挺充实的——但今天不想聊技术细节（说出来也不会有人信 hh）。想吐槽点别的。这几年跟国内商务打交道的体感是：只有极少数人能正常沟通，会直接说明项目是什么、要做什么、边界在哪。...]]></description>
+    </item>
 
     <item>
       <title>为什么我的选择看起来总和别人不一样</title>
