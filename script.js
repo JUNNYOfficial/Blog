@@ -73,6 +73,21 @@ function parseChineseDate(dateStr) {
   return new Date(parseInt(m[1], 10), parseInt(m[2], 10) - 1, parseInt(m[3], 10)).getTime();
 }
 
+function getYearFromDate(dateStr) {
+  const m = String(dateStr).match(/(\d{4})年/);
+  return m ? m[1] : '其他';
+}
+
+function groupPostsByYear(list) {
+  const groups = {};
+  list.forEach(post => {
+    const year = getYearFromDate(post.date);
+    if (!groups[year]) groups[year] = [];
+    groups[year].push(post);
+  });
+  return groups;
+}
+
 function sortPostsByDate(list) {
   return [...list].sort((a, b) => parseChineseDate(b.date) - parseChineseDate(a.date));
 }
@@ -220,7 +235,7 @@ function renderHome() {
   const grid = document.getElementById('homeArticleGrid');
   if (!grid) return;
 
-  const latest = sortPostsByDate(posts).slice(0, 8);
+  const latest = sortPostsByDate(posts).slice(0, 2);
   grid.innerHTML = '';
   if (!latest.length) {
     const empty = document.createElement('p');
@@ -236,18 +251,202 @@ function renderHome() {
 }
 
 function renderAllArticles() {
-  const grid = document.getElementById('articleGrid');
-  if (!grid) return;
-  grid.innerHTML = '';
-  const sorted = sortPostsByDate(posts);
-  if (!sorted.length) {
-    const empty = document.createElement('p');
-    empty.className = 'empty-state';
-    empty.textContent = '暂无文章，稍后再来看看。';
-    grid.appendChild(empty);
+  const content = document.getElementById('articleWikiContent');
+  const treeNav = document.getElementById('articlesWikiTree');
+  const yearNav = document.getElementById('articlesYearNav');
+  const legacyGrid = document.getElementById('articleGrid');
+
+  // 兼容旧版 articles.html（无 wiki 结构时）
+  if (!content || !treeNav || !yearNav) {
+    if (!legacyGrid) return;
+    legacyGrid.innerHTML = '';
+    const sorted = sortPostsByDate(posts);
+    if (!sorted.length) {
+      const empty = document.createElement('p');
+      empty.className = 'empty-state';
+      empty.textContent = '暂无文章，稍后再来看看。';
+      legacyGrid.appendChild(empty);
+      return;
+    }
+    sorted.forEach(post => legacyGrid.appendChild(createArticleCard(post)));
     return;
   }
-  sorted.forEach(post => grid.appendChild(createArticleCard(post)));
+
+  const sorted = sortPostsByDate(posts);
+  const paperTag = '论文';
+  let selectedTag = '全部';
+  let selectedSource = null;
+
+  function filterPosts() {
+    if (selectedTag === '全部') return sorted;
+    if (selectedTag === paperTag && selectedSource) {
+      return sorted.filter(p => p.tag === paperTag && p.source === selectedSource);
+    }
+    return sorted.filter(p => p.tag === selectedTag);
+  }
+
+  function buildWikiTree() {
+    treeNav.innerHTML = '';
+    const rootUl = document.createElement('ul');
+    rootUl.className = 'wiki-tree-list';
+
+    // 全部文章
+    const allLi = document.createElement('li');
+    const allLink = document.createElement('a');
+    allLink.href = 'articles.html';
+    allLink.className = 'wiki-tree-link' + (selectedTag === '全部' ? ' active' : '');
+    allLink.textContent = '全部文章';
+    allLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      selectedTag = '全部';
+      selectedSource = null;
+      buildWikiTree();
+      renderContent();
+    });
+    allLi.appendChild(allLink);
+    rootUl.appendChild(allLi);
+
+    // 按标签分组
+    const tags = Array.from(new Set(sorted.map(p => p.tag).filter(Boolean)));
+    tags.forEach(tag => {
+      const tagPosts = sorted.filter(p => p.tag === tag);
+      const isPaper = tag === paperTag;
+
+      const tagLi = document.createElement('li');
+      tagLi.className = 'wiki-tree-section';
+
+      const tagBtn = document.createElement('button');
+      tagBtn.className = 'wiki-tree-toggle' + (selectedTag === tag && !selectedSource ? ' active' : '');
+      tagBtn.type = 'button';
+      tagBtn.setAttribute('aria-expanded', 'true');
+      tagBtn.innerHTML = `<span>${escapeHtml(tag)}</span><span class="wiki-tree-count">${tagPosts.length}</span>`;
+      tagBtn.addEventListener('click', () => {
+        selectedTag = tag;
+        selectedSource = null;
+        buildWikiTree();
+        renderContent();
+      });
+      tagLi.appendChild(tagBtn);
+
+      const childrenUl = document.createElement('ul');
+      childrenUl.className = 'wiki-tree-children';
+
+      if (isPaper) {
+        // 论文再按 source 分组
+        const sources = Array.from(new Set(tagPosts.map(p => p.source).filter(Boolean)));
+        sources.forEach(source => {
+          const sourcePosts = tagPosts.filter(p => p.source === source);
+          const sourceLi = document.createElement('li');
+          sourceLi.className = 'wiki-tree-subsection';
+
+          const sourceBtn = document.createElement('button');
+          sourceBtn.className = 'wiki-tree-toggle wiki-tree-subtoggle' + (selectedTag === paperTag && selectedSource === source ? ' active' : '');
+          sourceBtn.type = 'button';
+          sourceBtn.setAttribute('aria-expanded', 'true');
+          sourceBtn.innerHTML = `<span>${escapeHtml(source)}</span><span class="wiki-tree-count">${sourcePosts.length}</span>`;
+          sourceBtn.addEventListener('click', () => {
+            selectedTag = paperTag;
+            selectedSource = source;
+            buildWikiTree();
+            renderContent();
+          });
+          sourceLi.appendChild(sourceBtn);
+
+          const sourceChildren = document.createElement('ul');
+          sourceChildren.className = 'wiki-tree-leaves';
+          sourcePosts.forEach(post => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = getPostUrl(post);
+            a.className = 'wiki-tree-leaf';
+            a.textContent = escapeHtml(post.title);
+            li.appendChild(a);
+            sourceChildren.appendChild(li);
+          });
+          sourceLi.appendChild(sourceChildren);
+          childrenUl.appendChild(sourceLi);
+        });
+      } else {
+        tagPosts.forEach(post => {
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = getPostUrl(post);
+          a.className = 'wiki-tree-leaf';
+          a.textContent = escapeHtml(post.title);
+          li.appendChild(a);
+          childrenUl.appendChild(li);
+        });
+      }
+
+      tagLi.appendChild(childrenUl);
+      rootUl.appendChild(tagLi);
+    });
+
+    treeNav.appendChild(rootUl);
+  }
+
+  function renderYearsNav(filtered) {
+    yearNav.innerHTML = '';
+    const groups = groupPostsByYear(filtered);
+    const years = Object.keys(groups).sort((a, b) => b - a);
+    if (!years.length) return;
+    years.forEach(year => {
+      const a = document.createElement('a');
+      a.href = `#year-${year}`;
+      a.className = 'wiki-nav-link';
+      a.textContent = `${year} 年`;
+      yearNav.appendChild(a);
+    });
+  }
+
+  function renderContent() {
+    const filtered = filterPosts();
+    content.innerHTML = '';
+
+    if (!filtered.length) {
+      const empty = document.createElement('p');
+      empty.className = 'empty-state';
+      empty.textContent = '暂无文章，稍后再来看看。';
+      content.appendChild(empty);
+      renderYearsNav(filtered);
+      return;
+    }
+
+    const groups = groupPostsByYear(filtered);
+    const years = Object.keys(groups).sort((a, b) => b - a);
+
+    years.forEach(year => {
+      const section = document.createElement('section');
+      section.className = 'articles-wiki-year';
+      section.id = `year-${year}`;
+
+      const header = document.createElement('div');
+      header.className = 'articles-wiki-year-header';
+      header.innerHTML = `<h3>${escapeHtml(year)} 年</h3><span class="articles-wiki-count">${groups[year].length} 篇</span>`;
+      section.appendChild(header);
+
+      const list = document.createElement('div');
+      list.className = 'article-list-grid';
+      groups[year].forEach(post => list.appendChild(createArticleCard(post)));
+      section.appendChild(list);
+
+      content.appendChild(section);
+    });
+
+    renderYearsNav(filtered);
+  }
+
+  buildWikiTree();
+  renderContent();
+
+  // 移动端展开/折叠文档树
+  const treeToggle = document.getElementById('wikiTreeToggle');
+  if (treeToggle) {
+    treeToggle.addEventListener('click', () => {
+      const isOpen = treeNav.classList.toggle('is-open');
+      treeToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+  }
 }
 
 function handleShare() {

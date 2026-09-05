@@ -3391,3 +3391,468 @@ body[data-theme="dark"] .about-qr img { border-color: #2a2a2a; }
   .about-qr img { width: 120px; height: 120px; }
   .about-contact-item { padding: 12px 14px; }
 }
+
+/* ===== 文章列表 wiki 式三栏布局 ===== */
+.articles-wiki-layout {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr) 180px;
+  gap: 40px;
+  align-items: start;
+  padding: 24px 0 40px;
+}
+
+.articles-wiki-sidebar {
+  position: sticky;
+  top: 28px;
+  max-height: calc(100vh - 56px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.articles-wiki-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.articles-wiki-sidebar::-webkit-scrollbar-thumb {
+  background: #d9d9d9;
+  border-radius: 3px;
+}
+
+.articles-wiki-sidebar-left {
+  padding-right: 12px;
+}
+
+.articles-wiki-sidebar-right {
+  padding-left: 12px;
+}
+
+.wiki-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.wiki-sidebar-header .eyebrow {
+  font-size: 0.72rem;
+  margin: 0 0 6px;
+  color: #8f8f8f;
+}
+
+.wiki-sidebar-header h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.wiki-tree-toggle-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #4f4f4f;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.wiki-tree-toggle-btn:hover {
+  border-color: #111111;
+  background-color: #f5f5f5;
+}
+
+.articles-wiki-main {
+  min-width: 0;
+}
+
+.articles-wiki-intro {
+  margin-bottom: 40px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.articles-wiki-intro h2 {
+  font-size: clamp(1.8rem, 2.2vw, 2.6rem);
+  margin: 12px 0 8px;
+}
+
+.articles-wiki-intro p {
+  margin: 0;
+  color: #6b6b6b;
+}
+
+.articles-wiki-year {
+  margin-bottom: 48px;
+  scroll-margin-top: 90px;
+}
+
+.articles-wiki-year-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.articles-wiki-year-header h3 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.articles-wiki-count {
+  font-size: 0.85rem;
+  color: #8f8f8f;
+}
+
+/* ===== wiki 文档树（左侧） ===== */
+.wiki-tree {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.wiki-tree-list,
+.wiki-tree-children,
+.wiki-tree-leaves {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.wiki-tree-list > li + li,
+.wiki-tree-section + .wiki-tree-section {
+  margin-top: 4px;
+}
+
+.wiki-tree-children,
+.wiki-tree-leaves {
+  padding-left: 12px;
+  border-left: 1px solid #e9e9e9;
+  margin-left: 10px;
+}
+
+.wiki-tree-link,
+.wiki-tree-toggle,
+.wiki-tree-leaf {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #4f4f4f;
+  font-size: 0.9rem;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.wiki-tree-link:hover,
+.wiki-tree-toggle:hover,
+.wiki-tree-leaf:hover {
+  background-color: #f3f3f3;
+  color: #111111;
+}
+
+.wiki-tree-link.active,
+.wiki-tree-toggle.active {
+  background-color: #111111;
+  color: #ffffff;
+}
+
+.wiki-tree-toggle {
+  font-weight: 500;
+}
+
+.wiki-tree-subtoggle {
+  font-weight: 400;
+  font-size: 0.86rem;
+}
+
+.wiki-tree-leaf {
+  font-size: 0.85rem;
+  color: #5f5f5f;
+  padding: 6px 10px;
+}
+
+.wiki-tree-leaf:hover {
+  color: #111111;
+}
+
+.wiki-tree-count {
+  font-size: 0.75rem;
+  color: #9a9a9a;
+  font-weight: 400;
+  flex-shrink: 0;
+}
+
+.wiki-tree-link.active .wiki-tree-count,
+.wiki-tree-toggle.active .wiki-tree-count {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* ===== 右侧年份目录 ===== */
+#articlesYearNav {
+  display: grid;
+  gap: 6px;
+}
+
+#articlesYearNav .wiki-nav-link {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 14px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  color: #4f4f4f;
+  font-size: 0.92rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+#articlesYearNav .wiki-nav-link:hover {
+  background-color: #f5f5f5;
+  color: #111111;
+}
+
+/* ===== 文章列表 wiki 式暗色模式 ===== */
+body[data-theme="dark"] .articles-wiki-intro,
+body[data-theme="dark"] .articles-wiki-year .article-card {
+  border-color: #2a2a2a;
+}
+
+body[data-theme="dark"] .articles-wiki-intro p {
+  color: #9a9a9a;
+}
+
+body[data-theme="dark"] .articles-wiki-sidebar::-webkit-scrollbar-thumb {
+  background: #444;
+}
+
+body[data-theme="dark"] .articles-wiki-count {
+  color: #9a9a9a;
+}
+
+body[data-theme="dark"] .wiki-tree-children,
+body[data-theme="dark"] .wiki-tree-leaves {
+  border-left-color: #2a2a2a;
+}
+
+body[data-theme="dark"] .wiki-tree-link,
+body[data-theme="dark"] .wiki-tree-toggle,
+body[data-theme="dark"] .wiki-tree-leaf {
+  color: #b0b0b0;
+}
+
+body[data-theme="dark"] .wiki-tree-link:hover,
+body[data-theme="dark"] .wiki-tree-toggle:hover,
+body[data-theme="dark"] .wiki-tree-leaf:hover {
+  background-color: #222222;
+  color: #ffffff;
+}
+
+body[data-theme="dark"] .wiki-tree-link.active,
+body[data-theme="dark"] .wiki-tree-toggle.active {
+  background-color: #2a2a2a;
+  color: #ffffff;
+}
+
+body[data-theme="dark"] .wiki-tree-count {
+  color: #777777;
+}
+
+body[data-theme="dark"] .wiki-tree-link.active .wiki-tree-count,
+body[data-theme="dark"] .wiki-tree-toggle.active .wiki-tree-count {
+  color: #9a9a9a;
+}
+
+body[data-theme="dark"] #articlesYearNav .wiki-nav-link {
+  color: #b0b0b0;
+}
+
+body[data-theme="dark"] #articlesYearNav .wiki-nav-link:hover {
+  background-color: #222222;
+  color: #ffffff;
+}
+
+body[data-theme="dark"] .wiki-tree-toggle-btn {
+  background: #1a1a1a;
+  border-color: #2a2a2a;
+  color: #e0e0e0;
+}
+
+body[data-theme="dark"] .wiki-tree-toggle-btn:hover {
+  border-color: #555555;
+  background-color: #222222;
+}
+
+@media (max-width: 1100px) {
+  body[data-theme="dark"] .wiki-tree {
+    background: #1a1a1a;
+    border-color: #2a2a2a;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) .articles-wiki-intro,
+  body:not([data-theme="light"]) .articles-wiki-year .article-card {
+    border-color: #2a2a2a;
+  }
+  body:not([data-theme="light"]) .articles-wiki-intro p {
+    color: #9a9a9a;
+  }
+  body:not([data-theme="light"]) .articles-wiki-sidebar::-webkit-scrollbar-thumb {
+    background: #444;
+  }
+  body:not([data-theme="light"]) .articles-wiki-count {
+    color: #9a9a9a;
+  }
+  body:not([data-theme="light"]) .wiki-tree-children,
+  body:not([data-theme="light"]) .wiki-tree-leaves {
+    border-left-color: #2a2a2a;
+  }
+  body:not([data-theme="light"]) .wiki-tree-link,
+  body:not([data-theme="light"]) .wiki-tree-toggle,
+  body:not([data-theme="light"]) .wiki-tree-leaf {
+    color: #b0b0b0;
+  }
+  body:not([data-theme="light"]) .wiki-tree-link:hover,
+  body:not([data-theme="light"]) .wiki-tree-toggle:hover,
+  body:not([data-theme="light"]) .wiki-tree-leaf:hover {
+    background-color: #222222;
+    color: #ffffff;
+  }
+  body:not([data-theme="light"]) .wiki-tree-link.active,
+  body:not([data-theme="light"]) .wiki-tree-toggle.active {
+    background-color: #2a2a2a;
+    color: #ffffff;
+  }
+  body:not([data-theme="light"]) .wiki-tree-count {
+    color: #777777;
+  }
+  body:not([data-theme="light"]) .wiki-tree-link.active .wiki-tree-count,
+  body:not([data-theme="light"]) .wiki-tree-toggle.active .wiki-tree-count {
+    color: #9a9a9a;
+  }
+  body:not([data-theme="light"]) #articlesYearNav .wiki-nav-link {
+    color: #b0b0b0;
+  }
+  body:not([data-theme="light"]) #articlesYearNav .wiki-nav-link:hover {
+    background-color: #222222;
+    color: #ffffff;
+  }
+  body:not([data-theme="light"]) .wiki-tree-toggle-btn {
+    background: #1a1a1a;
+    border-color: #2a2a2a;
+    color: #e0e0e0;
+  }
+  body:not([data-theme="light"]) .wiki-tree-toggle-btn:hover {
+    border-color: #555555;
+    background-color: #222222;
+  }
+}
+
+@media (max-width: 1100px) and (prefers-color-scheme: dark) {
+  body:not([data-theme="light"]) .wiki-tree {
+    background: #1a1a1a;
+    border-color: #2a2a2a;
+  }
+}
+
+/* ===== 文章列表 wiki 式响应式 ===== */
+@media (max-width: 1100px) {
+  .articles-wiki-layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .articles-wiki-sidebar {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    order: -1;
+  }
+
+  .articles-wiki-sidebar-left,
+  .articles-wiki-sidebar-right {
+    padding: 0;
+  }
+
+  .wiki-tree-toggle-btn {
+    display: inline-flex;
+  }
+
+  .wiki-tree {
+    display: none;
+    padding: 12px;
+    border: 1px solid #e5e5e5;
+    border-radius: 16px;
+    background: #fafafa;
+    margin-top: 8px;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
+  .wiki-tree.is-open {
+    display: block;
+  }
+
+  .wiki-tree-link,
+  .wiki-tree-toggle,
+  .wiki-tree-leaf {
+    border: 1px solid transparent;
+  }
+
+  .wiki-tree-link.active,
+  .wiki-tree-toggle.active {
+    border-color: transparent;
+  }
+
+  #articlesYearNav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  #articlesYearNav .wiki-nav-link {
+    width: auto;
+    border: 1px solid #e5e5e5;
+  }
+
+  .articles-wiki-intro {
+    margin-bottom: 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .articles-wiki-layout {
+    padding: 8px 0 28px;
+  }
+
+  .articles-wiki-year {
+    margin-bottom: 32px;
+  }
+
+  .articles-wiki-year-header {
+    margin-bottom: 16px;
+  }
+
+  .wiki-tree-link,
+  .wiki-tree-toggle,
+  .wiki-tree-leaf,
+  #articlesYearNav .wiki-nav-link {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+}
