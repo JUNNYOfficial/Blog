@@ -5,8 +5,17 @@
     <link>https://junnyshang.online/</link>
     <description>脑科学笔记 · 日常记录 · 极简设计</description>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 27 Aug 2026 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 05 Sep 2026 00:00:00 +0800</lastBuildDate>
     <atom:link href="https://junnyshang.online/feed.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>The Paradox of “Digital Immortality”: Identity, Grief, and the AI Afterlife</title>
+      <link>https://junnyshang.online/article.html?id=5</link>
+      <guid>https://junnyshang.online/article.html?id=5</guid>
+      <pubDate>Sat, 05 Sep 2026 00:00:00 +0800</pubDate>
+      <category>思考</category>
+      <description><![CDATA[从深圳一场社区辩论出发，讨论数字永生如何重新提出身份、哀悼与人工智能来世的问题。]]></description>
+    </item>
 
     <item>
       <title>恰到好处的8月总结（积累极多合作经验之后的）</title>

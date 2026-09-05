@@ -487,8 +487,8 @@ function renderArticle() {
   tag.textContent = article.source || article.tag;
   date.textContent = article.date;
   reading.textContent = article.reading;
-  // 渲染正文：识别「一、二、三、」式小标题，转为可跳转的 h4 并生成目录
-  const headingRe = /^[一二三四五六七八九十]+、/;
+  // 渲染正文：识别序号或英文小标题，转为可跳转的 h4 并生成目录
+  const headingRe = /^(?:[一二三四五六七八九十]+、|The Form and Definition of Digital Existence$|The Timeline: How Long is “Forever”\?$|A Subjective Frontier$)/;
   const tocHeadings = [];
   body.innerHTML = article.body.map(paragraph => {
     const t = paragraph.trim();
