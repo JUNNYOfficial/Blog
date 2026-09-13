@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <title>残差触发数据采集 · 项目展示 · zhilinOfficial Blog</title>
+  <meta name="description" content="从小脑式预测-取消到一个数据采集协议层：用 IMU 副本预测自运动，残差大的片段才触发存储。零训练、零标注、0.17ms/帧。含可交互残差触发模拟器。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="残差触发数据采集 · 项目展示" />
+  <meta property="og:description" content="不检测重要的，预测不重要的——小脑启发的常开相机数据筛选层。" />
+  <meta property="og:url" content="https://junnyshang.online/project-residual-trigger.html" />
+  <meta property="og:image" content="https://junnyshang.online/avatar.jpg" />
+  <meta property="og:site_name" content="zhilinOfficial Blog" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="theme-color" content="#111111" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23111'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='60' font-family='system-ui' font-weight='700'%3EJ%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css?v=53" />
+  <style>
+    /* ===== 项目展示页 scoped 样式 ===== */
+    .rt-hero { padding: 40px 0 8px; max-width: 860px; }
+    .rt-hero h1 { margin: 10px 0 14px; }
+    .rt-hero .rt-lede { font-size: 1.12rem; line-height: 1.75; color: #424242; margin: 0 0 20px; }
+    .rt-hero .rt-lede strong { color: #111; }
+    .rt-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; padding: 0; list-style: none; }
+    .rt-tags li { font-size: 0.82rem; padding: 5px 12px; border-radius: 999px; background: #f5f5f5; color: #555; border: 1px solid #e8e8e8; }
+    .rt-hero-links { display: flex; flex-wrap: wrap; gap: 10px; }
+    .rt-hero-links a {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 11px 20px; border-radius: 999px; border: 1px solid #111;
+      background: #111; color: #fff; font-size: 0.92rem; text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+    .rt-hero-links a:hover { opacity: 0.82; }
+    .rt-hero-links a.rt-ghost { background: transparent; color: #111; border-color: #d4d4d4; }
+    .rt-hero-links a.rt-ghost:hover { border-color: #111; opacity: 1; }
+
+    /* 核心数字 */
+    .rt-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
+    .rt-stat { border: 1px solid #e9e9e9; border-radius: 20px; padding: 20px 22px; background: #fff; }
+    .rt-stat b { display: block; font-size: 1.9rem; line-height: 1.1; font-weight: 700; letter-spacing: -0.01em; }
+    .rt-stat b small { font-size: 1rem; font-weight: 600; color: #8f8f8f; margin-left: 2px; }
+    .rt-stat span { display: block; margin-top: 8px; font-size: 0.86rem; color: #6b6b6b; line-height: 1.5; }
+    .rt-stat.rt-accent { background: #111; border-color: #111; }
+    .rt-stat.rt-accent b, .rt-stat.rt-accent span { color: #fff; }
+    .rt-stat.rt-accent b small { color: #a5a5a5; }
+
+    /* 交互模拟器 */
+    .rt-sim-wrap { border: 1px solid #e9e9e9; border-radius: 22px; overflow: hidden; background: #0d0d0f; }
+    .rt-sim-stage { position: relative; }
+    #rtScene { display: block; width: 100%; height: auto; cursor: grab; }
+    #rtScene:active { cursor: grabbing; }
+    .rt-sim-controls {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 18px 26px;
+      padding: 14px 20px; border-top: 1px solid #232327; background: #151518;
+    }
+    .rt-sim-controls .rt-ctl { display: flex; align-items: center; gap: 10px; color: #b9b9c0; font-size: 0.85rem; }
+    .rt-sim-controls input[type="range"] { width: 130px; accent-color: #e8e8e8; }
+    .rt-sim-controls button {
+      font: inherit; font-size: 0.85rem; padding: 8px 18px; border-radius: 999px;
+      border: 1px solid #3a3a40; background: transparent; color: #e5e5e5; cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .rt-sim-controls button:hover { background: #232329; }
+    .rt-sim-readouts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: #232327; border-top: 1px solid #232327; }
+    .rt-readout { background: #151518; padding: 14px 20px; }
+    .rt-readout .rt-ro-label { font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: #7d7d85; }
+    .rt-readout .rt-ro-value { font-size: 1.3rem; font-weight: 650; color: #f0f0f2; font-variant-numeric: tabular-nums; }
+    .rt-readout .rt-ro-sub { font-size: 0.76rem; color: #7d7d85; }
+    #rtChart { display: block; width: 100%; height: 190px; background: #101013; border-top: 1px solid #232327; }
+    .rt-sim-legend { display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 10px 20px; background: #101013; border-top: 1px solid #232327; font-size: 0.78rem; color: #8d8d95; }
+    .rt-sim-legend i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+
+    /* 流水线图 */
+    .rt-pipeline { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+    .rt-pipe-step { position: relative; border: 1px solid #e9e9e9; border-radius: 18px; padding: 20px; background: #fafafa; }
+    .rt-pipe-step .rt-pipe-num { position: absolute; top: 14px; right: 16px; font-size: 0.75rem; color: #b0b0b0; font-variant-numeric: tabular-nums; }
+    .rt-pipe-step h4 { margin: 0 0 4px; font-size: 1.02rem; }
+    .rt-pipe-step .rt-pipe-en { font-size: 0.76rem; color: #9a9a9a; letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 10px; }
+    .rt-pipe-step p { margin: 0; font-size: 0.88rem; color: #555; line-height: 1.6; }
+    .rt-pipe-step p b { color: #111; }
+    .rt-pipe-arrow { display: none; }
+
+    /* 成本条形图（对数刻度） */
+    .rt-bars { display: flex; flex-direction: column; gap: 12px; }
+    .rt-bar-row { display: grid; grid-template-columns: 190px 1fr 86px; align-items: center; gap: 14px; }
+    .rt-bar-row .rt-bar-name { font-size: 0.88rem; color: #444; text-align: right; line-height: 1.35; }
+    .rt-bar-track { position: relative; height: 26px; background: #f3f3f3; border-radius: 8px; overflow: hidden; }
+    .rt-bar-fill { position: absolute; inset: 0 auto 0 0; border-radius: 8px; background: #c9c9c9; transition: width 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); }
+    .rt-bar-fill.rt-bar-hl { background: #111; }
+    .rt-bar-row .rt-bar-val { font-size: 0.88rem; font-weight: 600; color: #111; font-variant-numeric: tabular-nums; }
+    .rt-bars-note { font-size: 0.8rem; color: #9a9a9a; margin: 14px 0 0; }
+
+    /* 下游对比 */
+    .rt-ds-row { display: grid; grid-template-columns: 168px 1fr 74px; align-items: center; gap: 14px; margin-bottom: 13px; }
+    .rt-ds-name { font-size: 0.9rem; color: #333; text-align: right; }
+    .rt-ds-name small { display: block; font-size: 0.74rem; color: #9a9a9a; }
+    .rt-ds-track { position: relative; height: 24px; background: #f3f3f3; border-radius: 7px; overflow: hidden; }
+    .rt-ds-fill { position: absolute; inset: 0 auto 0 0; border-radius: 7px; background: #bdbdbd; }
+    .rt-ds-fill.rt-ds-hl { background: #111; }
+    .rt-ds-fill.rt-ds-oracle { background: repeating-linear-gradient(45deg, #999, #999 5px, #b5b5b5 5px, #b5b5b5 10px); }
+    .rt-ds-val { font-size: 0.88rem; font-weight: 650; color: #111; font-variant-numeric: tabular-nums; }
+    .rt-ds-scale { display: flex; justify-content: space-between; font-size: 0.74rem; color: #a8a8a8; margin-top: 6px; }
+
+    /* 实验总表 */
+    .rt-exp-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    .rt-exp-table th { text-align: left; font-size: 0.76rem; letter-spacing: 0.06em; text-transform: uppercase; color: #9a9a9a; font-weight: 600; padding: 0 12px 10px 0; border-bottom: 1px solid #e9e9e9; }
+    .rt-exp-table td { padding: 11px 12px 11px 0; border-bottom: 1px solid #f0f0f0; vertical-align: top; line-height: 1.55; color: #444; }
+    .rt-exp-table td.rt-exp-id { color: #b0b0b0; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .rt-exp-table td.rt-exp-num { font-variant-numeric: tabular-nums; white-space: nowrap; color: #111; font-weight: 550; }
+    .rt-exp-table tr:last-child td { border-bottom: none; }
+    .rt-badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.76rem; font-weight: 600; white-space: nowrap; }
+    .rt-badge-ok { background: #e8f5ec; color: #1c7a3d; }
+    .rt-badge-warn { background: #fdf3e3; color: #a06a12; }
+    .rt-badge-bad { background: #faeaea; color: #b03a3a; }
+    .rt-badge-todo { background: #f0f0f0; color: #888; }
+
+    /* 思想谱系时间线 */
+    .rt-timeline { position: relative; margin: 6px 0 0; padding: 0 0 0 26px; }
+    .rt-timeline::before { content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px; background: #e5e5e5; border-radius: 2px; }
+    .rt-tl-item { position: relative; padding-bottom: 22px; }
+    .rt-tl-item:last-child { padding-bottom: 0; }
+    .rt-tl-item::before { content: ""; position: absolute; left: -26px; top: 5px; width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 2px solid #c9c9c9; }
+    .rt-tl-item.rt-tl-now::before { border-color: #111; background: #111; }
+    .rt-tl-year { font-size: 0.78rem; color: #9a9a9a; font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
+    .rt-tl-item h4 { margin: 2px 0 4px; font-size: 1rem; }
+    .rt-tl-item p { margin: 0; font-size: 0.88rem; color: #555; line-height: 1.6; max-width: 640px; }
+
+    /* 边界卡片 */
+    .rt-boundary { border: 1px solid #e9e9e9; border-left: 4px solid #c9c9c9; border-radius: 14px; padding: 18px 20px; margin-bottom: 14px; background: #fcfcfc; }
+    .rt-boundary h4 { margin: 0 0 6px; font-size: 0.98rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .rt-boundary p { margin: 0; font-size: 0.89rem; color: #555; line-height: 1.65; }
+    .rt-verdict { font-size: 0.76rem; padding: 2px 10px; border-radius: 999px; font-weight: 600; }
+    .rt-verdict-bad { background: #faeaea; color: #b03a3a; }
+    .rt-verdict-warn { background: #fdf3e3; color: #a06a12; }
+
+    .rt-note { font-size: 0.85rem; color: #9a9a9a; line-height: 1.6; }
+    .rt-figure-caption { font-size: 0.8rem; color: #9a9a9a; margin: 10px 0 0; }
+
+    @media (max-width: 680px) {
+      .rt-bar-row { grid-template-columns: 1fr; gap: 4px; }
+      .rt-bar-row .rt-bar-name { text-align: left; }
+      .rt-ds-row { grid-template-columns: 1fr; gap: 4px; }
+      .rt-ds-name { text-align: left; }
+      .rt-ds-name small { display: inline; margin-left: 6px; }
+      .rt-ds-val { margin-bottom: 8px; }
+      .rt-exp-table .rt-exp-hide { display: none; }
+    }
+
+    /* ===== 暗色模式 ===== */
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) .rt-hero .rt-lede { color: #b0b0b0; }
+      body:not([data-theme="light"]) .rt-hero .rt-lede strong { color: #e8e8e8; }
+      body:not([data-theme="light"]) .rt-tags li { background: #1e1e1e; color: #aaa; border-color: #2a2a2a; }
+      body:not([data-theme="light"]) .rt-hero-links a { background: #e8e8e8; color: #111; border-color: #e8e8e8; }
+      body:not([data-theme="light"]) .rt-hero-links a.rt-ghost { background: transparent; color: #e0e0e0; border-color: #3a3a3a; }
+      body:not([data-theme="light"]) .rt-hero-links a.rt-ghost:hover { border-color: #888; }
+      body:not([data-theme="light"]) .rt-stat { background: transparent; border-color: #2a2a2a; }
+      body:not([data-theme="light"]) .rt-stat b { color: #e8e8e8; }
+      body:not([data-theme="light"]) .rt-stat b small { color: #888; }
+      body:not([data-theme="light"]) .rt-stat span { color: #9a9a9a; }
+      body:not([data-theme="light"]) .rt-stat.rt-accent { background: #e8e8e8; border-color: #e8e8e8; }
+      body:not([data-theme="light"]) .rt-stat.rt-accent b, body:not([data-theme="light"]) .rt-stat.rt-accent span { color: #111; }
+      body:not([data-theme="light"]) .rt-stat.rt-accent b small { color: #666; }
+      body:not([data-theme="light"]) .rt-pipe-step { background: #161616; border-color: #2a2a2a; }
+      body:not([data-theme="light"]) .rt-pipe-step h4 { color: #e5e5e5; }
+      body:not([data-theme="light"]) .rt-pipe-step p { color: #9a9a9a; }
+      body:not([data-theme="light"]) .rt-pipe-step p b { color: #e0e0e0; }
+      body:not([data-theme="light"]) .rt-bar-track, body:not([data-theme="light"]) .rt-ds-track { background: #1e1e1e; }
+      body:not([data-theme="light"]) .rt-bar-fill { background: #4a4a4a; }
+      body:not([data-theme="light"]) .rt-bar-fill.rt-bar-hl { background: #e0e0e0; }
+      body:not([data-theme="light"]) .rt-bar-row .rt-bar-name { color: #9a9a9a; }
+      body:not([data-theme="light"]) .rt-bar-row .rt-bar-val { color: #e5e5e5; }
+      body:not([data-theme="light"]) .rt-ds-name { color: #cfcfcf; }
+      body:not([data-theme="light"]) .rt-ds-name small { color: #888; }
+      body:not([data-theme="light"]) .rt-ds-fill { background: #4a4a4a; }
+      body:not([data-theme="light"]) .rt-ds-fill.rt-ds-hl { background: #e0e0e0; }
+      body:not([data-theme="light"]) .rt-ds-fill.rt-ds-oracle { background: repeating-linear-gradient(45deg, #555, #555 5px, #6b6b6b 5px, #6b6b6b 10px); }
+      body:not([data-theme="light"]) .rt-ds-val { color: #e5e5e5; }
+      body:not([data-theme="light"]) .rt-exp-table th { color: #888; border-color: #2a2a2a; }
+      body:not([data-theme="light"]) .rt-exp-table td { color: #a8a8a8; border-color: #1f1f1f; }
+      body:not([data-theme="light"]) .rt-exp-table td.rt-exp-num { color: #e5e5e5; }
+      body:not([data-theme="light"]) .rt-badge-ok { background: #152b1c; color: #58b47a; }
+      body:not([data-theme="light"]) .rt-badge-warn { background: #2e2413; color: #d8a04a; }
+      body:not([data-theme="light"]) .rt-badge-bad { background: #331717; color: #d86a6a; }
+      body:not([data-theme="light"]) .rt-badge-todo { background: #222; color: #777; }
+      body:not([data-theme="light"]) .rt-timeline::before { background: #2a2a2a; }
+      body:not([data-theme="light"]) .rt-tl-item::before { background: #111; border-color: #4a4a4a; }
+      body:not([data-theme="light"]) .rt-tl-item.rt-tl-now::before { background: #e8e8e8; border-color: #e8e8e8; }
+      body:not([data-theme="light"]) .rt-tl-item h4 { color: #e5e5e5; }
+      body:not([data-theme="light"]) .rt-tl-item p { color: #9a9a9a; }
+      body:not([data-theme="light"]) .rt-boundary { background: #141414; border-color: #2a2a2a; border-left-color: #4a4a4a; }
+      body:not([data-theme="light"]) .rt-boundary h4 { color: #e0e0e0; }
+      body:not([data-theme="light"]) .rt-boundary p { color: #9a9a9a; }
+      body:not([data-theme="light"]) .rt-verdict-bad { background: #331717; color: #d86a6a; }
+      body:not([data-theme="light"]) .rt-verdict-warn { background: #2e2413; color: #d8a04a; }
+      body:not([data-theme="light"]) .rt-note { color: #888; }
+    }
+    body[data-theme="dark"] .rt-hero .rt-lede { color: #b0b0b0; }
+    body[data-theme="dark"] .rt-hero .rt-lede strong { color: #e8e8e8; }
+    body[data-theme="dark"] .rt-tags li { background: #1e1e1e; color: #aaa; border-color: #2a2a2a; }
+    body[data-theme="dark"] .rt-hero-links a { background: #e8e8e8; color: #111; border-color: #e8e8e8; }
+    body[data-theme="dark"] .rt-hero-links a.rt-ghost { background: transparent; color: #e0e0e0; border-color: #3a3a3a; }
+    body[data-theme="dark"] .rt-stat { background: transparent; border-color: #2a2a2a; }
+    body[data-theme="dark"] .rt-stat b { color: #e8e8e8; }
+    body[data-theme="dark"] .rt-stat span { color: #9a9a9a; }
+    body[data-theme="dark"] .rt-stat.rt-accent { background: #e8e8e8; border-color: #e8e8e8; }
+    body[data-theme="dark"] .rt-stat.rt-accent b, body[data-theme="dark"] .rt-stat.rt-accent span { color: #111; }
+    body[data-theme="dark"] .rt-pipe-step { background: #161616; border-color: #2a2a2a; }
+    body[data-theme="dark"] .rt-pipe-step h4 { color: #e5e5e5; }
+    body[data-theme="dark"] .rt-pipe-step p { color: #9a9a9a; }
+    body[data-theme="dark"] .rt-pipe-step p b { color: #e0e0e0; }
+    body[data-theme="dark"] .rt-bar-track, body[data-theme="dark"] .rt-ds-track { background: #1e1e1e; }
+    body[data-theme="dark"] .rt-bar-fill { background: #4a4a4a; }
+    body[data-theme="dark"] .rt-bar-fill.rt-bar-hl { background: #e0e0e0; }
+    body[data-theme="dark"] .rt-ds-fill { background: #4a4a4a; }
+    body[data-theme="dark"] .rt-ds-fill.rt-ds-hl { background: #e0e0e0; }
+    body[data-theme="dark"] .rt-exp-table th { color: #888; border-color: #2a2a2a; }
+    body[data-theme="dark"] .rt-exp-table td { color: #a8a8a8; border-color: #1f1f1f; }
+    body[data-theme="dark"] .rt-exp-table td.rt-exp-num { color: #e5e5e5; }
+    body[data-theme="dark"] .rt-badge-ok { background: #152b1c; color: #58b47a; }
+    body[data-theme="dark"] .rt-badge-warn { background: #2e2413; color: #d8a04a; }
+    body[data-theme="dark"] .rt-badge-bad { background: #331717; color: #d86a6a; }
+    body[data-theme="dark"] .rt-badge-todo { background: #222; color: #777; }
+    body[data-theme="dark"] .rt-timeline::before { background: #2a2a2a; }
+    body[data-theme="dark"] .rt-tl-item::before { background: #111; border-color: #4a4a4a; }
+    body[data-theme="dark"] .rt-tl-item.rt-tl-now::before { background: #e8e8e8; border-color: #e8e8e8; }
+    body[data-theme="dark"] .rt-tl-item h4 { color: #e5e5e5; }
+    body[data-theme="dark"] .rt-tl-item p { color: #9a9a9a; }
+    body[data-theme="dark"] .rt-boundary { background: #141414; border-color: #2a2a2a; border-left-color: #4a4a4a; }
+    body[data-theme="dark"] .rt-boundary h4 { color: #e0e0e0; }
+    body[data-theme="dark"] .rt-boundary p { color: #9a9a9a; }
+    body[data-theme="dark"] .rt-verdict-bad { background: #331717; color: #d86a6a; }
+    body[data-theme="dark"] .rt-verdict-warn { background: #2e2413; color: #d8a04a; }
+    body[data-theme="dark"] .rt-note { color: #888; }
+  </style>
+</head>
+<body data-page="project">
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand">
+        <img class="brand-mark" src="avatar.jpg" alt="zhilinOfficial" />
+        <div>
+          <p class="eyebrow">zhilinOfficial</p>
+          <h1>项目展示</h1>
+        </div>
+      </div>
+      <nav class="nav-links" aria-label="主导航">
+        <a href="index.html">首页</a>
+        <a href="articles.html">文章</a>
+        <a href="cooperate.html">合作</a>
+        <a href="contact.html">联系</a>
+        <a href="about.html">关于</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ===== Hero ===== -->
+      <section class="rt-hero">
+        <p class="eyebrow">独立研究项目 · 神经科学 × 工程</p>
+        <h1>残差触发数据采集</h1>
+        <p class="rt-lede">
+          常开相机一天产生约 270 GB 原始视频，但真正有价值的片段常常不到 3%。
+          <strong>检测"什么重要"很难，预测"什么变化是自己造成的"很容易</strong>——因为设备自带 IMU。
+          这个项目把小脑/电鱼的「伴随放电 → 负像学习 → 残差上报」三元件电路搬进相机数据通路：
+          用陀螺仪副本预测自运动引起的视流并减掉，<strong>残差大的片段才触发存储</strong>。
+          零训练、零标注、0.17 ms/帧。
+        </p>
+        <ul class="rt-tags">
+          <li>小脑启发</li>
+          <li>具身智能数据采集</li>
+          <li>IMU 副本</li>
+          <li>在线自适应</li>
+          <li>零训练零标注</li>
+          <li>可证伪实验</li>
+        </ul>
+        <div class="rt-hero-links">
+          <a href="https://hcnqd9x8ite5.feishu.cn/wiki/Syn4wHrxeiQSIRk5zTScW6ohncH" target="_blank" rel="noreferrer noopener">阅读完整项目文档（飞书知识库）</a>
+          <a href="#rt-sim" class="rt-ghost">直接试交互演示 ↓</a>
+        </div>
+      </section>
+
+      <!-- ===== 核心数字 ===== -->
+      <section class="panel-section">
+        <div class="section-header">
+          <p class="eyebrow">Headline Numbers</p>
+          <h3>核心数字（全部实测）</h3>
+        </div>
+        <div class="rt-stats">
+          <div class="rt-stat rt-accent"><b>3.4<small>%</small></b><span>合成 rig 上触发器的存储占比——用 1/15 的存储打赢均匀采样 4 倍预算</span></div>
+          <div class="rt-stat"><b>0.171<small> ms/帧</small></b><span>像素管线成本，仅占 30 fps 帧预算的 0.5%，便宜到可以 always-on</span></div>
+          <div class="rt-stat"><b>0.298</b><span>残差选中片段训练下游模型的 val AP（uniform 4x 预算仅 0.145）</span></div>
+          <div class="rt-stat"><b>0.96</b><span>事件召回 evRec@10，超过全预算 oracle（0.72）——且保留上下文</span></div>
+        </div>
+        <p class="rt-note" style="margin-top:18px;">范围声明：下游价值结论成立在<b>合成 regime</b>；真实 egocentric 数据上"运动不可预测 ≠ 语义重要性"已被 10 段 250 轮实验钉死（见下文"边界"）。负结果和正结果一样，都是这个项目的产出。</p>
+      </section>
+
+      <!-- ===== 交互演示 ===== -->
+      <section class="panel-section" id="rt-sim">
+        <div class="section-header">
+          <p class="eyebrow">Interactive Demo</p>
+          <h3>残差触发模拟器</h3>
+          <p class="rt-note" style="margin-top:10px;">一个可玩的合成场景：灰色网格世界里，<b>相机自己在随机转动</b>（你也可以按住画面左右拖动来模拟手持晃动），偶尔有<b style="color:#c86a6a;">新物体出现（ground-truth 事件）</b>。下面两条曲线分别记录"朴素帧差"和"陀螺仪补偿后的残差"的 z 分数。朴素帧差被自己的运动淹没；补偿后的残差只在真正的事件处越过阈值——这就是整套方法成立的核心机制。</p>
+        </div>
+        <div class="rt-sim-wrap">
+          <div class="rt-sim-stage">
+            <canvas id="rtScene" width="960" height="360"></canvas>
+          </div>
+          <div class="rt-sim-readouts">
+            <div class="rt-readout"><span class="rt-ro-label">Cerebellum 存储占比</span><div class="rt-ro-value" id="rtStoredC">—</div><span class="rt-ro-sub">z 分数触发，自适应</span></div>
+            <div class="rt-readout"><span class="rt-ro-label">Naive 帧差 存储占比</span><div class="rt-ro-value" id="rtStoredN">—</div><span class="rt-ro-sub">同样自适应阈值，无补偿</span></div>
+            <div class="rt-readout"><span class="rt-ro-label">事件召回（Cerebellum）</span><div class="rt-ro-value" id="rtRecallC">—</div><span class="rt-ro-sub">事件帧中被存下的比例</span></div>
+            <div class="rt-readout"><span class="rt-ro-label">事件召回（Naive）</span><div class="rt-ro-value" id="rtRecallN">—</div><span class="rt-ro-sub">对照组</span></div>
+          </div>
+          <canvas id="rtChart" width="960" height="190"></canvas>
+          <div class="rt-sim-legend">
+            <span><i style="background:#e05555;"></i>朴素帧差 z（被自运动淹没）</span>
+            <span><i style="background:#4fc38a;"></i>陀螺补偿残差 z（只在事件处开火）</span>
+            <span><i style="background:#f0c040;"></i>触发阈值</span>
+            <span><i style="background:rgba(224,85,85,.25); height:10px;"></i>ground-truth 事件区间</span>
+          </div>
+          <div class="rt-sim-controls">
+            <button id="rtPlay" type="button">暂停</button>
+            <label class="rt-ctl">相机运动
+              <input type="range" id="rtAmp" min="0" max="100" value="55" />
+            </label>
+            <label class="rt-ctl">事件频率
+              <input type="range" id="rtEvRate" min="0" max="100" value="40" />
+            </label>
+            <label class="rt-ctl">IMU 噪声
+              <input type="range" id="rtNoise" min="0" max="100" value="6" />
+            </label>
+            <button id="rtReset" type="button">重置统计</button>
+          </div>
+        </div>
+        <p class="rt-figure-caption">教学模拟：预测器在这个玩具世界里享有"合成 rig 特权"——运动恰好是纯旋转、副本恰好精确。真实数据上副本会退化、运动含平移与视差，此时残差质量优势不再兑现——这正是项目花 15 个实验去丈量的东西。</p>
+      </section>
+
+      <!-- ===== 方法 ===== -->
+      <section class="panel-section">
+        <div class="section-header">
+          <p class="eyebrow">Method</p>
+          <h3>方法：伴随放电 → 负像 → 残差</h3>
+        </div>
+        <div class="rt-pipeline">
+          <div class="rt-pipe-step">
+            <span class="rt-pipe-num">01</span>
+            <h4>副本</h4>
+            <p class="rt-pipe-en">Corollary Discharge</p>
+            <p>读陀螺仪，知道相机此刻在怎么转。<b>电鱼为这份副本进化了一整套神经结构，手机出厂就有。</b>获取成本 0.032 ms/帧。</p>
+          </div>
+          <div class="rt-pipe-step">
+            <span class="rt-pipe-num">02</span>
+            <h4>负像</h4>
+            <p class="rt-pipe-en">Negative Image</p>
+            <p>在深度特征图（MobileNetV3 [:3]，24×28×28）上维护逐格运行统计，学出"自己运动通常造成多大的变化"——在线、无标注、无时钟、可 winsorized。</p>
+          </div>
+          <div class="rt-pipe-step">
+            <span class="rt-pipe-num">03</span>
+            <h4>残差触发</h4>
+            <p class="rt-pipe-en">Residual Report</p>
+            <p>把预测到的部分 warp 减掉，<b>残差 z 分数大的片段才触发存储</b>。存的是"设备自己预测不了"的画面——运动去重 + 带宽预筛。</p>
+          </div>
+        </div>
+        <p class="rt-figure-caption">对照生物学：非洲弱电鱼用同款三元件电路，把自己比猎物信号强几个数量级的自发电干扰从感受器输出里减掉（Perks et al., Nature 2026，connectome 重建 29,694 个突触证实）。</p>
+      </section>
+
+      <!-- ===== 成本账 ===== -->
+      <section class="panel-section">
+        <div class="section-header">
+          <p class="eyebrow">Cost Profile</p>
+          <h3>成本账：副本的代价是 30 微秒</h3>
+        </div>
+        <div class="rt-bars" id="rtCostBars">
+          <div class="rt-bar-row"><span class="rt-bar-name">gyro shift（24×28×28 特征图）</span><div class="rt-bar-track"><div class="rt-bar-fill rt-bar-hl" data-logms="-1.5"></div></div><span class="rt-bar-val">0.032 ms</span></div>
+          <div class="rt-bar-row"><span class="rt-bar-name">像素管线核心（warp+网格+可塑性+触发）</span><div class="rt-bar-track"><div class="rt-bar-fill rt-bar-hl" data-logms="-0.77"></div></div><span class="rt-bar-val">0.171 ms</span></div>
+          <div class="rt-bar-row"><span class="rt-bar-name">冻结 backbone 前向（MobileNetV3 [:3]）</span><div class="rt-bar-track"><div class="rt-bar-fill" data-logms="-0.08"></div></div><span class="rt-bar-val">0.83 ms</span></div>
+          <div class="rt-bar-row"><span class="rt-bar-name">DIS 稠密光流（320×240）</span><div class="rt-bar-track"><div class="rt-bar-fill" data-logms="0.58"></div></div><span class="rt-bar-val">3.81 ms</span></div>
+          <div class="rt-bar-row"><span class="rt-bar-name">完整 flow-cancel 步</span><div class="rt-bar-track"><div class="rt-bar-fill" data-logms="0.65"></div></div><span class="rt-bar-val">4.46 ms</span></div>
+        </div>
+        <div class="rt-ds-scale"><span>0.03 ms</span><span>对数刻度 →</span><span>4.5 ms（30fps 帧预算的 13%）</span></div>
+        <p class="rt-bars-note">读法：「用感觉补偿感觉」（光流）比 IMU 副本贵约 <b>120 倍</b>，且依赖纹理、怕大位移；常开约束下不可接受。光流的真实位置是质量上限与按需仲裁者，不是常开预测器。CPU vs MPS 特征逐位一致（最大相对差 2e-6），CPU 仅慢 1.7 倍。</p>
+      </section>
+
+      <!-- ===== 下游对比 ===== -->
+      <section class="panel-section">
+        <div class="section-header">
+          <p class="eyebrow">Downstream Value</p>
+          <h3>存储-价值对比：合成 rig 下游训练</h3>
+          <p class="rt-note" style="margin-top:10px;">冻结特征 + 帧级事件分类（logistic 头）。条形为 val AP；括注为存储占比。残差触发（黑条）用 <b>3.4%</b> 的存储拿到最高 AP，并超过全预算 oracle 的事件召回。</p>
+        </div>
+        <div id="rtDsBars">
+          <div class="rt-ds-row"><span class="rt-ds-name">cerebellum<small>自适应触发</small></span><div class="rt-ds-track"><div class="rt-ds-fill rt-ds-hl" data-ap="0.298"></div></div><span class="rt-ds-val">0.298 · 3.4%</span></div>
+          <div class="rt-ds-row"><span class="rt-ds-name">uniform 0.5x<small>半数字节</small></span><div class="rt-ds-track"><div class="rt-ds-fill" data-ap="0.126"></div></div><span class="rt-ds-val">0.126 · 7.9%</span></div>
+          <div class="rt-ds-row"><span class="rt-ds-name">uniform 1x<small>基准预算</small></span><div class="rt-ds-track"><div class="rt-ds-fill" data-ap="0.127"></div></div><span class="rt-ds-val">0.127 · 15.0%</span></div>
+          <div class="rt-ds-row"><span class="rt-ds-name">uniform 2x<small>双倍预算</small></span><div class="rt-ds-track"><div class="rt-ds-fill" data-ap="0.113"></div></div><span class="rt-ds-val">0.113 · 30.1%</span></div>
+          <div class="rt-ds-row"><span class="rt-ds-name">uniform 4x<small>四倍预算</small></span><div class="rt-ds-track"><div class="rt-ds-fill" data-ap="0.145"></div></div><span class="rt-ds-val">0.145 · 51.0%</span></div>
+          <div class="rt-ds-row"><span class="rt-ds-name">oracle<small>预算全花在事件帧</small></span><div class="rt-ds-track"><div class="rt-ds-fill rt-ds-oracle" data-ap="0.191"></div></div><span class="rt-ds-val">0.191 · 1.9%</span></div>
+        </div>
+        <div class="rt-ds-scale"><span>0</span><span>val AP</span><span>0.3</span></div>
+        <p class="rt-bars-note">为什么 cerebellum 能打赢存储更少的 oracle：oracle 只存事件帧，丢掉了上下文；残差触发保留事件前后的背景，下游模型因此学得更好。这是「保留上下文」价值的直接证据。</p>
+      </section>
+
+      <!-- ===== 实验总表 ===== -->
+      <section class="panel-section">
+        <div class="section-header">
+          <p class="eyebrow">Experiment Ledger</p>
+          <h3>15 个实验的诚实台账</h3>
+          <p class="rt-note" style="margin-top:10px;">项目的原则：论文的每条启发对应一个可独立复现的实验，正结果和负结果都记录在案。✅ 成立 · ⚠️ 部分成立 · ❌ 实测不成立 · ⬜ 未验证</p>
+        </div>
+        <table class="rt-exp-table">
+          <thead><tr><th>#</th><th>实验</th><th class="rt-exp-hide">核心数字</th><th>状态</th></tr></thead>
+          <tbody>
+            <tr><td class="rt-exp-id">1</td><td>合成下游训练对比（headline）</td><td class="rt-exp-hide rt-exp-num">3.4% 存储 → AP 0.298 / evRec 0.96；uniform 4x 预算 AP 0.145；oracle（1.9%）AP 0.191</td><td><span class="rt-badge rt-badge-ok">✅ 成立</span></td></tr>
+            <tr><td class="rt-exp-id">2</td><td>成本画像</td><td class="rt-exp-hide rt-exp-num">gyro 0.032 ms vs DIS 光流 3.8 ms，~120 倍差</td><td><span class="rt-badge rt-badge-ok">✅ 成立</span></td></tr>
+            <tr><td class="rt-exp-id">3</td><td>分辨率扫描（合成 224/336/448）</td><td class="rt-exp-hide rt-exp-num">gyro 收益 −41%/−52%/−58%，单调未饱和</td><td><span class="rt-badge rt-badge-ok">✅ 成立</span></td></tr>
+            <tr><td class="rt-exp-id">4</td><td>光流上限与 RAFT 对照</td><td class="rt-exp-hide rt-exp-num">DIS 0.1056 ≈ RAFT 0.1054；RAFT 慢 ~20 倍</td><td><span class="rt-badge rt-badge-ok">✅ 成立</span></td></tr>
+            <tr><td class="rt-exp-id">5</td><td>CPU/MPS 可移植性</td><td class="rt-exp-hide rt-exp-num">特征最大相对差 2e-6；CPU 仅慢 1.7 倍</td><td><span class="rt-badge rt-badge-ok">✅ 成立</span></td></tr>
+            <tr><td class="rt-exp-id">6</td><td>真实桌面 12 段触发</td><td class="rt-exp-hide rt-exp-num">stored 中位 9.2%、recall 0.46；自运动亚像素，gyro warp 物理中性</td><td><span class="rt-badge rt-badge-warn">⚠️ 部分成立</span></td></tr>
+            <tr><td class="rt-exp-id">7</td><td>高运动真实对</td><td class="rt-exp-hide rt-exp-num">gyro warp 比 naive 差；DIS 光流质量胜、成本败 250 倍</td><td><span class="rt-badge rt-badge-warn">⚠️ 部分成立</span></td></tr>
+            <tr><td class="rt-exp-id">8</td><td>448px 真实交叉</td><td class="rt-exp-hide rt-exp-num">合成设计规则不迁移：gyro 仍帮倒忙（+15%），光流逐段翻转</td><td><span class="rt-badge rt-badge-bad">❌ 不成立</span></td></tr>
+            <tr><td class="rt-exp-id">9</td><td>平移建模（常深度）</td><td class="rt-exp-hide rt-exp-num">gyro+trans 0.0938 vs 纯旋转 0.0901——模型类错误</td><td><span class="rt-badge rt-badge-bad">❌ 不成立</span></td></tr>
+            <tr><td class="rt-exp-id">10</td><td>真实数据下游价值（9 类动词，105 轮/方法）</td><td class="rt-exp-hide rt-exp-num">cerebellum 0.162 ≈ uniform 0.173 ≈ oracle 0.164，全部 1σ 重合</td><td><span class="rt-badge rt-badge-bad">❌ 不成立</span></td></tr>
+            <tr><td class="rt-exp-id">11</td><td>稀疏物理事件 regime（10 段，250 轮/方法）</td><td class="rt-exp-hide rt-exp-num">主场假设确认不成立：cerebellum ≈ uniform，oracle 优势收窄</td><td><span class="rt-badge rt-badge-bad">❌ 不成立</span></td></tr>
+            <tr><td class="rt-exp-id">12</td><td>z 图读出端升级</td><td class="rt-exp-hide rt-exp-num">zamp 三种存储方法 AP 逐位相同——残差图零事件信号</td><td><span class="rt-badge rt-badge-bad">❌ 不成立</span></td></tr>
+            <tr><td class="rt-exp-id">13</td><td>行走级 4 段 gyro 价值</td><td class="rt-exp-hide rt-exp-num">gyro 比 naive 差 3/4 段——"运动越大副本越值钱"证伪</td><td><span class="rt-badge rt-badge-bad">❌ 不成立</span></td></tr>
+            <tr><td class="rt-exp-id">14</td><td>光流仲裁级联</td><td class="rt-exp-hide rt-exp-num">机制与成本验证（摊销 0.15–0.9 ms/帧），价值待兑现</td><td><span class="rt-badge rt-badge-warn">⚠️ 部分成立</span></td></tr>
+            <tr><td class="rt-exp-id">15</td><td>iPhone 真 gyro 通路</td><td class="rt-exp-hide rt-exp-num">未验证——真机 IMU 是"检验行走级结论能否翻转"的实验</td><td><span class="rt-badge rt-badge-todo">⬜ 未验证</span></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ===== 思想谱系 ===== -->
+      <section class="panel-section">
+        <div class="section-header">
+          <p class="eyebrow">Idea Lineage</p>
+          <h3>思想谱系：感知 = 预测 + 残差</h3>
+        </div>
+        <div class="rt-timeline">
+          <div class="rt-tl-item"><span class="rt-tl-year">1867</span><h4>Helmholtz — 无意识推理</h4><p>知觉不是感觉的被动记录，而是结合先验的推断。</p></div>
+          <div class="rt-tl-item"><span class="rt-tl-year">1950</span><h4>von Holst &amp; Mittelstaedt — 伴随放电</h4><p>区分"再传入"（自己动作造成的感觉）与"外传入"（环境造成的感觉）：神经系统持有动作指令的副本。</p></div>
+          <div class="rt-tl-item"><span class="rt-tl-year">1970s</span><h4>Marr–Albus–Ito — 小脑是监督学习机器</h4><p>爬行纤维携带误差信号，修正平行纤维-浦肯野细胞突触——局部可塑性实现误差驱动学习。</p></div>
+          <div class="rt-tl-item"><span class="rt-tl-year">1980s–90s</span><h4>Kawato / Wolpert — 内部前向模型</h4><p>小脑承载"给定指令，预测感觉结果"的前向模型：运动控制、感觉衰减、眼动抑制由此统一。</p></div>
+          <div class="rt-tl-item"><span class="rt-tl-year">1999</span><h4>Rao &amp; Ballard — Predictive Coding</h4><p>视觉皮层的兴奋模式与"自上而下预测 + 自下而上误差"的分层推断一致。</p></div>
+          <div class="rt-tl-item"><span class="rt-tl-year">1990s–2000s</span><h4>Bell &amp; Bastian — 电鱼负像</h4><p>ELL 的 negative image 是上述思想最干净的可电生理验证实例。</p></div>
+          <div class="rt-tl-item rt-tl-now"><span class="rt-tl-year">2026</span><h4>Perks et al.（Nature）— connectome 约束</h4><p>整套计算不是隐喻：29,694 个突触的重建证明"副本 + 局部可塑性"靠精确电路结构（双可塑性位点、recurrent 加速）实现快、准、抗噪——本项目的直接起点。</p></div>
+        </div>
+      </section>
+
+      <!-- ===== 边界与负结果 ===== -->
+      <section class="panel-section">
+        <div class="section-header">
+          <p class="eyebrow">Honest Boundaries</p>
+          <h3>边界：负结果划清的适用域</h3>
+        </div>
+        <div class="rt-boundary">
+          <h4>「运动不可预测 ≠ 语义重要性」 <span class="rt-verdict rt-verdict-bad">实测证伪 · 250 轮</span></h4>
+          <p>在真实 egocentric 数据上，残差选的是"运动上不可预测的帧"——快速手部运动和运动模糊——而不是"语义上重要的帧"（残差峰与动作标注反相关，AUC 0.47）。稠密语义任务的采集筛选必须靠视觉模型侧的其他信号。</p>
+        </div>
+        <div class="rt-boundary">
+          <h4>「主场 regime 也没赢」 <span class="rt-verdict rt-verdict-bad">实测证伪 · 250 轮</span></h4>
+          <p>即使在稀疏物理事件（跌落、扔掷）这个本该最赢的 regime，cerebellum 与 uniform 采样打平（AP 0.108 vs 0.104）；且追测用真值平移排除了"自运动没分离干净"的归因——残差噪声是世界运动，谁都解释不掉。</p>
+        </div>
+        <div class="rt-boundary">
+          <h4>「残差图本身不携带事件信息」 <span class="rt-verdict rt-verdict-bad">读出端关闭</span></h4>
+          <p>升级读出（幅度/空间金字塔/拼接 backbone）后，z 图幅度与空间模式都不携带事件判别信息——三种存储方法下 AP 逐位相同（逻辑回归在零信号上学到零权重）。预测、建模、读出三个方向的出口全部关闭。</p>
+        </div>
+        <div class="rt-boundary">
+          <h4>「运动越大副本越值钱」 <span class="rt-verdict rt-verdict-bad">行走级证伪</span></h4>
+          <p>行走级 4 段（gyro p95 71–75°/s）中 gyro warp 在 3/4 段比不补偿更差：运动越大，模型类误差（平移/视差/滚动快门）和 SLAM 副本退化越严重。真实数据上 gyro warp 从未赢过 naive。</p>
+        </div>
+        <div class="rt-boundary">
+          <h4>协议层的正确定位 <span class="rt-verdict rt-verdict-warn">收敛结论</span></h4>
+          <p>残差触发器是「运动不可预测性的滤波器」。成立的资产：①合成 regime 的下游价值；②跨 regime 成立的成本账（IMU 副本比光流便宜 2 个数量级）；③边界知识。它该接在<b>运动去重 / 带宽预筛 / 合成 rig 采集筛选</b>的位置——语义重要性仲裁必须发生在视觉模型侧。负结果不是死路，是协议设计的边界知识。</p>
+        </div>
+        <p class="rt-note" style="margin-top:16px;">下一步：仲裁级联的真实失效模式验证（roll/视差/标定误差）、ON/OFF 对抗通道与 recurrent 加速补全、iPhone 真机 IMU 检验行走级结论、加速器友好化（全部算子都是平移 + EMA）。</p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>zhilinOfficial Blog • 2026</p>
+    </footer>
+  </div>
+
+  <script src="script.js?v=49"></script>
+  <script src="page-transition.js?v=45"></script>
+  <script>
+  /* ===== 残差触发模拟器 ===== */
+  (function () {
+    var scene = document.getElementById('rtScene');
+    var sctx = scene.getContext('2d');
+    var chart = document.getElementById('rtChart');
+    var cctx = chart.getContext('2d');
+
+    var VIEW_W = 960, VIEW_H = 360;
+    var worldW = 1600;
+
+    var FW = 120, FH = 45;              // 特征图分辨率
+    var FEAT_PER_WORLD = FW / VIEW_W;   // 世界像素 → 特征像素：0.125
+    var fNow = document.createElement('canvas'); fNow.width = FW; fNow.height = FH;
+    var fPrev = document.createElement('canvas'); fPrev.width = FW; fPrev.height = FH;
+    var fPrevSave = document.createElement('canvas'); fPrevSave.width = FW; fPrevSave.height = FH;
+    var fWarp = document.createElement('canvas'); fWarp.width = FW; fWarp.height = FH;
+    // 持久化静态世界纹理（网格）：渲染一次，相机运动只是亚像素平移采样
+    // 这是真实相机的形态：静态场景不重栅格化，杜绝抗锯齿抖动噪声地板
+    var worldFW = Math.ceil(worldW * FEAT_PER_WORLD); // 200
+    var fStatic = document.createElement('canvas'); fStatic.width = worldFW; fStatic.height = FH;
+    var fnctx = fNow.getContext('2d', { willReadFrequently: true });
+    var fpctx = fPrev.getContext('2d', { willReadFrequently: true });
+    var fpsctx = fPrevSave.getContext('2d');
+    var fwctx = fWarp.getContext('2d', { willReadFrequently: true });
+
+    function initStaticWorld() {
+      var sc = fStatic.getContext('2d');
+      sc.fillStyle = '#202024';
+      sc.fillRect(0, 0, worldFW, FH);
+      // 网格间距 7 特征像素 ≈ 56 世界像素，线宽 0.8 特征像素
+      sc.strokeStyle = '#565664';
+      sc.lineWidth = 0.8;
+      sc.beginPath();
+      for (var gx = 0; gx <= worldFW; gx += 7) { sc.moveTo(gx, 0); sc.lineTo(gx, FH); }
+      for (var gy = 0; gy <= FH; gy += 7) { sc.moveTo(0, gy); sc.lineTo(worldFW, gy); }
+      sc.stroke();
+    }
+
+    var featScaleX = FEAT_PER_WORLD;     // 水平比例（与垂直相同，0.125）
+
+    var blobs = [];
+    var camX = 0, camVel = 0, camAcc = 0, burst = 1, burstVel = 0;
+    var running = true;
+    var frame = 0;
+
+    // 统计
+    var mN = 0, sN = 1e-4, mC = 0, sC = 1e-4;
+    var ALPHA = 0.08;
+    var Z_TH = 3.5, Z_EXIT = 1.2, clipCool = 0;
+    var inClipC = false, inClipN = false;
+    var hist = [];                        // {zn, zc, ev, tc, tn}
+    var totFrames = 0, storedC = 0, storedN = 0;
+    var evFrames = 0, evStoredC = 0, evStoredN = 0;
+
+    function newBlob(x, isEvent) {
+      return {
+        x: x !== undefined ? x : camX + 80 + Math.random() * (VIEW_W - 160),
+        y: 40 + Math.random() * (VIEW_H - 90),
+        r: isEvent ? 20 + Math.random() * 12 : 12 + Math.random() * 16,
+        vx: isEvent ? (2.5 + Math.random() * 2.5) * (Math.random() < 0.5 ? -1 : 1) : (Math.random() - 0.5) * 0.35,
+        wob: isEvent ? 1.2 + Math.random() * 2 : 0,
+        hue: isEvent ? 0 : 200 + Math.random() * 40,
+        isEvent: !!isEvent,
+        born: frame,
+        ttl: isEvent ? (70 + Math.random() * 60 | 0) : Infinity
+      };
+    }
+
+    function initWorld() {
+      initStaticWorld();
+      blobs = [];
+      for (var i = 0; i < 7; i++) blobs.push(newBlob(100 + i * 220 + Math.random() * 80, false));
+      camX = 200; camVel = 0;
+    }
+
+    // 把当前世界渲染到特征 canvas：静态纹理平移 + 动态物体（真实相机的形态）
+    function renderFeatures() {
+      var off = camX * FEAT_PER_WORLD;
+      fnctx.clearRect(0, 0, FW, FH);
+      fnctx.drawImage(fStatic, -off, 0);
+      fnctx.save();
+      fnctx.translate(-off, 0);
+      fnctx.scale(FEAT_PER_WORLD, FEAT_PER_WORLD); // 之后用世界坐标绘制
+      // 物体
+      blobs.forEach(function (b) {
+        var age = frame - b.born;
+        var rr = b.r * Math.min(1, age / 1.5);        // pop-in 快速出现
+        var fade = b.ttl - age < 12 ? (b.ttl - age) / 12 : 1;
+        // 事件物体带亮度振荡：物理上类似反光/运动物体，残差信号更强
+        var flick = b.isEvent ? (0.72 + 0.28 * Math.sin(frame * 0.9 + b.born)) : 1;
+        fade *= flick;
+        if (rr <= 0 || fade <= 0) return;
+        var g = fnctx.createRadialGradient(b.x, b.y, rr * 0.15, b.x, b.y, rr);
+        var base = b.isEvent ? '255,120,110' : '150,180,235';
+        g.addColorStop(0, 'rgba(' + base + ',' + (0.95 * fade) + ')');
+        g.addColorStop(1, 'rgba(' + base + ',0)');
+        fnctx.fillStyle = g;
+        fnctx.beginPath();
+        fnctx.arc(b.x, b.y, rr, 0, Math.PI * 2);
+        fnctx.fill();
+      });
+      fnctx.restore();
+    }
+
+    function meanAbsDiff(a, b) {
+      var d = 0, n = a.length;
+      for (var i = 0; i < n; i += 4) d += Math.abs(a[i] - b[i]);
+      return d / (n / 4) / 255;
+    }
+
+    function updateStats(m, s, x) {
+      // winsorized always-update
+      var xc = Math.max(m - 3 * s, Math.min(m + 3 * s, x));
+      var dm = xc - m;
+      m += ALPHA * dm;
+      s = Math.sqrt(Math.max(1e-10, (1 - ALPHA) * s * s + ALPHA * dm * dm));
+      return [m, s];
+    }
+
+    function tick() {
+      var amp = document.getElementById('rtAmp').value / 100 * 2.6;
+      var evRate = document.getElementById('rtEvRate').value / 100;
+      var noise = document.getElementById('rtNoise').value / 100;
+
+      // 相机自运动：平滑摇摄（副本可预测）+ 慢速幅度包络（平静↔晃动段）
+      // 注意：IMU 副本读的是「真实发生的位移」，所以用 clamp 之后的实际 delta
+      burstVel += (Math.random() - 0.5) * 0.022;
+      burstVel *= 0.99;
+      burst = Math.max(0.1, Math.min(1.8, burst + burstVel));
+      camAcc = (Math.random() - 0.5) * 0.05 * amp * burst;
+      camVel = (camVel + camAcc) * 0.96;
+      var prevCamX = camX;
+      camX = Math.max(0, Math.min(worldW - VIEW_W, camX + camVel));
+      var camDelta = camX - prevCamX;
+
+      // 世界漂移（事件物体带振荡，持续产生世界运动残差）
+      blobs.forEach(function (b) {
+        b.x += b.vx;
+        if (b.wob) b.y += Math.sin(frame * 0.15 + b.born) * 0.35 * b.wob;
+      });
+
+      // 事件生成：保证开场几秒内就有事件，最多同时 2 个
+      var evCount = 0;
+      blobs.forEach(function (b) { if (b.isEvent) evCount++; });
+      if (evCount < 2 && Math.random() < 0.006 + evRate * 0.03) {
+        blobs.push(newBlob(undefined, true));
+      }
+      blobs = blobs.filter(function (b) { return frame - b.born < b.ttl; });
+      if (blobs.length < 6) blobs.push(newBlob(camX + Math.random() * worldW * 0.8, false));
+
+      var evActive = blobs.some(function (b) { return b.isEvent && frame - b.born < b.ttl; });
+
+      renderFeatures();
+
+      // 帧差
+      var imgNow = fnctx.getImageData(0, 0, FW, FH).data;
+      var resNaive = 0, resComp = 0;
+      if (frame > 0) {
+        var imgPrev = fpctx.getImageData(0, 0, FW, FH).data;
+        resNaive = meanAbsDiff(imgNow, imgPrev);
+        // gyro warp：副本 = 真实位移 × 特征图比例（0.125），加少量乘性噪声
+        // 注意是 featScaleX（水平）而不是 scale（垂直比例 8，用错会补偿错 64 倍）
+        var shiftTrue = camDelta * featScaleX;
+        var estDelta = shiftTrue * (1 + (Math.random() - 0.5) * 2 * noise * 0.3);
+        fwctx.clearRect(0, 0, FW, FH);
+        fwctx.drawImage(fPrevSave, -estDelta, 0);
+        var imgWarp = fwctx.getImageData(0, 0, FW, FH).data;
+        resComp = meanAbsDiff(imgNow, imgWarp);
+      }
+
+      // 更新 z 统计
+      var t1 = updateStats(mN, sN, resNaive); mN = t1[0]; sN = t1[1];
+      var t2 = updateStats(mC, sC, resComp); mC = t2[0]; sC = t2[1];
+      var zN = sN > 1e-6 ? (resNaive - mN) / sN : 0;
+      var zC = sC > 1e-6 ? (resComp - mC) / sC : 0;
+
+      // 触发逻辑（回滞 + clip 冷却 + 40 帧统计热身，避免启动瞬态误触发）
+      var warmed = frame > 40;
+      if (clipCool > 0) clipCool--;
+      if (warmed && !inClipC && zC > Z_TH && clipCool === 0) { inClipC = true; }
+      if (inClipC && zC < Z_EXIT) { inClipC = false; clipCool = 10; }
+      if (warmed && !inClipN && zN > Z_TH && clipCool === 0) { inClipN = true; }
+      if (inClipN && zN < Z_EXIT) { inClipN = false; }
+
+      totFrames++;
+      if (inClipC) storedC++;
+      if (inClipN) storedN++;
+      if (evActive) {
+        evFrames++;
+        if (inClipC) evStoredC++;
+        if (inClipN) evStoredN++;
+      }
+
+      hist.push({ zn: zN, zc: zC, ev: evActive, tc: inClipC && zC > Z_TH, tn: inClipN && zN > Z_TH });
+      if (hist.length > 280) hist.shift();
+      // 热身期帧不进图表：避免启动瞬态压缩纵轴，让事件信号更清晰
+      if (frame < 40) hist.length = 0;
+
+      // 保存本帧为下一帧的上一帧
+      fpsctx.clearRect(0, 0, FW, FH);
+      fpsctx.drawImage(fNow, 0, 0);
+      fpctx.clearRect(0, 0, FW, FH);
+      fpctx.drawImage(fNow, 0, 0);
+
+      drawScene(camDelta, evActive);
+      drawChart();
+      updateReadouts();
+
+      frame++;
+    }
+
+    function drawScene(camDelta, evActive) {
+      sctx.fillStyle = '#101014';
+      sctx.fillRect(0, 0, VIEW_W, VIEW_H);
+      sctx.save();
+      sctx.translate(-camX, 0);
+      sctx.strokeStyle = 'rgba(150,150,168,0.30)';
+      sctx.lineWidth = 1;
+      sctx.beginPath();
+      for (var gx = 0; gx <= worldW; gx += 56) { sctx.moveTo(gx, 0); sctx.lineTo(gx, VIEW_H); }
+      for (var gy = 0; gy <= VIEW_H; gy += 56) { sctx.moveTo(0, gy); sctx.lineTo(worldW, gy); }
+      sctx.stroke();
+      blobs.forEach(function (b) {
+        var age = frame - b.born;
+        var rr = b.r * Math.min(1, age / 1.5);
+        var fade = b.ttl - age < 12 ? (b.ttl - age) / 12 : 1;
+        var flick = b.isEvent ? (0.72 + 0.28 * Math.sin(frame * 0.9 + b.born)) : 1;
+        fade *= flick;
+        if (rr <= 0 || fade <= 0) return;
+        var g = sctx.createRadialGradient(b.x, b.y, rr * 0.15, b.x, b.y, rr);
+        if (b.isEvent) {
+          g.addColorStop(0, 'rgba(255,130,118,' + (0.95 * fade) + ')');
+          g.addColorStop(0.7, 'rgba(230,90,84,' + (0.5 * fade) + ')');
+          g.addColorStop(1, 'rgba(230,90,84,0)');
+          if (age < 10) {
+            sctx.strokeStyle = 'rgba(255,130,118,' + (0.5 * (1 - age / 10)) + ')';
+            sctx.lineWidth = 2;
+            sctx.beginPath();
+            sctx.arc(b.x, b.y, rr + age * 3, 0, Math.PI * 2);
+            sctx.stroke();
+          }
+        } else {
+          g.addColorStop(0, 'rgba(158,188,240,' + (0.9 * fade) + ')');
+          g.addColorStop(1, 'rgba(158,188,240,0)');
+        }
+        sctx.fillStyle = g;
+        sctx.beginPath();
+        sctx.arc(b.x, b.y, rr, 0, Math.PI * 2);
+        sctx.fill();
+      });
+      sctx.restore();
+
+      // HUD
+      sctx.font = '12px ui-monospace, SFMono-Regular, Menlo, monospace';
+      sctx.fillStyle = 'rgba(240,240,244,0.85)';
+      sctx.fillText('cam Δ ' + camDelta.toFixed(2) + ' px/f', 14, 24);
+      sctx.fillText('IMU 副本读数（模拟陀螺仪）', 14, 40);
+      // gyro 条形
+      sctx.fillStyle = 'rgba(255,255,255,0.14)';
+      sctx.fillRect(14, 48, 160, 6);
+      sctx.fillStyle = '#4fc38a';
+      var bw = Math.min(1, Math.abs(camDelta) / 3) * 160;
+      sctx.fillRect(14, 48, bw, 6);
+
+      var rec = hist.length && hist[hist.length - 1];
+      if (rec && rec.tc) {
+        sctx.fillStyle = 'rgba(79,195,138,0.95)';
+        sctx.beginPath(); sctx.arc(VIEW_W - 60, 22, 6, 0, Math.PI * 2); sctx.fill();
+        sctx.fillText('REC', VIEW_W - 46, 27);
+      }
+      if (evActive) {
+        sctx.fillStyle = 'rgba(255,130,118,0.9)';
+        sctx.fillText('● EVENT', VIEW_W - 120, 48);
+      }
+    }
+
+    function drawChart() {
+      var W = chart.width, H = chart.height;
+      cctx.clearRect(0, 0, W, H);
+      var padL = 8, padR = 8, padT = 12, padB = 18;
+      var iw = W - padL - padR, ih = H - padT - padB;
+      var ZMAX = 10;
+      function yOf(z) { return padT + ih - Math.min(ZMAX, Math.max(0, z)) / ZMAX * ih; }
+      function xOf(i) { return padL + i / 279 * iw; }
+
+      // 事件区间底纹
+      cctx.fillStyle = 'rgba(224,85,85,0.10)';
+      var inEv = false, start = 0;
+      for (var i = 0; i < hist.length; i++) {
+        if (hist[i].ev && !inEv) { inEv = true; start = i; }
+        if (!hist[i].ev && inEv) { inEv = false; cctx.fillRect(xOf(start), padT, xOf(i) - xOf(start), ih); }
+      }
+      if (inEv) cctx.fillRect(xOf(start), padT, xOf(hist.length - 1) - xOf(start) + 4, ih);
+
+      // 网格线
+      cctx.strokeStyle = 'rgba(255,255,255,0.06)';
+      cctx.lineWidth = 1;
+      [2, 4, 6, 8].forEach(function (z) {
+        cctx.beginPath(); cctx.moveTo(padL, yOf(z)); cctx.lineTo(W - padR, yOf(z)); cctx.stroke();
+      });
+
+      // 阈值
+      cctx.strokeStyle = 'rgba(240,192,64,0.85)';
+      cctx.setLineDash([5, 4]);
+      cctx.beginPath(); cctx.moveTo(padL, yOf(Z_TH)); cctx.lineTo(W - padR, yOf(Z_TH)); cctx.stroke();
+      cctx.setLineDash([]);
+      cctx.fillStyle = 'rgba(240,192,64,0.8)';
+      cctx.font = '10px ui-monospace, Menlo, monospace';
+      cctx.fillText('z = ' + Z_TH, padL + 2, yOf(Z_TH) - 4);
+
+      if (hist.length < 2) return;
+
+      function line(key, color) {
+        cctx.strokeStyle = color;
+        cctx.lineWidth = 1.6;
+        cctx.beginPath();
+        for (var i = 0; i < hist.length; i++) {
+          var x = xOf(i), y = yOf(hist[i][key]);
+          i === 0 ? cctx.moveTo(x, y) : cctx.lineTo(x, y);
+        }
+        cctx.stroke();
+      }
+      line('zn', '#e05555');
+      line('zc', '#4fc38a');
+
+      // 触发点
+      cctx.fillStyle = 'rgba(79,195,138,0.95)';
+      for (var j = 0; j < hist.length; j++) if (hist[j].tc) cctx.fillRect(xOf(j) - 1.5, yOf(hist[j].zc) - 1.5, 3, 3);
+      cctx.fillStyle = 'rgba(224,85,85,0.95)';
+      for (var k = 0; k < hist.length; k++) if (hist[k].tn) cctx.fillRect(xOf(k) - 1.5, yOf(hist[k].zn) - 1.5, 3, 3);
+    }
+
+    function updateReadouts() {
+      document.getElementById('rtStoredC').textContent = totFrames ? (storedC / totFrames * 100).toFixed(1) + '%' : '—';
+      document.getElementById('rtStoredN').textContent = totFrames ? (storedN / totFrames * 100).toFixed(1) + '%' : '—';
+      document.getElementById('rtRecallC').textContent = evFrames ? (evStoredC / evFrames * 100).toFixed(0) + '%' : '—';
+      document.getElementById('rtRecallN').textContent = evFrames ? (evStoredN / evFrames * 100).toFixed(0) + '%' : '—';
+    }
+
+    document.getElementById('rtPlay').addEventListener('click', function () {
+      running = !running;
+      this.textContent = running ? '暂停' : '播放';
+    });
+    document.getElementById('rtReset').addEventListener('click', function () {
+      mN = 0; sN = 1e-4; mC = 0; sC = 1e-4;
+      hist = []; totFrames = 0; storedC = 0; storedN = 0;
+      evFrames = 0; evStoredC = 0; evStoredN = 0; frame = 0;
+      inClipC = inClipN = false; clipCool = 0;
+      fpctx.clearRect(0, 0, FW, FH); fpsctx.clearRect(0, 0, FW, FH);
+      cctx.clearRect(0, 0, chart.width, chart.height);
+      updateReadouts();
+    });
+
+    // 拖动画面 = 注入相机运动
+    var dragging = false, lastX = 0;
+    scene.addEventListener('pointerdown', function (e) {
+      dragging = true; lastX = e.clientX;
+      scene.setPointerCapture(e.pointerId);
+    });
+    scene.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      var dx = e.clientX - lastX;
+      lastX = e.clientX;
+      camVel += dx * 0.02;
+    });
+    scene.addEventListener('pointerup', function () { dragging = false; });
+
+    // 条形图动画（成本账为对数刻度：width 由 log10(ms) 映射）
+    function animateBars(sel, attr, max, logMin) {
+      document.querySelectorAll(sel).forEach(function (el) {
+        var v = parseFloat(el.getAttribute(attr));
+        var w = logMin !== undefined
+          ? (v - logMin) / (max - logMin) * 100
+          : v / max * 100;
+        el.style.width = Math.max(1.5, w) + '%';
+      });
+    }
+    window.addEventListener('load', function () {
+      animateBars('#rtCostBars .rt-bar-fill', 'data-logms', 0.7, -1.6);
+      animateBars('#rtDsBars .rt-ds-fill', 'data-ap', 0.3);
+    });
+
+    initWorld();
+    updateReadouts();
+    // 用 setInterval 而非 rAF：后台标签页 rAF 会被节流，常开模拟器不应停摆
+    setInterval(function () { if (running) tick(); }, 33);
+  })();
+  </script>
+</body>
+</html>

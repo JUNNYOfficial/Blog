@@ -1,0 +1,12 @@
+.DS_Store
+*.tmp
+.tmp_*
+node_modules/
+
+# --- 非站点文件（草稿、文稿、工具记忆）---
+*.docx
+*.doc
+*.pdf.tmp
+.workbuddy/
+八月总结-2026.md
+恰到好处的8月总结-2026.md

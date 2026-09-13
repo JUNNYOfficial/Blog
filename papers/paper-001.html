@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <title>小脑编码时间统计先验知识 · zhilinOfficial Blog</title>
+  <meta name="description" content="小脑编码时间统计先验知识" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="小脑编码时间统计先验知识 · zhilinOfficial Blog" />
+  <meta property="og:description" content="小脑编码时间统计先验知识" />
+  <meta property="og:url" content="https://junnyshang.online/papers/paper-001.html" />
+  <meta property="og:image" content="https://junnyshang.online/avatar.jpg" />
+  <meta property="og:site_name" content="zhilinOfficial Blog" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="小脑编码时间统计先验知识" />
+  <meta name="twitter:description" content="小脑编码时间统计先验知识" />
+  <meta name="twitter:image" content="https://junnyshang.online/avatar.jpg" />
+  <link rel="stylesheet" href="../styles.css?v=46" />
+  <style>
+    .article-body h4 { font-size: 1.15rem; font-weight: 600; margin: 28px 0 14px; color: #111; }
+    .article-body h5 { font-size: 1rem; font-weight: 600; margin: 20px 0 10px; color: #333; }
+    .article-body blockquote { border-left: 3px solid #d4d4d4; margin: 16px 0; padding: 12px 18px; background: #fafafa; border-radius: 0 12px 12px 0; }
+    .article-body blockquote p { margin: 0; color: #555; }
+    .article-body .todo-item, .article-body .list-item { margin: 8px 0; color: #444; padding-left: 4px; }
+    .article-body hr { border: none; border-top: 1px solid #e8e8e8; margin: 24px 0; }
+  </style>
+</head>
+<body data-page="article">
+  <div class="page-shell article-shell">
+    <header class="article-header">
+      <a class="icon-link back-link" href="../articles.html" aria-label="返回文章列表">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </header>
+
+    <main class="article-content">
+      <section class="article-frame">
+        <article>
+          <p class="eyebrow">论文笔记</p>
+          <h1>小脑编码时间统计先验知识</h1>
+          <nav class="article-toc" id="articleToc" aria-label="目录"></nav>
+          <div class="article-body">
+<p>英文标题： Neural circuits encode prior knowledge of temporal statistics作者： Julius Koppen, Ilse Klinkhamer, Marit Runge, Lucas Bayones, Devika Narain机构： 荷兰伊拉斯谟大学医学中心发表日期： 2026年4月7日DOI： 10.1038/s41593-026-02255-7</p>
+<h4>研究背景与核心问题</h4>
+<p>我们生活在一个充满不确定性的世界。当你听到远处传来汽车喇叭声，大脑需要判断&quot;这辆车大概多久会到&quot;；当你接球时，需要预判球到达的时间和位置。这些判断都不是精确的——感官信息总有噪声，但大脑依然能做出合理预测。</p>
+<p>贝叶斯推理理论告诉我们：在不确定条件下，大脑会结合&quot;先验知识&quot;（过去经验的统计规律）和&quot;当前感官证据&quot;来做最优推断。问题是：这种先验知识到底存储在大脑的哪个部位？以什么形式编码？</p>
+<p>传统观点认为小脑主要负责运动协调，但这篇论文提出了更深刻的见解：小脑可能是大脑中专门&quot;学习世界概率分布&quot;的器官。</p>
+<h4>实验设计详解</h4>
+<p>研究团队设计了一个精妙的小鼠眨眼条件反射实验：</p>
+<p>训练阶段： 小鼠面对一个视觉提示（条件刺激，CS），随后眼部会受到轻微气流吹拂（非条件刺激，US）。关键在于——CS和US之间的时间间隔不是固定的，而是从三种不同的概率分布中随机抽取：</p>
+<blockquote><p>窄分布： 时间间隔高度可预测（不确定性低）</p></blockquote>
+<blockquote><p>中等分布： 时间间隔有一定变化</p></blockquote>
+<blockquote><p>宽分布： 时间间隔高度不确定</p></blockquote>
+<p>小鼠需要学会：根据CS出现的时间，预测US何时到来，并在US到达前闭眼保护眼睛。</p>
+<p>测试阶段： 在某些试次中取消US，只呈现CS，观察小鼠的预测性眨眼行为如何随时间分布的统计特性而变化。</p>
+<h4>技术手段</h4>
+<p class="todo-item">☐ 大规模电生理记录： 在小脑皮层（特别是lobules IV/V和Simplex区域）同时记录数百个神经元的活动</p>
+<p class="todo-item">☐ 浦肯野细胞分型： 使用LFADS（Latent Factor Analysis via Dynamical Systems）深度学习技术，从群体神经活动中解码单个神经元的试次级活动</p>
+<p class="todo-item">☐ 光遗传学干预： 用光精确操控浦肯野细胞的活动，验证因果关系</p>
+<p class="todo-item">☐ 计算建模： 建立小脑-下橄榄核回路的计算模型，解释先验知识如何通过突触可塑性编码</p>
+<h4>核心发现</h4>
+<p>发现一：行为层面的统计学习小鼠的眨眼行为完美反映了训练分布的统计特性。当时间间隔服从窄分布时，小鼠的眨眼时机非常精准；当分布变宽（不确定性增加）时，眨眼行为变得更加保守，提前量更大——这正是贝叶斯最优策略的表现。</p>
+<p>发现二：浦肯野细胞编码先验分布小脑皮层的主要输出神经元——浦肯野细胞（Purkinje cells）的活动统计特性与行为同步变化。它们的简单棘波（simple spikes）发放模式直接映射了时间间隔的概率分布。</p>
+<p>发现三：全新信号——&quot;分布起始标记&quot;研究团队发现了一种前所未见的复杂棘波（complex spikes）信号模式：经过高不确定性环境长期训练后，浦肯野细胞会在概率分布的最早可能时刻产生特殊的复杂棘波。这相当于一个&quot;警报信号&quot;——提醒大脑&quot;最糟糕的情况可能现在就发生&quot;。</p>
+<p>发现四：因果验证当研究者用光遗传学暂时抑制浦肯野细胞活动时，小鼠基于先验知识的预测性眨眼完全消失，但本能反射（对实际气流的反应）仍然保留。这证明浦肯野细胞专门负责&quot;预测性&quot;行为，而非简单的反射弧。</p>
+<p>发现五：计算机制计算模型揭示：先验知识通过小脑皮层中两种对抗性可塑性机制的并置来编码——长时程抑制（LTD）和长时程增强（LTP）在小脑平行纤维-浦肯野细胞突触上形成动态平衡，最终稳定存储了概率分布的统计参数。</p>
+<h4>科学意义</h4>
+<p>这项研究首次提供了神经回路直接编码环境统计规律的实验证据，将抽象的贝叶斯计算理论锚定到了具体的神经硬件上。更重要的是，它重新定义了小脑的功能：小脑不仅仅是&quot;运动协调器&quot;，更是&quot;概率学习机&quot;——专门负责从经验中提取统计规律，并将其内化为预测行为的先验知识。</p>
+<p>这对理解人类的时间感知、节奏学习、甚至音乐能力都有深远启示。当你能准确跟上音乐节拍，或是预判交通状况时，你的小脑正在默默进行复杂的概率计算。</p></div>
+        </article>
+      </section>
+
+      <nav class="paper-nav panel-section" aria-label="论文导航">
+        <span class="paper-nav-prev paper-nav-disabled"><span class="paper-nav-label">上一篇</span><span class="paper-nav-title">—</span></span>
+        <a class="paper-nav-home" href="../articles.html">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 22V12h6v10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>返回论文库</span>
+        </a>
+        <a class="paper-nav-next" href="paper-002.html">
+          <span class="paper-nav-label">下一篇</span>
+          <span class="paper-nav-title">人脑神经肽系统全脑图谱</span>
+        </a>
+      </nav>
+    </main>
+
+    <footer class="site-footer article-footer">
+      <p>论文笔记 · zhilinOfficial</p>
+    </footer>
+  </div>
+  <script>
+    (function() {
+      // 自动生成目录
+      const toc = document.getElementById('articleToc');
+      const headings = document.querySelectorAll('.article-body h4, .article-body h5');
+      if (toc && headings.length > 2) {
+        toc.innerHTML = '<p class="eyebrow">目录</p><ul>' +
+          Array.from(headings).map((h, i) => {
+            h.id = 'toc-' + i;
+            return '<li><a href="#toc-' + i + '">' + (i + 1) + '. ' + h.textContent + '</a></li>';
+          }).join('') +
+          '</ul>';
+      }
+
+      const btn = document.createElement('button');
+      btn.className = 'back-to-top';
+      btn.setAttribute('aria-label', '返回顶部');
+      btn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      document.body.appendChild(btn);
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            btn.classList.toggle('visible', window.scrollY > 400);
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+      btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    })();
+  </script>
+  <script src="../page-transition.js?v=44"></script>
+
+</body>
+</html>

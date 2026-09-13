@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <title>关于 · JUNNY 张琦</title>
+  <meta name="description" content="关于 JUNNY 张琦：独立研究者、初中生，专注神经科学与计算机科学交叉领域。" />
+  <meta property="og:title" content="关于 · JUNNY 张琦" />
+  <meta property="og:description" content="独立研究者 / 初中生，记录论文笔记、项目经历与日常思考。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://junnyshang.online/about.html" />
+  <meta property="og:image" content="https://junnyshang.online/avatar.jpg" />
+  <meta property="og:site_name" content="JUNNY 张琦" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="关于 · JUNNY 张琦" />
+  <meta name="twitter:image" content="https://junnyshang.online/avatar.jpg" />
+  <meta name="theme-color" content="#111111" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23111'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='60' font-family='system-ui' font-weight='700'%3EJ%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css?v=48" />
+  <style>
+    /* About 页专用精简样式 */
+    .about-hero {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 32px;
+      align-items: start;
+      padding: 40px 0 48px;
+      border-bottom: 1px solid #e8e8e8;
+      margin-bottom: 40px;
+    }
+    .about-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 28px;
+      object-fit: cover;
+    }
+    .about-hero-content h1 {
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      margin: 6px 0 8px;
+      line-height: 1.1;
+    }
+    .about-role {
+      font-size: 1rem;
+      color: #6b6b6b;
+      margin: 0 0 14px;
+    }
+    .about-bio {
+      max-width: 680px;
+      color: #424242;
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+    .about-bio p { margin: 0 0 10px; }
+    .about-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 16px 0 12px;
+    }
+    .about-tags span {
+      padding: 6px 12px;
+      border: 1px solid #d9d9d9;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      color: #424242;
+    }
+    .about-location {
+      font-size: 0.9rem;
+      color: #6b6b6b;
+      margin: 0;
+    }
+
+    /* 经历时间线 */
+    .timeline {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      position: relative;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 6px;
+      bottom: 6px;
+      width: 1px;
+      background: #e0e0e0;
+    }
+    .timeline-item {
+      position: relative;
+      padding-left: 32px;
+      padding-bottom: 26px;
+    }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-marker {
+      position: absolute;
+      left: 0;
+      top: 4px;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid #111;
+      box-shadow: 0 0 0 3px #f7f7f7;
+    }
+    .timeline-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 4px;
+    }
+    .timeline-header h4 { margin: 0; font-size: 1.05rem; }
+    .timeline-meta {
+      font-size: 0.85rem;
+      color: #8a8a8a;
+      white-space: nowrap;
+    }
+    .timeline-org {
+      margin: 0 0 6px;
+      font-size: 0.92rem;
+      color: #555;
+    }
+    .timeline-desc {
+      margin: 0;
+      color: #6b6b6b;
+      line-height: 1.65;
+      font-size: 0.92rem;
+    }
+
+    /* 项目卡片 */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      padding: 22px;
+      border: 1px solid #e8e8e8;
+      border-radius: 16px;
+      background: #fff;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .project-card:hover {
+      border-color: #c8c8c8;
+      transform: translateY(-2px);
+    }
+    .project-card h4 {
+      margin: 8px 0 8px;
+      font-size: 1.05rem;
+    }
+    .project-card > p {
+      margin: 0 0 14px;
+      color: #5a5a5a;
+      line-height: 1.6;
+      font-size: 0.9rem;
+      flex: 1;
+    }
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .project-tags span {
+      font-size: 0.78rem;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: #f5f5f5;
+      color: #555;
+    }
+    .project-card > a {
+      font-size: 0.88rem;
+      color: #111;
+      text-decoration: none;
+      border-bottom: 1px solid #d0d0d0;
+      align-self: flex-start;
+    }
+    .project-card > a:hover { border-bottom-color: #111; }
+
+    /* 响应式 */
+    @media (max-width: 1100px) {
+      .project-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 840px) {
+      .about-hero { grid-template-columns: 90px 1fr; gap: 22px; padding: 28px 0 32px; }
+      .about-avatar { width: 90px; height: 90px; border-radius: 20px; }
+      .project-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .about-hero { grid-template-columns: 1fr; }
+      .about-avatar { width: 80px; height: 80px; }
+      .timeline-header { flex-direction: column; gap: 2px; }
+      .timeline-meta { white-space: normal; }
+    }
+
+    /* 暗色模式 */
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) .about-hero { border-color: #2a2a2a; }
+      body:not([data-theme="light"]) .about-role, body:not([data-theme="light"]) .about-bio, body:not([data-theme="light"]) .timeline-desc, body:not([data-theme="light"]) .timeline-org { color: #b0b0b0; }
+      body:not([data-theme="light"]) .about-tags span, body:not([data-theme="light"]) .project-card { border-color: #2a2a2a; background: transparent; }
+      body:not([data-theme="light"]) .project-tags span { background: #222; }
+      body:not([data-theme="light"]) .timeline::before { background: #2a2a2a; }
+      body:not([data-theme="light"]) .timeline-marker { background: #111; border-color: #fff; box-shadow: 0 0 0 3px #1a1a1a; }
+      body:not([data-theme="light"]) .project-card > a { color: #e0e0e0; border-bottom-color: #555; }
+      body:not([data-theme="light"]) .project-card > a:hover { border-bottom-color: #fff; }
+    }
+    body[data-theme="dark"] .about-hero { border-color: #2a2a2a; }
+    body[data-theme="dark"] .about-role, body[data-theme="dark"] .about-bio, body[data-theme="dark"] .timeline-desc, body[data-theme="dark"] .timeline-org { color: #b0b0b0; }
+    body[data-theme="dark"] .about-tags span, body[data-theme="dark"] .project-card { border-color: #2a2a2a; background: transparent; }
+    body[data-theme="dark"] .project-tags span { background: #222; }
+    body[data-theme="dark"] .timeline::before { background: #2a2a2a; }
+    body[data-theme="dark"] .timeline-marker { background: #111; border-color: #fff; box-shadow: 0 0 0 3px #1a1a1a; }
+    body[data-theme="dark"] .project-card > a { color: #e0e0e0; border-bottom-color: #555; }
+    body[data-theme="dark"] .project-card > a:hover { border-bottom-color: #fff; }
+  </style>
+</head>
+<body data-page="about">
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand">
+        <img class="brand-mark" src="avatar.jpg" alt="JUNNY 张琦" />
+        <div>
+          <p class="eyebrow">JUNNY 张琦</p>
+          <h1>关于</h1>
+        </div>
+      </div>
+      <nav class="nav-links" aria-label="页面导航">
+        <a href="index.html">首页</a>
+        <a href="articles.html">文章</a>
+        <a href="cooperate.html">合作</a>
+        <a href="contact.html">联系</a>
+        <a href="about.html" class="active">关于</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="about-hero panel-section">
+        <img class="about-avatar" src="avatar.jpg" alt="JUNNY 张琦" />
+        <div class="about-hero-content">
+          <p class="eyebrow">关于我</p>
+          <h1>JUNNY 张琦</h1>
+          <p class="about-role">独立研究者 / 初中生</p>
+          <div class="about-bio">
+            <p>一个做内核和算法的小朋友，目前主要泡在神经科学和计算机科学的交叉地带。喜欢做点有意思的研究和工作，随缘更新，佛系输出。</p>
+            <p>虽然工作繁忙，但偶尔会去公司帮忙；也在深圳科学馆和盐田图书馆做科普顾问，努力把复杂的东西讲得让更多人能听懂。</p>
+          </div>
+          <div class="about-tags">
+            <span>神经科学</span>
+            <span>计算机科学</span>
+            <span>软件架构</span>
+            <span>独立研究</span>
+            <span>内核算法</span>
+          </div>
+          <p class="about-location">广东 深圳</p>
+        </div>
+      </section>
+
+      <section class="panel-section">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">经历</p>
+            <h3>走过的路</h3>
+          </div>
+        </div>
+        <ul class="timeline">
+          <li class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+              <div class="timeline-header">
+                <h4>深圳市盐田区实验学校</h4>
+                <span class="timeline-meta">2024.09 - 2027.07</span>
+              </div>
+              <p class="timeline-org">初中 · 休学</p>
+              <p class="timeline-desc">在校期间接触并深入计算机与神经科学方向，开始独立研究和项目实践。</p>
+            </div>
+          </li>
+          <li class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+              <div class="timeline-header">
+                <h4>架构师</h4>
+                <span class="timeline-meta">至今 · 主业</span>
+              </div>
+              <p class="timeline-org">暂不透露</p>
+              <p class="timeline-desc">负责模型架构设计与核心代码设计工作，兼顾系统整体技术路线的把控与落地。</p>
+            </div>
+          </li>
+          <li class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+              <div class="timeline-header">
+                <h4>知识科普顾问</h4>
+                <span class="timeline-meta">2025.07 - 至今 · 兼职</span>
+              </div>
+              <p class="timeline-org">深圳科学馆 & 盐田图书馆</p>
+              <p class="timeline-desc">参与科普活动策划与内容讲解，把神经科学、计算机科学概念转译成大众语言。</p>
+            </div>
+          </li>
+          <li class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+              <div class="timeline-header">
+                <h4>Cling 营销</h4>
+                <span class="timeline-meta">2025.06 - 2025.12 · 兼职</span>
+              </div>
+              <p class="timeline-desc">参与 Cling 的营销与设计，负责社媒宣发和产品部分设计工作。</p>
+            </div>
+          </li>
+          <li class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+              <div class="timeline-header">
+                <h4>Founder</h4>
+                <span class="timeline-meta">2025.01 - 至今 · 兼职</span>
+              </div>
+              <p class="timeline-org">JUNNY领域</p>
+              <p class="timeline-desc">一个人折腾的小型研究与创作空间，围绕神经科学、独立软件和科普内容做探索。</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="panel-section">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">项目经历</p>
+            <h3>做过的一些东西</h3>
+          </div>
+          <a href="https://github.com/JUNNYOfficial" target="_blank" rel="noreferrer noopener" class="section-more">GitHub 主页 →</a>
+        </div>
+        <div class="project-grid">
+          <article class="project-card">
+            <p class="eyebrow">安全与架构</p>
+            <h4>Signal-Key-Geofence</h4>
+            <p>非典型电子围栏与 LLM 注入攻击防护方案，包含 SKG、TriggerGuard、SKG-Guard 等子模块。</p>
+            <div class="project-tags"><span>JavaScript</span><span>安全</span></div>
+            <a href="https://github.com/JUNNYOfficial/Signal-Key-Geofence" target="_blank" rel="noreferrer noopener">查看仓库 →</a>
+          </article>
+
+          <article class="project-card">
+            <p class="eyebrow">知识库</p>
+            <h4>Neuroscience-Knowledge-Base-Skill</h4>
+            <p>神经科学知识库 Skill，整理和调用神经科学领域的概念、模型与研究方法。</p>
+            <div class="project-tags"><span>Shell</span><span>神经科学</span></div>
+            <a href="https://github.com/JUNNYOfficial/Neuroscience-Knowledge-Base-Skill" target="_blank" rel="noreferrer noopener">查看仓库 →</a>
+          </article>
+
+          <article class="project-card">
+            <p class="eyebrow">神经多样性</p>
+            <h4>ASD 人生模拟器</h4>
+            <p>基于 Web 的互动叙事游戏，帮助普通人理解自闭症谱系人群的日常挑战。</p>
+            <div class="project-tags"><span>TypeScript</span><span>叙事</span></div>
+            <a href="https://github.com/JUNNYOfficial/asd-life-simulator" target="_blank" rel="noreferrer noopener">查看仓库 →</a>
+          </article>
+
+          <article class="project-card">
+            <p class="eyebrow">工具</p>
+            <h4>SnapDoc</h4>
+            <p>她启黑客松项目，面向 ADHD 群体的文档管理工具，降低信息整理的心智负担。</p>
+            <div class="project-tags"><span>HTML</span><span>无障碍</span></div>
+            <a href="https://github.com/JUNNYOfficial/SnapDoc" target="_blank" rel="noreferrer noopener">查看仓库 →</a>
+          </article>
+
+          <article class="project-card">
+            <p class="eyebrow">输入法</p>
+            <h4>CoreType</h4>
+            <p>macOS 极简输入法原型，基于 Swift + IMK 搭建工程骨架，目标是做一款干净的本地输入法。</p>
+            <div class="project-tags"><span>Swift</span><span>macOS</span></div>
+          </article>
+
+          <article class="project-card">
+            <p class="eyebrow">个人品牌</p>
+            <h4>nomingbai</h4>
+            <p>围绕个人品牌域名做的实验性项目，把博客、联系页和一些轻量服务串成小站点。</p>
+            <div class="project-tags"><span>TypeScript</span><span>全栈</span></div>
+            <a href="https://github.com/JUNNYOfficial/nomingbai" target="_blank" rel="noreferrer noopener">查看仓库 →</a>
+          </article>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <p>JUNNY 张琦 · 关于页 · 2026</p>
+    </footer>
+  </div>
+
+  <script src="posts-data.js?v=1"></script>
+  <script src="script.js?v=49"></script>
+  <script src="page-transition.js?v=48"></script>
+</body>
+</html>
