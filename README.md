@@ -119,6 +119,10 @@ Blog/
 ├── styles.css                    # 全局样式表
 ├── script.js                     # 数据与渲染逻辑
 ├── page-transition.js            # 页面转场动画
+├── home.css / home.js            # 首页专属布局与可交互 3D 大脑
+├── project.css / project.js      # 项目展示页样式、阅读进度与滚动动效
+├── models/                       # 本地 3D 大脑模型（含来源与许可说明）
+├── vendor/                       # 本地托管的 Three.js 与 GLTF 加载器
 ├── posts.json                    # 文章数据源（编辑此文件）
 ├── posts-data.js                 # 由 posts.json 生成，请勿手动编辑
 ├── feed.xml                      # RSS 订阅

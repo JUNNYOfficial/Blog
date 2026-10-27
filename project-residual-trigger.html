@@ -16,225 +16,7 @@
   <meta name="theme-color" content="#111111" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23111'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='60' font-family='system-ui' font-weight='700'%3EJ%3C/text%3E%3C/svg%3E" />
   <link rel="stylesheet" href="styles.css?v=53" />
-  <style>
-    /* ===== 项目展示页 scoped 样式 ===== */
-    .rt-hero { padding: 40px 0 8px; max-width: 860px; }
-    .rt-hero h1 { margin: 10px 0 14px; }
-    .rt-hero .rt-lede { font-size: 1.12rem; line-height: 1.75; color: #424242; margin: 0 0 20px; }
-    .rt-hero .rt-lede strong { color: #111; }
-    .rt-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; padding: 0; list-style: none; }
-    .rt-tags li { font-size: 0.82rem; padding: 5px 12px; border-radius: 999px; background: #f5f5f5; color: #555; border: 1px solid #e8e8e8; }
-    .rt-hero-links { display: flex; flex-wrap: wrap; gap: 10px; }
-    .rt-hero-links a {
-      display: inline-flex; align-items: center; gap: 7px;
-      padding: 11px 20px; border-radius: 999px; border: 1px solid #111;
-      background: #111; color: #fff; font-size: 0.92rem; text-decoration: none;
-      transition: opacity 0.2s ease;
-    }
-    .rt-hero-links a:hover { opacity: 0.82; }
-    .rt-hero-links a.rt-ghost { background: transparent; color: #111; border-color: #d4d4d4; }
-    .rt-hero-links a.rt-ghost:hover { border-color: #111; opacity: 1; }
-
-    /* 核心数字 */
-    .rt-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
-    .rt-stat { border: 1px solid #e9e9e9; border-radius: 20px; padding: 20px 22px; background: #fff; }
-    .rt-stat b { display: block; font-size: 1.9rem; line-height: 1.1; font-weight: 700; letter-spacing: -0.01em; }
-    .rt-stat b small { font-size: 1rem; font-weight: 600; color: #8f8f8f; margin-left: 2px; }
-    .rt-stat span { display: block; margin-top: 8px; font-size: 0.86rem; color: #6b6b6b; line-height: 1.5; }
-    .rt-stat.rt-accent { background: #111; border-color: #111; }
-    .rt-stat.rt-accent b, .rt-stat.rt-accent span { color: #fff; }
-    .rt-stat.rt-accent b small { color: #a5a5a5; }
-
-    /* 交互模拟器 */
-    .rt-sim-wrap { border: 1px solid #e9e9e9; border-radius: 22px; overflow: hidden; background: #0d0d0f; }
-    .rt-sim-stage { position: relative; }
-    #rtScene { display: block; width: 100%; height: auto; cursor: grab; }
-    #rtScene:active { cursor: grabbing; }
-    .rt-sim-controls {
-      display: flex; flex-wrap: wrap; align-items: center; gap: 18px 26px;
-      padding: 14px 20px; border-top: 1px solid #232327; background: #151518;
-    }
-    .rt-sim-controls .rt-ctl { display: flex; align-items: center; gap: 10px; color: #b9b9c0; font-size: 0.85rem; }
-    .rt-sim-controls input[type="range"] { width: 130px; accent-color: #e8e8e8; }
-    .rt-sim-controls button {
-      font: inherit; font-size: 0.85rem; padding: 8px 18px; border-radius: 999px;
-      border: 1px solid #3a3a40; background: transparent; color: #e5e5e5; cursor: pointer;
-      transition: background 0.2s ease;
-    }
-    .rt-sim-controls button:hover { background: #232329; }
-    .rt-sim-readouts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: #232327; border-top: 1px solid #232327; }
-    .rt-readout { background: #151518; padding: 14px 20px; }
-    .rt-readout .rt-ro-label { font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: #7d7d85; }
-    .rt-readout .rt-ro-value { font-size: 1.3rem; font-weight: 650; color: #f0f0f2; font-variant-numeric: tabular-nums; }
-    .rt-readout .rt-ro-sub { font-size: 0.76rem; color: #7d7d85; }
-    #rtChart { display: block; width: 100%; height: 190px; background: #101013; border-top: 1px solid #232327; }
-    .rt-sim-legend { display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 10px 20px; background: #101013; border-top: 1px solid #232327; font-size: 0.78rem; color: #8d8d95; }
-    .rt-sim-legend i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
-
-    /* 流水线图 */
-    .rt-pipeline { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
-    .rt-pipe-step { position: relative; border: 1px solid #e9e9e9; border-radius: 18px; padding: 20px; background: #fafafa; }
-    .rt-pipe-step .rt-pipe-num { position: absolute; top: 14px; right: 16px; font-size: 0.75rem; color: #b0b0b0; font-variant-numeric: tabular-nums; }
-    .rt-pipe-step h4 { margin: 0 0 4px; font-size: 1.02rem; }
-    .rt-pipe-step .rt-pipe-en { font-size: 0.76rem; color: #9a9a9a; letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 10px; }
-    .rt-pipe-step p { margin: 0; font-size: 0.88rem; color: #555; line-height: 1.6; }
-    .rt-pipe-step p b { color: #111; }
-    .rt-pipe-arrow { display: none; }
-
-    /* 成本条形图（对数刻度） */
-    .rt-bars { display: grid; grid-template-columns: max-content minmax(140px, 1fr) 86px; column-gap: 14px; row-gap: 18px; }
-    .rt-bar-row { display: grid; grid-template-columns: subgrid; grid-column: 1 / -1; align-items: center; }
-    .rt-bar-row .rt-bar-name { font-size: 0.88rem; color: #444; text-align: right; line-height: 1.35; white-space: nowrap; }
-    .rt-bar-track { position: relative; height: 26px; background: #f3f3f3; border-radius: 8px; overflow: hidden; }
-    .rt-bar-fill { position: absolute; inset: 0 auto 0 0; border-radius: 8px; background: #c9c9c9; transition: width 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); }
-    .rt-bar-fill.rt-bar-hl { background: #111; }
-    .rt-bar-row .rt-bar-val { font-size: 0.88rem; font-weight: 600; color: #111; font-variant-numeric: tabular-nums; }
-    .rt-bars-note { font-size: 0.8rem; color: #9a9a9a; margin: 14px 0 0; }
-
-    /* 下游对比 */
-    .rt-ds-row { display: grid; grid-template-columns: 168px 1fr max-content; align-items: center; gap: 14px; margin-bottom: 13px; }
-    .rt-ds-name { font-size: 0.9rem; color: #333; text-align: right; }
-    .rt-ds-name small { display: block; font-size: 0.74rem; color: #9a9a9a; }
-    .rt-ds-track { position: relative; height: 24px; background: #f3f3f3; border-radius: 7px; overflow: hidden; }
-    .rt-ds-fill { position: absolute; inset: 0 auto 0 0; border-radius: 7px; background: #bdbdbd; }
-    .rt-ds-fill.rt-ds-hl { background: #111; }
-    .rt-ds-fill.rt-ds-oracle { background: repeating-linear-gradient(45deg, #999, #999 5px, #b5b5b5 5px, #b5b5b5 10px); }
-    .rt-ds-val { font-size: 0.88rem; font-weight: 650; color: #111; font-variant-numeric: tabular-nums; white-space: nowrap; }
-    .rt-ds-scale { display: flex; justify-content: space-between; font-size: 0.74rem; color: #a8a8a8; margin-top: 6px; }
-
-    /* 实验总表 */
-    .rt-exp-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-    .rt-exp-table th { text-align: left; font-size: 0.76rem; letter-spacing: 0.06em; text-transform: uppercase; color: #9a9a9a; font-weight: 600; padding: 0 12px 10px 0; border-bottom: 1px solid #e9e9e9; }
-    .rt-exp-table td { padding: 11px 12px 11px 0; border-bottom: 1px solid #f0f0f0; vertical-align: top; line-height: 1.55; color: #444; }
-    .rt-exp-table td.rt-exp-id { color: #b0b0b0; font-variant-numeric: tabular-nums; white-space: nowrap; }
-    .rt-exp-table td.rt-exp-num { font-variant-numeric: tabular-nums; white-space: nowrap; color: #111; font-weight: 550; }
-    .rt-exp-table tr:last-child td { border-bottom: none; }
-    .rt-badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.76rem; font-weight: 600; white-space: nowrap; }
-    .rt-badge-ok { background: #e8f5ec; color: #1c7a3d; }
-    .rt-badge-warn { background: #fdf3e3; color: #a06a12; }
-    .rt-badge-bad { background: #faeaea; color: #b03a3a; }
-    .rt-badge-todo { background: #f0f0f0; color: #888; }
-
-    /* 思想谱系时间线 */
-    .rt-timeline { position: relative; margin: 6px 0 0; padding: 0 0 0 26px; }
-    .rt-timeline::before { content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px; background: #e5e5e5; border-radius: 2px; }
-    .rt-tl-item { position: relative; padding-bottom: 22px; }
-    .rt-tl-item:last-child { padding-bottom: 0; }
-    .rt-tl-item::before { content: ""; position: absolute; left: -26px; top: 5px; width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 2px solid #c9c9c9; }
-    .rt-tl-item.rt-tl-now::before { border-color: #111; background: #111; }
-    .rt-tl-year { font-size: 0.78rem; color: #9a9a9a; font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
-    .rt-tl-item h4 { margin: 2px 0 4px; font-size: 1rem; }
-    .rt-tl-item p { margin: 0; font-size: 0.88rem; color: #555; line-height: 1.6; max-width: 640px; }
-
-    /* 边界卡片 */
-    .rt-boundary { border: 1px solid #e9e9e9; border-left: 4px solid #c9c9c9; border-radius: 14px; padding: 18px 20px; margin-bottom: 14px; background: #fcfcfc; }
-    .rt-boundary h4 { margin: 0 0 6px; font-size: 0.98rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .rt-boundary p { margin: 0; font-size: 0.89rem; color: #555; line-height: 1.65; }
-    .rt-verdict { font-size: 0.76rem; padding: 2px 10px; border-radius: 999px; font-weight: 600; }
-    .rt-verdict-bad { background: #faeaea; color: #b03a3a; }
-    .rt-verdict-warn { background: #fdf3e3; color: #a06a12; }
-
-    .rt-note { font-size: 0.85rem; color: #9a9a9a; line-height: 1.6; }
-    .rt-figure-caption { font-size: 0.8rem; color: #9a9a9a; margin: 10px 0 0; }
-
-    @media (max-width: 680px) {
-      .rt-bars { grid-template-columns: 1fr; row-gap: 14px; }
-      .rt-bar-row { grid-column: auto; grid-template-columns: 1fr; gap: 4px; }
-      .rt-bar-row .rt-bar-name { text-align: left; }
-      .rt-ds-row { grid-template-columns: 1fr; gap: 4px; }
-      .rt-ds-name { text-align: left; }
-      .rt-ds-name small { display: inline; margin-left: 6px; }
-      .rt-ds-val { margin-bottom: 8px; }
-      .rt-exp-table .rt-exp-hide { display: none; }
-    }
-
-    /* ===== 暗色模式 ===== */
-    @media (prefers-color-scheme: dark) {
-      body:not([data-theme="light"]) .rt-hero .rt-lede { color: #b0b0b0; }
-      body:not([data-theme="light"]) .rt-hero .rt-lede strong { color: #e8e8e8; }
-      body:not([data-theme="light"]) .rt-tags li { background: #1e1e1e; color: #aaa; border-color: #2a2a2a; }
-      body:not([data-theme="light"]) .rt-hero-links a { background: #e8e8e8; color: #111; border-color: #e8e8e8; }
-      body:not([data-theme="light"]) .rt-hero-links a.rt-ghost { background: transparent; color: #e0e0e0; border-color: #3a3a3a; }
-      body:not([data-theme="light"]) .rt-hero-links a.rt-ghost:hover { border-color: #888; }
-      body:not([data-theme="light"]) .rt-stat { background: transparent; border-color: #2a2a2a; }
-      body:not([data-theme="light"]) .rt-stat b { color: #e8e8e8; }
-      body:not([data-theme="light"]) .rt-stat b small { color: #888; }
-      body:not([data-theme="light"]) .rt-stat span { color: #9a9a9a; }
-      body:not([data-theme="light"]) .rt-stat.rt-accent { background: #e8e8e8; border-color: #e8e8e8; }
-      body:not([data-theme="light"]) .rt-stat.rt-accent b, body:not([data-theme="light"]) .rt-stat.rt-accent span { color: #111; }
-      body:not([data-theme="light"]) .rt-stat.rt-accent b small { color: #666; }
-      body:not([data-theme="light"]) .rt-pipe-step { background: #161616; border-color: #2a2a2a; }
-      body:not([data-theme="light"]) .rt-pipe-step h4 { color: #e5e5e5; }
-      body:not([data-theme="light"]) .rt-pipe-step p { color: #9a9a9a; }
-      body:not([data-theme="light"]) .rt-pipe-step p b { color: #e0e0e0; }
-      body:not([data-theme="light"]) .rt-bar-track, body:not([data-theme="light"]) .rt-ds-track { background: #1e1e1e; }
-      body:not([data-theme="light"]) .rt-bar-fill { background: #4a4a4a; }
-      body:not([data-theme="light"]) .rt-bar-fill.rt-bar-hl { background: #e0e0e0; }
-      body:not([data-theme="light"]) .rt-bar-row .rt-bar-name { color: #9a9a9a; }
-      body:not([data-theme="light"]) .rt-bar-row .rt-bar-val { color: #e5e5e5; }
-      body:not([data-theme="light"]) .rt-ds-name { color: #cfcfcf; }
-      body:not([data-theme="light"]) .rt-ds-name small { color: #888; }
-      body:not([data-theme="light"]) .rt-ds-fill { background: #4a4a4a; }
-      body:not([data-theme="light"]) .rt-ds-fill.rt-ds-hl { background: #e0e0e0; }
-      body:not([data-theme="light"]) .rt-ds-fill.rt-ds-oracle { background: repeating-linear-gradient(45deg, #555, #555 5px, #6b6b6b 5px, #6b6b6b 10px); }
-      body:not([data-theme="light"]) .rt-ds-val { color: #e5e5e5; }
-      body:not([data-theme="light"]) .rt-exp-table th { color: #888; border-color: #2a2a2a; }
-      body:not([data-theme="light"]) .rt-exp-table td { color: #a8a8a8; border-color: #1f1f1f; }
-      body:not([data-theme="light"]) .rt-exp-table td.rt-exp-num { color: #e5e5e5; }
-      body:not([data-theme="light"]) .rt-badge-ok { background: #152b1c; color: #58b47a; }
-      body:not([data-theme="light"]) .rt-badge-warn { background: #2e2413; color: #d8a04a; }
-      body:not([data-theme="light"]) .rt-badge-bad { background: #331717; color: #d86a6a; }
-      body:not([data-theme="light"]) .rt-badge-todo { background: #222; color: #777; }
-      body:not([data-theme="light"]) .rt-timeline::before { background: #2a2a2a; }
-      body:not([data-theme="light"]) .rt-tl-item::before { background: #111; border-color: #4a4a4a; }
-      body:not([data-theme="light"]) .rt-tl-item.rt-tl-now::before { background: #e8e8e8; border-color: #e8e8e8; }
-      body:not([data-theme="light"]) .rt-tl-item h4 { color: #e5e5e5; }
-      body:not([data-theme="light"]) .rt-tl-item p { color: #9a9a9a; }
-      body:not([data-theme="light"]) .rt-boundary { background: #141414; border-color: #2a2a2a; border-left-color: #4a4a4a; }
-      body:not([data-theme="light"]) .rt-boundary h4 { color: #e0e0e0; }
-      body:not([data-theme="light"]) .rt-boundary p { color: #9a9a9a; }
-      body:not([data-theme="light"]) .rt-verdict-bad { background: #331717; color: #d86a6a; }
-      body:not([data-theme="light"]) .rt-verdict-warn { background: #2e2413; color: #d8a04a; }
-      body:not([data-theme="light"]) .rt-note { color: #888; }
-    }
-    body[data-theme="dark"] .rt-hero .rt-lede { color: #b0b0b0; }
-    body[data-theme="dark"] .rt-hero .rt-lede strong { color: #e8e8e8; }
-    body[data-theme="dark"] .rt-tags li { background: #1e1e1e; color: #aaa; border-color: #2a2a2a; }
-    body[data-theme="dark"] .rt-hero-links a { background: #e8e8e8; color: #111; border-color: #e8e8e8; }
-    body[data-theme="dark"] .rt-hero-links a.rt-ghost { background: transparent; color: #e0e0e0; border-color: #3a3a3a; }
-    body[data-theme="dark"] .rt-stat { background: transparent; border-color: #2a2a2a; }
-    body[data-theme="dark"] .rt-stat b { color: #e8e8e8; }
-    body[data-theme="dark"] .rt-stat span { color: #9a9a9a; }
-    body[data-theme="dark"] .rt-stat.rt-accent { background: #e8e8e8; border-color: #e8e8e8; }
-    body[data-theme="dark"] .rt-stat.rt-accent b, body[data-theme="dark"] .rt-stat.rt-accent span { color: #111; }
-    body[data-theme="dark"] .rt-pipe-step { background: #161616; border-color: #2a2a2a; }
-    body[data-theme="dark"] .rt-pipe-step h4 { color: #e5e5e5; }
-    body[data-theme="dark"] .rt-pipe-step p { color: #9a9a9a; }
-    body[data-theme="dark"] .rt-pipe-step p b { color: #e0e0e0; }
-    body[data-theme="dark"] .rt-bar-track, body[data-theme="dark"] .rt-ds-track { background: #1e1e1e; }
-    body[data-theme="dark"] .rt-bar-fill { background: #4a4a4a; }
-    body[data-theme="dark"] .rt-bar-fill.rt-bar-hl { background: #e0e0e0; }
-    body[data-theme="dark"] .rt-ds-fill { background: #4a4a4a; }
-    body[data-theme="dark"] .rt-ds-fill.rt-ds-hl { background: #e0e0e0; }
-    body[data-theme="dark"] .rt-exp-table th { color: #888; border-color: #2a2a2a; }
-    body[data-theme="dark"] .rt-exp-table td { color: #a8a8a8; border-color: #1f1f1f; }
-    body[data-theme="dark"] .rt-exp-table td.rt-exp-num { color: #e5e5e5; }
-    body[data-theme="dark"] .rt-badge-ok { background: #152b1c; color: #58b47a; }
-    body[data-theme="dark"] .rt-badge-warn { background: #2e2413; color: #d8a04a; }
-    body[data-theme="dark"] .rt-badge-bad { background: #331717; color: #d86a6a; }
-    body[data-theme="dark"] .rt-badge-todo { background: #222; color: #777; }
-    body[data-theme="dark"] .rt-timeline::before { background: #2a2a2a; }
-    body[data-theme="dark"] .rt-tl-item::before { background: #111; border-color: #4a4a4a; }
-    body[data-theme="dark"] .rt-tl-item.rt-tl-now::before { background: #e8e8e8; border-color: #e8e8e8; }
-    body[data-theme="dark"] .rt-tl-item h4 { color: #e5e5e5; }
-    body[data-theme="dark"] .rt-tl-item p { color: #9a9a9a; }
-    body[data-theme="dark"] .rt-boundary { background: #141414; border-color: #2a2a2a; border-left-color: #4a4a4a; }
-    body[data-theme="dark"] .rt-boundary h4 { color: #e0e0e0; }
-    body[data-theme="dark"] .rt-boundary p { color: #9a9a9a; }
-    body[data-theme="dark"] .rt-verdict-bad { background: #331717; color: #d86a6a; }
-    body[data-theme="dark"] .rt-verdict-warn { background: #2e2413; color: #d8a04a; }
-    body[data-theme="dark"] .rt-note { color: #888; }
-  </style>
+  <link rel="stylesheet" href="project.css?v=11" />
 </head>
 <body data-page="project">
   <div class="page-shell">
@@ -255,9 +37,23 @@
       </nav>
     </header>
 
-    <main>
+    <div class="rt-progress" aria-hidden="true"><i></i></div>
+
+    <nav class="rt-subnav" aria-label="页面章节">
+      <a href="#rt-hero">概览</a>
+      <a href="#rt-sim">演示</a>
+      <a href="#rt-method">方法</a>
+      <a href="#rt-evidence">证据</a>
+      <a href="#rt-ledger">台账</a>
+      <a href="#rt-lineage">谱系</a>
+      <a href="#rt-boundary">边界</a>
+      <a href="#rt-roadmap">路线</a>
+    </nav>
+
+    <main class="rt-main">
       <!-- ===== Hero ===== -->
-      <section class="rt-hero">
+      <section class="rt-hero" id="rt-hero">
+        <div class="rt-hero-copy">
         <p class="eyebrow">独立研究项目 · 神经科学 × 工程</p>
         <h1>残差触发数据采集</h1>
         <p class="rt-lede">
@@ -279,6 +75,16 @@
           <a href="https://hcnqd9x8ite5.feishu.cn/wiki/Syn4wHrxeiQSIRk5zTScW6ohncH" target="_blank" rel="noreferrer noopener">阅读完整项目文档（飞书知识库）</a>
           <a href="#rt-sim" class="rt-ghost">直接试交互演示 ↓</a>
         </div>
+        </div>
+        <aside class="rt-hero-meta" aria-label="项目概况">
+          <dl>
+            <div><dt>项目类型</dt><dd>独立研究 · 软硬件协议层</dd></div>
+            <div><dt>方法来源</dt><dd>小脑 / 电鱼伴随放电</dd></div>
+            <div><dt>实验体量</dt><dd>15 组 · 6 组为负结果</dd></div>
+            <div><dt>当前状态</dt><dd><span class="rt-dot"></span>边界收敛，转入协议化</dd></div>
+          </dl>
+          <p class="rt-hero-meta-note">负结果与正结果同为产出。</p>
+        </aside>
       </section>
 
       <!-- ===== 核心数字 ===== -->
@@ -301,8 +107,8 @@
         <div class="section-header">
           <p class="eyebrow">Interactive Demo</p>
           <h3>残差触发模拟器</h3>
-          <p class="rt-note" style="margin-top:10px;">一个可玩的合成场景：灰色网格世界里，<b>相机自己在随机转动</b>（你也可以按住画面左右拖动来模拟手持晃动），偶尔有<b style="color:#c86a6a;">新物体出现（ground-truth 事件）</b>。下面两条曲线分别记录"朴素帧差"和"陀螺仪补偿后的残差"的 z 分数。朴素帧差被自己的运动淹没；补偿后的残差只在真正的事件处越过阈值——这就是整套方法成立的核心机制。</p>
         </div>
+        <p class="rt-note rt-sec-lede">一个可玩的合成场景：灰色网格世界里，<b>相机自己在随机转动</b>（你也可以按住画面左右拖动来模拟手持晃动），偶尔有<b style="color:#c86a6a;">新物体出现（ground-truth 事件）</b>。下面两条曲线分别记录"朴素帧差"和"陀螺仪补偿后的残差"的 z 分数。朴素帧差被自己的运动淹没；补偿后的残差只在真正的事件处越过阈值——这就是整套方法成立的核心机制。</p>
         <div class="rt-sim-wrap">
           <div class="rt-sim-stage">
             <canvas id="rtScene" width="960" height="360"></canvas>
@@ -338,7 +144,7 @@
       </section>
 
       <!-- ===== 方法 ===== -->
-      <section class="panel-section">
+      <section class="panel-section" id="rt-method">
         <div class="section-header">
           <p class="eyebrow">Method</p>
           <h3>方法：伴随放电 → 负像 → 残差</h3>
@@ -366,8 +172,9 @@
         <p class="rt-figure-caption">对照生物学：非洲弱电鱼用同款三元件电路，把自己比猎物信号强几个数量级的自发电干扰从感受器输出里减掉（Perks et al., Nature 2026，connectome 重建 29,694 个突触证实）。</p>
       </section>
 
-      <!-- ===== 成本账 ===== -->
-      <section class="panel-section">
+      <!-- ===== 证据：成本与下游价值 ===== -->
+      <div class="rt-duo" id="rt-evidence">
+      <section class="panel-section rt-duo-item">
         <div class="section-header">
           <p class="eyebrow">Cost Profile</p>
           <h3>成本账：副本的代价是 30 微秒</h3>
@@ -383,13 +190,12 @@
         <p class="rt-bars-note">读法：「用感觉补偿感觉」（光流）比 IMU 副本贵约 <b>120 倍</b>，且依赖纹理、怕大位移；常开约束下不可接受。光流的真实位置是质量上限与按需仲裁者，不是常开预测器。CPU vs MPS 特征逐位一致（最大相对差 2e-6），CPU 仅慢 1.7 倍。</p>
       </section>
 
-      <!-- ===== 下游对比 ===== -->
-      <section class="panel-section">
+      <section class="panel-section rt-duo-item">
         <div class="section-header">
           <p class="eyebrow">Downstream Value</p>
           <h3>存储-价值对比：合成 rig 下游训练</h3>
-          <p class="rt-note" style="margin-top:10px;">冻结特征 + 帧级事件分类（logistic 头）。条形为 val AP；括注为存储占比。残差触发（黑条）用 <b>3.4%</b> 的存储拿到最高 AP，并超过全预算 oracle 的事件召回。</p>
         </div>
+        <p class="rt-note rt-sec-lede">冻结特征 + 帧级事件分类（logistic 头）。条形为 val AP；括注为存储占比。残差触发（黑条）用 <b>3.4%</b> 的存储拿到最高 AP，并超过全预算 oracle 的事件召回。</p>
         <div id="rtDsBars">
           <div class="rt-ds-row"><span class="rt-ds-name">cerebellum<small>自适应触发</small></span><div class="rt-ds-track"><div class="rt-ds-fill rt-ds-hl" data-ap="0.298"></div></div><span class="rt-ds-val">0.298 · 3.4%</span></div>
           <div class="rt-ds-row"><span class="rt-ds-name">uniform 0.5x<small>半数字节</small></span><div class="rt-ds-track"><div class="rt-ds-fill" data-ap="0.126"></div></div><span class="rt-ds-val">0.126 · 7.9%</span></div>
@@ -402,13 +208,16 @@
         <p class="rt-bars-note">为什么 cerebellum 能打赢存储更少的 oracle：oracle 只存事件帧，丢掉了上下文；残差触发保留事件前后的背景，下游模型因此学得更好。这是「保留上下文」价值的直接证据。</p>
       </section>
 
+      </div>
+
       <!-- ===== 实验总表 ===== -->
-      <section class="panel-section">
+      <section class="panel-section" id="rt-ledger">
         <div class="section-header">
           <p class="eyebrow">Experiment Ledger</p>
           <h3>15 个实验的诚实台账</h3>
-          <p class="rt-note" style="margin-top:10px;">项目的原则：论文的每条启发对应一个可独立复现的实验，正结果和负结果都记录在案。✅ 成立 · ⚠️ 部分成立 · ❌ 实测不成立 · ⬜ 未验证</p>
         </div>
+        <p class="rt-note rt-sec-lede">项目的原则：论文的每条启发对应一个可独立复现的实验，正结果和负结果都记录在案。✅ 成立 · ⚠️ 部分成立 · ❌ 实测不成立 · ⬜ 未验证</p>
+        <div class="rt-table-wrap">
         <table class="rt-exp-table">
           <thead><tr><th>#</th><th>实验</th><th class="rt-exp-hide">核心数字</th><th>状态</th></tr></thead>
           <tbody>
@@ -429,10 +238,11 @@
             <tr><td class="rt-exp-id">15</td><td>iPhone 真 gyro 通路</td><td class="rt-exp-hide rt-exp-num">未验证——真机 IMU 是"检验行走级结论能否翻转"的实验</td><td><span class="rt-badge rt-badge-todo">⬜ 未验证</span></td></tr>
           </tbody>
         </table>
+        </div>
       </section>
 
       <!-- ===== 思想谱系 ===== -->
-      <section class="panel-section">
+      <section class="panel-section" id="rt-lineage">
         <div class="section-header">
           <p class="eyebrow">Idea Lineage</p>
           <h3>思想谱系：感知 = 预测 + 残差</h3>
@@ -449,7 +259,7 @@
       </section>
 
       <!-- ===== 边界与负结果 ===== -->
-      <section class="panel-section">
+      <section class="panel-section" id="rt-boundary">
         <div class="section-header">
           <p class="eyebrow">Honest Boundaries</p>
           <h3>边界：负结果划清的适用域</h3>
@@ -474,7 +284,61 @@
           <h4>协议层的正确定位 <span class="rt-verdict rt-verdict-warn">收敛结论</span></h4>
           <p>残差触发器是「运动不可预测性的滤波器」。成立的资产：①合成 regime 的下游价值；②跨 regime 成立的成本账（IMU 副本比光流便宜 2 个数量级）；③边界知识。它该接在<b>运动去重 / 带宽预筛 / 合成 rig 采集筛选</b>的位置——语义重要性仲裁必须发生在视觉模型侧。负结果不是死路，是协议设计的边界知识。</p>
         </div>
-        <p class="rt-note" style="margin-top:16px;">下一步：仲裁级联的真实失效模式验证（roll/视差/标定误差）、ON/OFF 对抗通道与 recurrent 加速补全、iPhone 真机 IMU 检验行走级结论、加速器友好化（全部算子都是平移 + EMA）。</p>
+      </section>
+
+      <!-- ===== 研究路线 ===== -->
+      <section class="panel-section rt-roadmap" id="rt-roadmap">
+        <div class="section-header">
+          <p class="eyebrow">Roadmap</p>
+          <h3>下一步：从「触发器」到「采集协议层」</h3>
+        </div>
+        <p class="rt-note rt-sec-lede">
+          负结果已经把定位钉死了：残差不是「语义重要性」，而是「<b>这段画面里有没有设备自己解释不了的变化</b>」。
+          所以后续不再去修残差判重要性，而是把它降级成一个便宜的<b>注意力调度器</b>，让贵的模型只在被点名时工作。
+        </p>
+
+        <div class="rt-horizons">
+          <article class="rt-horizon">
+            <header>
+              <span class="rt-hz-tag">NOW</span>
+              <h4>收口现有结论</h4>
+              <p>0–3 个月 · 把可证伪性补齐</p>
+            </header>
+            <ul>
+              <li><b>仲裁级联的真实失效验证</b><span>roll、视差、标定误差下，光流仲裁应在哪一步接管——实验 14 只在合成环境验证过机制。</span></li>
+              <li><b>iPhone 真机 IMU 通路</b><span>实验 15 仍是空白。真机时间戳延迟与滚动快门，是行走级结论可能被翻转的地方。</span></li>
+              <li><b>最小复现包</b><span>15 组实验整理成脚本 + 配置 + 数据切片，让负结果也能被别人重跑。</span></li>
+            </ul>
+          </article>
+
+          <article class="rt-horizon">
+            <header>
+              <span class="rt-hz-tag">NEXT</span>
+              <h4>做成协议层</h4>
+              <p>3–9 个月 · 从算法到系统</p>
+            </header>
+            <ul>
+              <li><b>双通道架构</b><span>残差通道：常开、极便宜、只回答「值不值得看一眼」；语义通道：按需唤醒、负责重要性判断。</span></li>
+              <li><b>预算控制器</b><span>把「存多少」变成可调旋钮：给定目标存储率，反解自适应阈值，而不是手调 z 阈值。</span></li>
+              <li><b>硬件映射</b><span>全部算子只有平移与 EMA，天然适合 FPGA / NPU；目标是常开功耗进入微瓦级。</span></li>
+            </ul>
+          </article>
+
+          <article class="rt-horizon">
+            <header>
+              <span class="rt-hz-tag">LATER</span>
+              <h4>回到科学问题</h4>
+              <p>9 个月以上 · 工程反哺神经科学</p>
+            </header>
+            <ul>
+              <li><b>可塑性规则的生物学对照</b><span>负像的双可塑性位点与 recurrent 加速，能否用工程实现反推出小脑 LTD 的必要条件。</span></li>
+              <li><b>把残差当作自监督信号</b><span>既然残差度量的是「前向模型的失败」，它可以用来训练前向模型本身——把负结果转成训练信号。</span></li>
+              <li><b>采集筛选基准</b><span>发布带真值事件与语义标注的 egocentric benchmark，让这类方法第一次有共同标尺。</span></li>
+            </ul>
+          </article>
+        </div>
+
+        <p class="rt-bars-note rt-roadmap-note">判断依据：本项目已证明「便宜的预测-取消」在成本上无可替代（0.032 ms vs 3.8 ms），但在语义上不可靠。因此长期价值不在替代语义模型，而在<b>决定何时调用它们</b>。</p>
       </section>
     </main>
 
@@ -485,6 +349,7 @@
 
   <script src="script.js?v=49"></script>
   <script src="page-transition.js?v=45"></script>
+  <script src="project.js?v=3"></script>
   <script>
   /* ===== 残差触发模拟器 ===== */
   (function () {
@@ -852,21 +717,6 @@
       camVel += dx * 0.02;
     });
     scene.addEventListener('pointerup', function () { dragging = false; });
-
-    // 条形图动画（成本账为对数刻度：width 由 log10(ms) 映射）
-    function animateBars(sel, attr, max, logMin) {
-      document.querySelectorAll(sel).forEach(function (el) {
-        var v = parseFloat(el.getAttribute(attr));
-        var w = logMin !== undefined
-          ? (v - logMin) / (max - logMin) * 100
-          : v / max * 100;
-        el.style.width = Math.max(1.5, w) + '%';
-      });
-    }
-    window.addEventListener('load', function () {
-      animateBars('#rtCostBars .rt-bar-fill', 'data-logms', 0.7, -1.6);
-      animateBars('#rtDsBars .rt-ds-fill', 'data-ap', 0.3);
-    });
 
     initWorld();
     updateReadouts();
