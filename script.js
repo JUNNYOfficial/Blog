@@ -253,11 +253,10 @@ function renderHome() {
 function renderAllArticles() {
   const content = document.getElementById('articleWikiContent');
   const treeNav = document.getElementById('articlesWikiTree');
-  const yearNav = document.getElementById('articlesYearNav');
   const legacyGrid = document.getElementById('articleGrid');
 
   // 兼容旧版 articles.html（无 wiki 结构时）
-  if (!content || !treeNav || !yearNav) {
+  if (!content || !treeNav) {
     if (!legacyGrid) return;
     legacyGrid.innerHTML = '';
     const sorted = sortPostsByDate(posts);
@@ -385,20 +384,6 @@ function renderAllArticles() {
     treeNav.appendChild(rootUl);
   }
 
-  function renderYearsNav(filtered) {
-    yearNav.innerHTML = '';
-    const groups = groupPostsByYear(filtered);
-    const years = Object.keys(groups).sort((a, b) => b - a);
-    if (!years.length) return;
-    years.forEach(year => {
-      const a = document.createElement('a');
-      a.href = `#year-${year}`;
-      a.className = 'wiki-nav-link';
-      a.textContent = `${year} 年`;
-      yearNav.appendChild(a);
-    });
-  }
-
   function renderContent() {
     const filtered = filterPosts();
     content.innerHTML = '';
@@ -408,7 +393,6 @@ function renderAllArticles() {
       empty.className = 'empty-state';
       empty.textContent = '暂无文章，稍后再来看看。';
       content.appendChild(empty);
-      renderYearsNav(filtered);
       return;
     }
 
@@ -432,8 +416,6 @@ function renderAllArticles() {
 
       content.appendChild(section);
     });
-
-    renderYearsNav(filtered);
   }
 
   buildWikiTree();
