@@ -235,7 +235,7 @@ function renderHome() {
   const grid = document.getElementById('homeArticleGrid');
   if (!grid) return;
 
-  const latest = sortPostsByDate(posts).slice(0, 2);
+  const latest = sortPostsByDate(posts).slice(0, 3);
   grid.innerHTML = '';
   if (!latest.length) {
     const empty = document.createElement('p');
@@ -244,7 +244,7 @@ function renderHome() {
     grid.appendChild(empty);
     return;
   }
-  latest.forEach(post => grid.appendChild(createArticleCard(post)));
+  latest.forEach(post => grid.appendChild(window.createHomeArticleCard(post)));
 
   const countEl = document.getElementById('homeArticleCount');
   if (countEl) countEl.textContent = posts.length;
