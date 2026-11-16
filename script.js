@@ -64,7 +64,7 @@ function getPostUrl(post) {
     const num = post.id.slice(1).padStart(3, '0');
     return `papers/paper-${num}.html`;
   }
-  return `article.html?id=${post.id}`;
+  return `posts/post-${post.id}.html`;
 }
 
 function parseChineseDate(dateStr) {
@@ -436,7 +436,7 @@ function handleShare() {
   if (!shareButton) return;
   shareButton.addEventListener('click', () => {
     const shareData = {
-      title: document.getElementById('articleTitle')?.textContent || 'zhilinOfficial Blog',
+      title: document.getElementById('articleTitle')?.textContent || 'JUNNY 张琦',
       text: '分享一篇极简设计与阅读风格的文章。',
       url: window.location.href
     };
@@ -470,7 +470,7 @@ function renderArticle() {
   date.textContent = article.date;
   reading.textContent = article.reading;
   // 渲染正文：识别序号或英文小标题，转为可跳转的 h4 并生成目录
-  const headingRe = /^(?:[一二三四五六七八九十]+、|The Form and Definition of Digital Existence$|The Timeline: How Long is “Forever”\?$|A Subjective Frontier$)/;
+  const headingRe = /^(?:[一二三四五六七八九十]+、|本月感想 & 下月展望$|08-27 关于下一步$|The Form and Definition of Digital Existence$|The Timeline: How Long is “Forever”\?$|A Subjective Frontier$)/;
   const tocHeadings = [];
   body.innerHTML = article.body.map(paragraph => {
     const t = paragraph.trim();
@@ -496,16 +496,19 @@ function renderArticle() {
   }
 
   // 动态更新标题与社交分享 meta（article.html 是 JS 渲染壳，静态 meta 是通用的）
-  document.title = `${article.title} · zhilinOfficial Blog`;
+  document.title = `${article.title} · JUNNY 张琦`;
   const descText = article.summary || article.body[0]?.slice(0, 120) || '';
   const setMeta = (selector, attr, val) => {
     const el = document.querySelector(selector);
     if (el) el.setAttribute(attr, val);
   };
   setMeta('meta[name="description"]', 'content', descText);
-  setMeta('meta[property="og:title"]', 'content', `${article.title} · zhilinOfficial Blog`);
+  setMeta('meta[property="og:title"]', 'content', `${article.title} · JUNNY 张琦`);
   setMeta('meta[property="og:description"]', 'content', descText);
-  setMeta('meta[property="og:url"]', 'content', `${location.origin}${location.pathname}?id=${article.id}`);
+  const articleUrl = new URL(getPostUrl(article), location.href).href;
+  setMeta('meta[property="og:url"]', 'content', articleUrl);
+  const canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical) canonical.setAttribute('href', articleUrl);
 
   if (related) {
     posts.filter(item => item.id !== article.id).slice(0, 5).forEach(post => {

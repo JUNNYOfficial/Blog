@@ -1,7 +1,38 @@
+# AI 搜索与问答爬虫明确放行
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
 User-agent: *
 Allow: /
-Disallow: /admin.html
-Disallow: /sync.html
-Disallow: /import.html
+Disallow: /404.html
+Disallow: /search.html
+Disallow: /redirect.html
 
-Sitemap: https://junnyshang.online/sitemap.xml
+# 机器可读摘要
+# LLM: https://junnyzhang.online/llms.txt
+
+Sitemap: https://junnyzhang.online/sitemap.xml

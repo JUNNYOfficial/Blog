@@ -1,0 +1,65 @@
+# JUNNY 张琦
+
+> 神经科学与 AI for Math 方向的独立研究笔记站。作者 JUNNY 张琦，独立研究者，持续公开论文笔记、研究项目、工程实践与日常思考。本文件为站点机器可读摘要，供 AI 检索与问答引用。
+
+## 站点身份
+
+- 作者：JUNNY 张琦（中文名 张琦；英文署名 Zhilin Huang）
+- 身份：独立研究者；研究领域为神经科学、AI for Math、具身智能数据采集
+- 所在地：广东 深圳
+- 语言：中文（zh-CN），部分文章为英文
+- 联系：zhangqi@nomingbai.online
+- GitHub：https://github.com/JUNNYOfficial
+- 小红书：https://www.xiaohongshu.com/user/profile/6960bfdf0000000032024101
+
+## 核心页面
+
+- [首页](https://junnyzhang.online/): 站点入口，介绍作者身份、研究方向与精选项目
+- [研究](https://junnyzhang.online/research.html): 两个独立研究项目的完整介绍
+- [全部文章](https://junnyzhang.online/articles.html): 19 篇文章与论文笔记的完整索引
+- [关于](https://junnyzhang.online/about.html): 作者身份、经历、项目经历与技能方向
+- [合作](https://junnyzhang.online/cooperate.html): 合作前提、项目方向与合作方式
+- [联系](https://junnyzhang.online/contact.html): 邮件、GitHub、小红书与微信公众号
+
+## 研究项目
+
+- [残差触发数据采集](https://junnyzhang.online/project-residual-trigger.html): 小脑启发的常开相机数据筛选协议：用 IMU 副本预测自运动视流并相减，只存储残差大的片段。3.4% 存储达到 4 倍预算均匀采样的效果，常开成本 0.17 ms/帧，零训练零标注。 代码：https://github.com/AperLumen/Cerebellum-style-residual-triggered-datacollection
+- [Kakeya AI Prototype](https://junnyzhang.online/project-kakeya-ai-prototype.html): 面向三维 Kakeya 型问题的研究原型：几何建模、体积下界估计与 AI 辅助推理，每一步落成带哈希链的 .kpt 证明轨迹。 代码：https://github.com/AperLumen/Kakeya-AI-Prototype
+
+## 文章
+
+- [13 岁，第一次打黑客松](https://junnyzhang.online/posts/post-1.html)（2026-04-25，日常）：13 岁那年我报名了人生第一场黑客松：连 Git 和 API 都不懂，硬啃一周补课，48 小时从零做出一个能用的产品。一次关于「试试又不亏」的真实记录。
+- [为什么我的选择看起来总和别人不一样](https://junnyzhang.online/posts/post-2.html)（2026-04-27，日常）：不同的资源条件、约束边界和目标函数，自然导出不同的策略。解释我的选择为什么常常看起来「走了另一条路」——这不是优越感，而是弹药储备不同，打法必然不同。
+- [来早的八月总结](https://junnyzhang.online/posts/post-3.html)（2026-08-20，日常）：八月做了四个方向：面向数学研究的 AI 计算验证原型（纳秒级几何内核 + 模型路由 + 全量验证）、非典型电子围栏与 LLM 注入防护、CoreType 输入法骨架、本地工作台。一个月的项目复盘与思考。
+- [恰到好处的8月总结（积累极多合作经验之后的）](https://junnyzhang.online/posts/post-4.html)（2026-08-27，日常）：八月末尾，聊聊和国内商务打交道反复上演的同一部剧：姿态、翻脸、踩坑、立人设。不是吐槽，是记录。
+- [The Paradox of “Digital Immortality”: Identity, Grief, and the AI Afterlife](https://junnyzhang.online/posts/post-5.html)（2026-09-05，思考）：从深圳一场社区辩论出发，讨论数字永生如何重新提出身份、哀悼与人工智能来世的问题。
+
+## 论文笔记（14 篇）
+
+- [小脑编码时间统计先验知识](https://junnyzhang.online/papers/paper-001.html): Nature Neuroscience 论文笔记 —— Neural circuits encode prior knowledge of temporal statistics（DOI: 10.1038/s41593-026-02255-7）
+- [人脑神经肽系统全脑图谱](https://junnyzhang.online/papers/paper-002.html): Nature Neuroscience 论文笔记 —— Organization of neuropeptide systems in the human brain（DOI: 10.1038/s41593-026-02236-w）
+- [干扰素信号驱动关节炎疼痛的持续化](https://junnyzhang.online/papers/paper-003.html): Nature Neuroscience 论文笔记 —— Persistent interferon signaling causes sensory neuron plasticity and pain before and during arthritis（DOI: 10.1038/s41593-026-02234-y）
+- [星形胶质细胞钙依赖谷氨酸释放](https://junnyzhang.online/papers/paper-004.html): Nature Neuroscience 论文笔记（DOI: 10.1038/s41593-026-02251-x）
+- [胶质母细胞瘤恶性细胞群落空间结构](https://junnyzhang.online/papers/paper-005.html): Nature Neuroscience 论文笔记 —— Spatial and single-cell characterization of human glioblastoma tumor microenvironment reveals malignant cellular communities（DOI: 10.1038/s41593-026-02265-5）
+- [语言理解中的成分约束词预测](https://junnyzhang.online/papers/paper-006.html): Nature Neuroscience 论文笔记 —— Constituent-constrained word prediction during language comprehension
+- [神经肽Y调控恐惧记忆建立与消退](https://junnyzhang.online/papers/paper-007.html): Nature Neuroscience 论文笔记 —— Neuropeptide Y co-opts neuronal ensembles for memory lability and stability
+- [HSV-1 H129株跨突触传播分子机制](https://junnyzhang.online/papers/paper-008.html): Nature Neuroscience 论文笔记
+- [分类是大脑的内在计算策略](https://junnyzhang.online/papers/paper-009.html): Nature Reviews Neuroscience 论文笔记 —— Categorization is 'baked' into the brain
+- [重新定义脊椎动物运动的中央模式发生器](https://junnyzhang.online/papers/paper-010.html): Nature Reviews Neuroscience 论文笔记 —— Redefining the central pattern generator for vertebrate locomotion
+- [神经科学中的表征概念维度](https://junnyzhang.online/papers/paper-011.html): Nature Reviews Neuroscience 论文笔记 —— Clarifying the conceptual dimensions of representation in neuroscience
+- [线粒体动态与神经发育障碍](https://junnyzhang.online/papers/paper-012.html): Nature Reviews Neuroscience 论文笔记 —— Mitochondrial dynamics in neurodevelopment and neurodevelopmental disorders
+- [气候变化中的神经适应](https://junnyzhang.online/papers/paper-013.html): Nature Reviews Neuroscience 论文笔记 —— Neural adaptation to climate change: mechanisms, limits and opportunities
+- [百万级人群研究：重复扩增与脑萎缩](https://junnyzhang.online/papers/paper-014.html): Nature 论文笔记 —— Population-scale repeat expansions elucidate disease risk and brain atrophy（DOI: 10.1038/s41586-026-10345-6）
+
+## 机器可读入口
+
+- [sitemap.xml](https://junnyzhang.online/sitemap.xml): 全部可索引 URL 与更新时间
+- [feed.xml](https://junnyzhang.online/feed.xml): RSS 订阅，含最近文章与论文笔记
+- [posts.json](https://junnyzhang.online/posts.json): 全站文章数据源（标题、摘要、正文、日期、分类）
+- [llms.txt](https://junnyzhang.online/llms.txt): 本文件
+
+## 引用与使用
+
+- 允许 AI 搜索、检索与问答引用本站内容；引用时请保留标题、作者（JUNNY 张琦）与原页面链接。
+- 论文笔记是对原始论文的解读，引用学术结论时请同时核对原文与 DOI。
+- 如需更正、授权或合作，请邮件联系 zhangqi@nomingbai.online。

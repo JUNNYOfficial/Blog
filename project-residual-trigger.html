@@ -4,27 +4,118 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <title>残差触发数据采集 · 项目展示 · zhilinOfficial Blog</title>
+  <title>残差触发数据采集 · 项目展示 · JUNNY 张琦</title>
   <meta name="description" content="从小脑式预测-取消到一个数据采集协议层：用 IMU 副本预测自运动，残差大的片段才触发存储。零训练、零标注、0.17ms/帧。含可交互残差触发模拟器。" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="残差触发数据采集 · 项目展示" />
   <meta property="og:description" content="不检测重要的，预测不重要的——小脑启发的常开相机数据筛选层。" />
-  <meta property="og:url" content="https://junnyshang.online/project-residual-trigger.html" />
-  <meta property="og:image" content="https://junnyshang.online/avatar.jpg" />
-  <meta property="og:site_name" content="zhilinOfficial Blog" />
+  <meta property="og:url" content="https://junnyzhang.online/project-residual-trigger.html" />
+  <meta property="og:image" content="https://junnyzhang.online/avatar.jpg" />
+  <meta property="og:site_name" content="JUNNY 张琦" />
   <meta name="twitter:card" content="summary" />
   <meta name="theme-color" content="#111111" />
+  <link rel="canonical" href="https://junnyzhang.online/project-residual-trigger.html" />
+  <meta name="author" content="JUNNY 张琦" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta property="og:locale" content="zh_CN" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23111'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='60' font-family='system-ui' font-weight='700'%3EJ%3C/text%3E%3C/svg%3E" />
   <link rel="stylesheet" href="styles.css?v=54" />
   <link rel="stylesheet" href="project.css?v=11" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://junnyzhang.online/#website",
+      "url": "https://junnyzhang.online/",
+      "name": "JUNNY 张琦",
+      "alternateName": [
+        "JUNNY 张琦 的博客",
+        "JUNNY"
+      ],
+      "description": "JUNNY 张琦的神经科学与 AI for Math 独立研究笔记站，收录论文笔记、研究项目与工程文章。",
+      "inLanguage": "zh-CN",
+      "author": {
+        "@id": "https://junnyzhang.online/#person"
+      },
+      "publisher": {
+        "@id": "https://junnyzhang.online/#person"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://junnyzhang.online/#person",
+      "name": "JUNNY 张琦",
+      "alternateName": [
+        "JUNNY",
+        "张琦",
+        "Zhilin Huang"
+      ],
+      "url": "https://junnyzhang.online/about.html",
+      "image": "https://junnyzhang.online/avatar.jpg",
+      "jobTitle": "独立研究者",
+      "description": "JUNNY 张琦，独立研究者，方向覆盖神经科学论文研究、AI for Math 与具身智能数据采集，长期公开论文笔记、研究项目与工程实践。",
+      "email": "mailto:zhangqi@nomingbai.online",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "深圳",
+        "addressRegion": "广东",
+        "addressCountry": "CN"
+      },
+      "affiliation": {
+        "@type": "Organization",
+        "name": "JUNNY领域"
+      },
+      "knowsAbout": [
+        "神经科学",
+        "小脑与预测编码",
+        "计算神经科学",
+        "AI for Math",
+        "Kakeya 问题",
+        "具身智能数据采集",
+        "软件架构",
+        "内核算法"
+      ],
+      "sameAs": [
+        "https://github.com/JUNNYOfficial",
+        "https://www.xiaohongshu.com/user/profile/6960bfdf0000000032024101"
+      ]
+    },
+    {
+      "@type": "CreativeWork",
+      "@id": "https://junnyzhang.online/project-residual-trigger.html#project",
+      "url": "https://junnyzhang.online/project-residual-trigger.html",
+      "name": "残差触发数据采集",
+      "description": "小脑启发的常开相机数据筛选协议：用 IMU 副本预测自运动视流并相减，只存储残差大的片段。3.4% 存储达到 4 倍预算均匀采样的效果，常开成本 0.17 ms/帧，零训练零标注。",
+      "keywords": [
+        "小脑启发",
+        "具身智能",
+        "数据采集",
+        "IMU",
+        "残差触发",
+        "零训练"
+      ],
+      "codeRepository": "https://github.com/AperLumen/Cerebellum-style-residual-triggered-datacollection",
+      "author": {
+        "@id": "https://junnyzhang.online/#person"
+      },
+      "isPartOf": {
+        "@id": "https://junnyzhang.online/research.html#projects"
+      },
+      "inLanguage": "zh-CN"
+    }
+  ]
+}
+  </script>
 </head>
 <body data-page="project">
   <div class="page-shell">
     <header class="topbar">
       <div class="brand">
-        <img class="brand-mark" src="avatar.jpg" alt="zhilinOfficial" />
+        <img class="brand-mark" src="avatar.jpg" alt="JUNNY 张琦" />
         <div>
-          <p class="eyebrow">zhilinOfficial</p>
+          <p class="eyebrow">JUNNY 张琦</p>
           <h1>项目展示</h1>
         </div>
       </div>
@@ -344,7 +435,7 @@
     </main>
 
     <footer class="site-footer">
-      <p>zhilinOfficial Blog • 2026</p>
+      <p>JUNNY 张琦 • 2026</p>
     </footer>
   </div>
 

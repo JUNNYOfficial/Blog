@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>来早的八月总结 · JUNNY 张琦</title>
+  <meta name="description" content="八月做了四个方向：面向数学研究的 AI 计算验证原型（纳秒级几何内核 + 模型路由 + 全量验证）、非典型电子围栏与 LLM 注入防护、CoreType 输入法骨架、本地工作台。一个月的项目复盘与思考。" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="来早的八月总结 · JUNNY 张琦" />
+  <meta property="og:description" content="八月做了四个方向：面向数学研究的 AI 计算验证原型（纳秒级几何内核 + 模型路由 + 全量验证）、非典型电子围栏与 LLM 注入防护、CoreType 输入法骨架、本地工作台。一个月的项目复盘与思考。" />
+  <meta property="og:url" content="https://junnyzhang.online/posts/post-3.html" />
+  <meta property="og:image" content="https://junnyzhang.online/avatar.jpg" />
+  <meta property="og:site_name" content="JUNNY 张琦" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="来早的八月总结" />
+  <meta name="twitter:description" content="八月做了四个方向：面向数学研究的 AI 计算验证原型（纳秒级几何内核 + 模型路由 + 全量验证）、非典型电子围栏与 LLM 注入防护、CoreType 输入法骨架、本地工作台。一个月的项目复盘与思考。" />
+  <meta name="twitter:image" content="https://junnyzhang.online/avatar.jpg" />
+  <meta name="theme-color" content="#111111" />
+  <link rel="canonical" href="https://junnyzhang.online/posts/post-3.html" />
+  <meta name="author" content="JUNNY 张琦" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta property="og:locale" content="zh_CN" />
+  <meta property="article:published_time" content="2026-08-20" />
+  <meta property="article:section" content="日常" />
+  <meta property="article:author" content="JUNNY 张琦" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23111'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='60' font-family='system-ui' font-weight='700'%3EJ%3C/text%3E%3C/svg%3E" />
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="../feed.xml" />
+  <link rel="stylesheet" href="../styles.css?v=58" />
+  <style>
+    .article-body h4 { font-size: 1.15rem; font-weight: 600; margin: 28px 0 14px; color: #111; }
+    .article-body blockquote { border-left: 3px solid #d4d4d4; margin: 16px 0; padding: 12px 18px; background: #fafafa; border-radius: 0 12px 12px 0; }
+    .article-body hr { border: none; border-top: 1px solid #e8e8e8; margin: 24px 0; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://junnyzhang.online/#website",
+      "url": "https://junnyzhang.online/",
+      "name": "JUNNY 张琦",
+      "alternateName": [
+        "JUNNY 张琦 的博客",
+        "JUNNY"
+      ],
+      "description": "JUNNY 张琦的神经科学与 AI for Math 独立研究笔记站，收录论文笔记、研究项目与工程文章。",
+      "inLanguage": "zh-CN",
+      "author": {
+        "@id": "https://junnyzhang.online/#person"
+      },
+      "publisher": {
+        "@id": "https://junnyzhang.online/#person"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://junnyzhang.online/#person",
+      "name": "JUNNY 张琦",
+      "alternateName": [
+        "JUNNY",
+        "张琦",
+        "Zhilin Huang"
+      ],
+      "url": "https://junnyzhang.online/about.html",
+      "image": "https://junnyzhang.online/avatar.jpg",
+      "jobTitle": "独立研究者",
+      "description": "JUNNY 张琦，独立研究者，方向覆盖神经科学论文研究、AI for Math 与具身智能数据采集，长期公开论文笔记、研究项目与工程实践。",
+      "email": "mailto:zhangqi@nomingbai.online",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "深圳",
+        "addressRegion": "广东",
+        "addressCountry": "CN"
+      },
+      "affiliation": {
+        "@type": "Organization",
+        "name": "JUNNY领域"
+      },
+      "knowsAbout": [
+        "神经科学",
+        "小脑与预测编码",
+        "计算神经科学",
+        "AI for Math",
+        "Kakeya 问题",
+        "具身智能数据采集",
+        "软件架构",
+        "内核算法"
+      ],
+      "sameAs": [
+        "https://github.com/JUNNYOfficial",
+        "https://www.xiaohongshu.com/user/profile/6960bfdf0000000032024101"
+      ]
+    },
+    {
+      "@type": "BlogPosting",
+      "@id": "https://junnyzhang.online/posts/post-3.html#article",
+      "url": "https://junnyzhang.online/posts/post-3.html",
+      "headline": "来早的八月总结",
+      "name": "来早的八月总结",
+      "description": "八月做了四个方向：面向数学研究的 AI 计算验证原型（纳秒级几何内核 + 模型路由 + 全量验证）、非典型电子围栏与 LLM 注入防护、CoreType 输入法骨架、本地工作台。一个月的项目复盘与思考。",
+      "datePublished": "2026-08-20",
+      "dateModified": "2026-08-20",
+      "inLanguage": "zh-CN",
+      "articleSection": "日常",
+      "keywords": [
+        "日常",
+        "JUNNY 张琦"
+      ],
+      "author": {
+        "@id": "https://junnyzhang.online/#person"
+      },
+      "publisher": {
+        "@id": "https://junnyzhang.online/#person"
+      },
+      "isPartOf": {
+        "@id": "https://junnyzhang.online/#website"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://junnyzhang.online/posts/post-3.html"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body data-page="article">
+  <div class="page-shell article-shell">
+    <header class="article-header">
+      <a class="icon-link back-link" href="../articles.html" aria-label="返回文章列表">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </header>
+
+    <main class="article-content">
+      <section class="article-frame">
+        <article>
+          <p class="eyebrow">日常</p>
+          <h1>来早的八月总结</h1>
+          <div class="article-meta">
+            <span>JUNNY 张琦</span>
+            <span>·</span>
+            <span>日常</span>
+            <span>·</span>
+            <time datetime="2026-08-20">2026年8月20日</time>
+            <span>·</span>
+            <span>12 分钟阅读</span>
+          </div>
+          <nav class="article-toc" id="articleToc" aria-label="目录">
+            <p class="eyebrow">目录</p>
+            <ul><li><a href="#sec-0">1. 一、一个面向数学研究的 AI 计算验证原型</a></li><li><a href="#sec-1">2. 二、非典型电子围栏 &amp; LLM 注入攻击防护</a></li><li><a href="#sec-2">3. 三、CoreType —   “雅词“输入法</a></li><li><a href="#sec-3">4. 四、本地工作台</a></li><li><a href="#sec-4">5. 本月感想 &amp; 下月展望</a></li><li><a href="#sec-5">6. 08-27 关于下一步</a></li></ul>
+          </nav>
+          <div class="article-body">
+<p>八月的最后几天，我坐在这里想，这个月到底干了啥。</p>
+<p>翻了翻 commit 记录和项目文件夹，发现这个月还挺充实的——做了四个方向的东西，横跨数学、安全、输入法和日常工具。说实话，其中有几个项目我自己都没想到能在这个月推到这个程度，也得到了行业里大佬们的关注，说实话 挺不可思议的，没想到自己这么快走到了这一天。</p>
+<h4 id="sec-0">一、一个面向数学研究的 AI 计算验证原型</h4>
+<p>这个项目我不想聊太多背景细节（原因你们懂的），但技术上做的事情可以公开说，毕竟说出来也不会有人相信 hh。</p>
+<p>简单讲，它是基于 2025 年一篇数学论文的思路，我开始尝试搭建一个「AI 快速思考 + 精确计算验证」的双引擎原型系统。一边用小模型做启发式推理和路径搜索，另一边用 C++ 和 Python 做严格的数值计算来验证。论文本身是公开的学术成果，涉及的是三维 Kakeya 集猜想相关的东西——感兴趣的人可以自己搜，我不在这里展开数学了 会有点浪费时间。</p>
+<p>我在这个项目上主要做了三件事：</p>
+<p>第一件：纳秒级几何内核。 在已有的 float64 C++ 内核基础上，新写了一个 float32 版本。核心优化包括：内存带宽减半（float32 vs float64）、预计算倒数把内层循环的除法变成乘法、用无分支 clamp 替代分段投影、再加上 Apple M4 的 -O3 -mcpu=apple-m4 -ffast-math 编译参数（同样的 既然要跑到这个程度 Mac 的内核被我拆掉了‘狗头保命‘求苹果工程师放过我）。</p>
+<p>结果是纯 C++ 微基准跑到了约 0.99 ns / tube-point pair。Python 包装层因为有 pybind11 开销，在蒙特卡洛体积和体素体积计算上也能到约 1.1 ns/pair，相比原来的 float64 版本快了将近一倍。</p>
+<p>跑了三次独立测量，结果分别是 0.9796、0.9929、0.9963 ns——挺稳的，还是有误差 但是可以几乎于 0，往下算没什么意义了，暂时算到这。</p>
+<p>第二件：模型路由层。 给 AI 推理那侧加了一个大小模型路由层，用关键词匹配决定每个问题走 fast 模型、cascade（小模型起头大模型续作）还是 deep（直接上大模型）。跑了 100 轮基准测试，5 个类别（数学、项目专用、代码、写作、通用），每类 20 条。</p>
+<p>准确率 100/100，路由决策平均延迟 0.009 ms。预测模式分布也比较合理：40% fast、20% cascade、40% deep。</p>
+<p>第三件：主算法骨架 + 全量验证。 写了一个不依赖 LLM 的主算法骨架（ProofOrchestrator），能独立完成 sticky 检查 → grains 分解 → Move 选择 → 体积下界验证的循环，同时预留了 AI 评分接口。</p>
+<p>验证方面也下了功夫：</p>
+<p>原有 457 个测试项里修了 4 个问题（NumPy 2.0 的 np.erfcinv 被移除、docstring 语法错误、BLAS 数值噪音），修复后全量 394 个测试通过。</p>
+<p>新增 20 个专项测试（nano 内核正确性 + 骨架单元测试 + stress test），全部通过。</p>
+<p>跑了 300 次随机 stress test（3 类各 100 次），0 失败，总耗时 0.73 秒。</p>
+<p>端到端验证：15 条随机管，骨架在 0.02 秒内完成，sticky 检查通过，体积比 1.458。</p>
+<p>最后整理了一份完整的验证报告，包含所有原始命令输出和复现命令清单。算是把这个阶段的工作收了个口，项目和算法也得到了很多行业内大佬的关注，Thanks♪(･ω･)ﾉ～。</p>
+<h4 id="sec-1">二、非典型电子围栏 &amp; LLM 注入攻击防护</h4>
+<p>这个项目起源于上一个算法的衍生，如果一个算法的速度极快，如何在网安上下功夫？（我的网安技术不太好，算是一个野生的“白帽“）</p>
+<p>最后做成了一个 monorepo，包含三个子项目，全部零依赖（只用 node:crypto 和 node:http，Node 18+ 即可跑）项目的 MVP 放 github 了 欢迎去玩：https://github.com/JUNNYOfficial/Signal-Key-Geofence：</p>
+<p>SKG（信号-密钥围栏）： 一个「非典型电子围栏」——围栏不是地理坐标，而是由签发密钥 + 环境信号指纹（WiFi BSSID / 基站 ID）来定义。评估端只学到「在不在围栏内」这一比特信息，原始设备 ID 用 RSA-OAEP 密封，只有签发方私钥能解封。</p>
+<p>TriggerGuard（LLM 安全网关）： OpenAI 兼容的反向代理，输入侧做提示注入 / 越狱检测（20+ 条规则，含 leetspeak 和零宽字符混淆对抗），输出侧做后门触发和外泄检测，流式 SSE 能在中途截断。带哈希链审计日志。</p>
+<p>SKG-Guard（合并 MVP）： 把上面两个融合成一个可部署的网关。分工一句话：网关管内容安不安全，SKG 管谁能管网关、数据怎么不裸奔、密钥放哪。</p>
+<p>合并版还做了几件事我觉得比较有意思：</p>
+<p>私钥外置： 签发私钥不在网关进程里，单独跑一个签名服务（HSM 参考实现）。网关启动时只取公钥，authority.json 零私钥。</p>
+<p>设备端 SDK： 零依赖单文件，浏览器 / Node 双端。宿主只需实现一个信号采集桥（一个方法：collectSignals() 返回 WiFi 和基站列表），SDK 负责上报包构造、防重放、请求注入。给了 Android / iOS / Node.js / Web 四个平台的最小示例。</p>
+<p>Epoch 聚合： 每次管理访问入池，seal=1 后打乱顺序只公布 granted/denied 聚合计数，切断时序关联。</p>
+<p>Docker 部署： 双容器（签名服务 + 网关），node:22-alpine 非 root，卷持久化。在 macOS arm64 / colima / Docker 29 上实测了完整冒烟流程。</p>
+<p>测试方面写了 25 条安全性质断言（含外置签名服务端到端和设备 SDK 链路），全部通过。</p>
+<p>文档方面也写得很详细——从威胁模型到诚实边界（MVP 的局限性）都列了清楚。比如我明确写了「围栏信号是演示级的」「签名服务是参考实现，私钥仍以 PEM 落盘」「浏览器拿不到 BSSID 必须由原生壳采集」。我觉得把这些局限性说清楚比藏着好。</p>
+<h4 id="sec-2">三、CoreType —   “雅词“输入法</h4>
+<p>这个项目的起因很简单：我想做一个输入法，靠缩写展开 + 智能词库来实现「打字快到飞起」的体验，另一方面 随着互联网的发展以及普及，大家的词库变得少了很多，词重复的高 不知道如何形容某个事物，如果可以在不知道说啥的时候替换、提出几个“雅词“会不会很有意思？</p>
+<p>用 Swift + IMK（InputMethodKit）框架，SwiftPM 管理工程。目前 MVP 还在开发中，但工程骨架已经搭好了：</p>
+<p>核心引擎拆成了几个模块：</p>
+<p>Abbreviation — 缩写展开引擎</p>
+<p>Lexicon — 词库存储</p>
+<p>Candidate — 候选生成与排序</p>
+<p>Prediction — 上下文预测</p>
+<p>Refinement — 文雅词替换（让输出不那么生硬）</p>
+<p>关键设计决策是纯 Swift 核心引擎可独立测试（swift test 不需要 Xcode GUI），IMK 适配层只是个薄壳。各引擎之间用抽象协议解耦，方便后面换实现。还有一个 build_bundle.sh 脚本负责构建并组装 .app bundle 到 ~/Library/Input Methods/。</p>
+<p>目标覆盖率 80%+。目前在 W2-W5 的功能阶段，预计 Q3 内出 MVP。</p>
+<p>说实话，做输入法比我想象中复杂得多——光 IMK 的配置就踩了不少坑。但核心引擎的解耦设计我是满意的，后面换后端或者加功能都不会牵一发动全身。</p>
+<h4 id="sec-3">四、本地工作台</h4>
+<p>这个不算什么大项目，但这个月花了不少时间在上面，算是给自己造的工具。</p>
+<p>一个单文件 HTML 的本地工作台，用 Tailwind CSS 做了一套黑白灰的设计系统。功能包括：</p>
+<p>树状目录管理笔记和文件夹（右键菜单 + 拖拽排序）</p>
+<p>Markdown 编辑器，支持实时渲染</p>
+<p>番茄钟（带进度环动画）</p>
+<p>待办管理</p>
+<p>快捷入口</p>
+<p>导出 PDF / Markdown / 纯文本</p>
+<p>KaTeX 数学公式渲染、Mermaid 流程图、二维码生成和扫描</p>
+<p>深色 / 浅色主题切换</p>
+<p>本地 localStorage 自动保存</p>
+<p>数据导入导出</p>
+<p>从 8 月 5 号做到 8 月 20 号，中间断断续续地打磨。说实话做完之后自己每天都在用——番茄钟和 Markdown 笔记这两个功能用得最频繁。单文件的好处是双击就能打开，不用装任何东西，换机器也不怕。</p>
+<h4 id="sec-4">本月感想 &amp; 下月展望</h4>
+<p>这个月最大的感受是：项目可以并行推进，但注意力不能。</p>
+<p>四个方向同时跑，每个都有一股「再优化一点就好了」的冲动——nano 内核想压到亚纳秒、围栏想接真实 HSM、输入法想赶紧出可用版本、工作台想加更多功能。但人的精力是有限的，有些东西这个月只能做到「骨架完成，后续再说」的程度，8 月也受邀去了深圳河套学院进修了一下 (^∇^)，不能说进修吧 但是也是见了一些小白以及朋友。</p>
+<p>不过回头看，每个项目都有实质性的交付：研究原型跑通了完整验证流程、安全网关出了可部署的 MVP、输入法搭好了工程骨架、工作台已经在日常使用。算是没有空转。</p>
+<p>还有一些没想明白的事，比如 Lean 4 形式化骨架到底要不要在这个阶段投入精力——论文里的定理证明目前还是 sorry，要真正补完的话工作量不小。先看看 AI 评分接口接上之后的效果再说吧。</p>
+<p>总之，八月没有虚度，不知未来学业如何，但是我的前途已经闪耀到我了。</p>
+<h4 id="sec-5">08-27 关于下一步</h4>
+<p>八月之后，我手头在推两个东西，想简单记一下方向。</p>
+<p>第一个是 RTL Problem Factory 的整合模块。简单说，就是一条能批量生产、低冗余、难度分层的 RTL 题库流水线。四条生成管线：结构等价变换（换药不换汤）、参数/拓扑扩展（换汤不换药）、模板杂交拼装（既换药又换汤）、以及用 composite verifier 做难度门禁。每条管线出来的样本都经过 pyverilog + iverilog 双重验证，AST 指纹去重，自动标 easy/medium/hard。最终直接产出能被评测脚本消费的 JSONL。</p>
+<p>这件事解决的核心问题是：芯片验证领域不缺模型，缺的是高质量、可验证、分层清晰的训练与评测数据。 而数据不能靠人工标注——必须靠工程化生产。</p>
+<p>第二个是Local Expert Toolkit。这个更往前走了一步：不是用本地小模型替代云端大模型，而是把大模型降级为"专家工具的调用方"。本地小模型只做边界清晰的事——语法守门、AST 填空、testbench 生成、RAG 知识检索、模块级 LoRA 微调。所有产出必须经过 EDA 工具链验证才算数。</p>
+<p>这两个东西合在一起，指向的是同一件事：半导体验证的自主闭环。</p>
+<p>现在的行业现状是——大家都在堆大模型，指望一个 GPT-4 级别的模型直接"写好 RTL"。但实际上验证的瓶颈不在"生成"，在"验证"。你生成一段代码只要几秒，验证它对不对可能要几天。而验证这件事，模型靠不住——EDA 工具才靠得住。</p>
+<p>所以我的判断是：未来的半导体验证不会是"人写代码→模型帮忙改→人验证"，而是"云端定架构→本地做填空/守门/反哺→EDA 工具链做最终判定→验证通过的样本自动回流进题库"。 人在这条链里只做一件事：定义问题。这听起来很远吗？其实不远。上面两个项目就是这条链的最小可用版本。题库工厂已经在跑了，Local Expert 的五个模块正在逐个落地，虽然方案本身被质疑和现有的大厂方案没什么区别，但是还是想尝试一下。</p>
+<p>而且——这条链有一个很重要的特性：数据不出域。 所有本地专家的输出都在本地验证，不经过任何外部 API。对于半导体这种对 IP 安全极度敏感的领域，这比"用 GPT-4 帮你写 RTL"实用得多。</p>
+<p>未来关于半导体，我想做的不是"更好的 AI 工具"，而是把验证这件事从艺术变成工程。题库工厂解决"用什么练"，本地专家解决"怎么在不出域的前提下用起来练"。两者合起来，就是一条可以自己转起来的飞轮。</p>
+<p>飞轮转起来之后——剩下的就是时间问题了。</p>
+          </div>
+        </article>
+      </section>
+
+      <nav class="paper-nav panel-section" aria-label="文章导航">
+        <a class="paper-nav-prev" href="post-2.html">
+          <span class="paper-nav-label">上一篇</span>
+          <span class="paper-nav-title">为什么我的选择看起来总和别人不一样</span>
+        </a>
+        <a class="paper-nav-home" href="../articles.html">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 22V12h6v10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>返回文章列表</span>
+        </a>
+        <a class="paper-nav-next" href="post-4.html">
+          <span class="paper-nav-label">下一篇</span>
+          <span class="paper-nav-title">恰到好处的8月总结（积累极多合作经验之后的）</span>
+        </a>
+      </nav>
+    </main>
+
+    <footer class="site-footer article-footer">
+      <p>JUNNY 张琦 · JUNNY 张琦</p>
+    </footer>
+  </div>
+  <script>
+    (function() {
+      const btn = document.createElement('button');
+      btn.className = 'back-to-top';
+      btn.setAttribute('aria-label', '返回顶部');
+      btn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      document.body.appendChild(btn);
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            btn.classList.toggle('visible', window.scrollY > 400);
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+      btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    })();
+  </script>
+  <script src="../page-transition.js?v=45"></script>
+
+</body>
+</html>

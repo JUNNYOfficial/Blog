@@ -1,8 +1,8 @@
-# zhilinOfficial Blog
+# JUNNY 张琦
 
 > 一个以神经科学为核心的极简静态博客。
 
-🔗 **在线访问**：[https://junnyofficial.github.io/Blog/](https://junnyofficial.github.io/Blog/)
+🔗 **在线访问**：[https://junnyzhang.online/](https://junnyzhang.online/)
 📦 **仓库地址**：[https://github.com/JUNNYOfficial/Blog](https://github.com/JUNNYOfficial/Blog)
 
 ---
@@ -33,7 +33,8 @@
 |---|---|---|
 | 首页 | `index.html` | 研究档案式主页、可交互 3D 大脑模型、精选项目与最新文章 |
 | 全部文章 | `articles.html` | 浏览全部文章，按发布时间倒序排列 |
-| 文章详情 | `article.html?id={id}` | 单篇文章阅读，含分享功能与推荐阅读 |
+| 文章详情 | `article.html?id={id}` | 旧链接兼容页，正文由 JavaScript 渲染 |
+| 静态文章页 | `posts/post-1.html` ~ `post-5.html` | 非论文文章的静态可读版本，含 JSON-LD |
 | 搜索 | `search.html` | 全站文章关键词搜索 |
 | 关于 | `about.html` | 研究理念、项目经历与个人介绍 |
 | 联系 | `contact.html` | 联系方式与社交链接 |
@@ -51,6 +52,7 @@
 - **样式**：单文件 `styles.css`（约 3,858 行），全站统一视觉规范
 - **数据**：`posts.json` 为文章数据源，`posts-data.js` 由其生成并挂载到 `window.POSTS_DATA`
 - **交互**：`script.js`（约 1,000 行）负责渲染、标签过滤、搜索与导航高亮；`page-transition.js` 提供页面转场
+- **GEO**：全站 JSON-LD（Person / WebSite / BlogPosting / CollectionPage）、canonical、`llms.txt`、完整 sitemap 与 RSS，便于 AI 抓取与引用
 - **部署**：GitHub Actions 自动部署至 GitHub Pages
 
 ---
@@ -106,6 +108,8 @@ Blog/
 │   ├── paper-001.html            # 论文笔记页面
 │   ├── paper-002.html
 │   └── ...                       # 共 14 篇
+├── posts/
+│   └── post-1.html ~ post-5.html # 非论文文章的静态可读页
 ├── index.html                    # 首页
 ├── articles.html                 # 全部文章
 ├── article.html                  # 文章详情页
@@ -125,9 +129,10 @@ Blog/
 ├── vendor/                       # 本地托管的 Three.js 与 GLTF 加载器
 ├── posts.json                    # 文章数据源（编辑此文件）
 ├── posts-data.js                 # 由 posts.json 生成，请勿手动编辑
-├── feed.xml                      # RSS 订阅
+├── feed.xml                      # RSS 订阅（全部文章）
 ├── sitemap.xml                   # 站点地图
-├── robots.txt                    # 爬虫规则
+├── robots.txt                    # 爬虫规则（显式放行 AI 爬虫）
+├── llms.txt                      # 面向 AI 的站点摘要与内容索引
 ├── avatar.jpg                    # 站点头像
 ├── wechat-qr.jpg                 # 微信二维码
 └── README.md                     # 本文件
@@ -140,7 +145,7 @@ Blog/
 - **文章数据以 `posts.json` 为唯一数据源**，`posts-data.js` 由其生成，请勿手动编辑
 - 新增页面时请保持统一的 `page-shell` + `topbar` + `main` + `footer` 结构
 - 样式修改请在 `styles.css` 中完成，确保不影响其他页面
-- 站点品牌名称为 `zhilinOfficial Blog`，修改时需同步更新各页面的 `<title>` 与 SEO meta
+- 站点品牌名称为 `JUNNY 张琦`，修改时需同步更新各页面的 `<title>` 与 SEO meta
 
 ### 不纳入版本控制的文件
 
@@ -152,4 +157,4 @@ Blog/
 
 ---
 
-*zhilinOfficial Blog • 2026 • 慎用色彩，善用空间*
+*JUNNY 张琦 • 2026 • 慎用色彩，善用空间*
