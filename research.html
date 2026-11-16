@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <title>研究 · zhilinOfficial Blog</title>
+  <meta name="description" content="zhilinOfficial 的独立研究版块：AI for Math 方向的研究项目、数据与代码。" />
+  <meta property="og:title" content="研究 · zhilinOfficial Blog" />
+  <meta property="og:description" content="zhilinOfficial 的独立研究版块：AI for Math 方向的研究项目、数据与代码。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://junnyshang.online/research.html" />
+  <meta property="og:image" content="https://junnyshang.online/avatar.jpg" />
+  <meta property="og:site_name" content="zhilinOfficial Blog" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="研究 · zhilinOfficial Blog" />
+  <meta name="twitter:image" content="https://junnyshang.online/avatar.jpg" />
+  <meta name="theme-color" content="#111111" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23111'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='60' font-family='system-ui' font-weight='700'%3EJ%3C/text%3E%3C/svg%3E" />
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="feed.xml" />
+  <link rel="stylesheet" href="styles.css?v=55" />
+</head>
+<body data-page="research">
+  <div class="page-shell research-shell">
+    <header class="topbar">
+      <div class="brand">
+        <img class="brand-mark" src="avatar.jpg" alt="zhilinOfficial" />
+        <div>
+          <p class="eyebrow">zhilinOfficial</p>
+          <h1>研究</h1>
+        </div>
+      </div>
+      <nav class="nav-links" aria-label="主导航">
+        <a href="index.html">首页</a>
+        <a href="research.html" class="active" aria-current="page">研究</a>
+        <a href="articles.html">文章</a>
+        <a href="cooperate.html">合作</a>
+        <a href="contact.html">联系</a>
+        <a href="about.html">关于</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="research-hero">
+        <div class="research-hero-copy">
+          <p class="eyebrow">Independent Researcher</p>
+          <h2>研究</h2>
+          <p class="research-hero-lead">我以独立研究者的方式工作，主要关注 AI for Math，也会做神经科学与工程交叉的研究。这里按项目收录研究内容，以及各自的代码与数据入口；博客文章与论文笔记仍在文章页。</p>
+          <div class="research-focus-tags">
+            <span class="pill">AI for Math</span>
+            <span class="pill">独立研究</span>
+            <span class="pill">数据与代码</span>
+            <span class="pill">可复现实验</span>
+          </div>
+          <a class="research-crosslink" href="articles.html">前往博客文章 →</a>
+        </div>
+        <aside class="research-status" aria-label="版块状态">
+          <p class="eyebrow">Status</p>
+          <p class="research-status-value">持续更新</p>
+          <p class="research-status-note">当前公开 1 个研究项目，代码与数据入口在项目区块内。</p>
+        </aside>
+      </section>
+
+      <section class="research-section" id="research-projects">
+        <header class="research-section-head">
+          <p class="eyebrow">Projects</p>
+          <h2>研究项目</h2>
+          <p>每个项目独立成块，项目内容与代码、数据入口放在同一区块内。</p>
+        </header>
+
+        <article class="research-project" id="project-residual-trigger">
+          <div class="research-project-visual" aria-hidden="true">
+            <svg class="research-signal" viewBox="0 0 500 220" preserveAspectRatio="none">
+              <path class="research-signal-faint" d="M0 110 C30 110 30 100 60 100 S90 120 120 120 S150 110 180 110 S210 110 240 110 S270 110 300 110 S330 110 360 110 S390 110 420 110 S450 110 500 110" />
+              <path d="M0 110 L55 110 L65 105 L75 116 L85 110 L165 110 L175 104 L185 113 L195 110 L235 110 L245 24 L255 196 L265 62 L275 142 L285 110 L350 110 L360 106 L370 115 L380 110 L500 110" />
+            </svg>
+            <span class="research-visual-caption">RESIDUAL SIGNAL / REAL TIME</span>
+          </div>
+
+          <div class="research-project-copy">
+            <p class="eyebrow">Project 01 · 独立研究项目 · 神经科学 × 工程</p>
+            <h3>残差触发数据采集</h3>
+            <p class="research-project-lede">不检测重要的，预测不重要的：用陀螺仪副本预测自运动视流并减掉，残差大的片段才触发存储。3.4% 存储打赢 4 倍预算均匀采样，0.17 ms/帧常开成本。</p>
+            <div class="research-project-tags">
+              <span class="pill">小脑启发</span>
+              <span class="pill">具身智能</span>
+              <span class="pill">零训练</span>
+              <span class="pill">0.17 ms / 帧</span>
+            </div>
+            <dl class="research-project-stats">
+              <div><dt>存储占用</dt><dd>3.4%</dd></div>
+              <div><dt>常开成本</dt><dd>0.17 ms</dd></div>
+              <div><dt>训练依赖</dt><dd>零训练</dd></div>
+            </dl>
+            <div class="research-project-actions">
+              <a class="research-project-link" href="project-residual-trigger.html">查看项目详情 →</a>
+              <a class="research-project-doc" href="https://hcnqd9x8ite5.feishu.cn/wiki/Syn4wHrxeiQSIRk5zTScW6ohncH" target="_blank" rel="noreferrer noopener">完整项目文档 ↗</a>
+            </div>
+            <div class="research-project-code">
+              <span class="eyebrow">Code &amp; Data</span>
+              <a class="research-project-repo" href="https://github.com/AperLumen/Cerebellum-style-residual-triggered-datacollection" target="_blank" rel="noreferrer noopener">GitHub 仓库 ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <p class="research-project-note">后续研究项目将沿用同样的区块结构。</p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>zhilinOfficial Blog • 2026</p>
+    </footer>
+  </div>
+  <script src="page-transition.js?v=45"></script>
+
+</body>
+</html>
