@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#111111" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23111'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='60' font-family='system-ui' font-weight='700'%3EJ%3C/text%3E%3C/svg%3E" />
   <link rel="alternate" type="application/rss+xml" title="RSS" href="feed.xml" />
-  <link rel="stylesheet" href="styles.css?v=55" />
+  <link rel="stylesheet" href="styles.css?v=57" />
 </head>
 <body data-page="research">
   <div class="page-shell research-shell">
@@ -57,7 +57,7 @@
         <aside class="research-status" aria-label="版块状态">
           <p class="eyebrow">Status</p>
           <p class="research-status-value">持续更新</p>
-          <p class="research-status-note">当前公开 1 个研究项目，代码与数据入口在项目区块内。</p>
+          <p class="research-status-note">当前公开 2 个研究项目，代码与数据入口在项目区块内。</p>
         </aside>
       </section>
 
@@ -65,40 +65,127 @@
         <header class="research-section-head">
           <p class="eyebrow">Projects</p>
           <h2>研究项目</h2>
-          <p>每个项目独立成块，项目内容与代码、数据入口放在同一区块内。</p>
+          <p>两个进行中的独立研究项目。内容、代码与数据入口各自归档，互不混排。</p>
         </header>
 
+        <!-- ===== Project 01 ===== -->
         <article class="research-project" id="project-residual-trigger">
-          <div class="research-project-visual" aria-hidden="true">
-            <svg class="research-signal" viewBox="0 0 500 220" preserveAspectRatio="none">
-              <path class="research-signal-faint" d="M0 110 C30 110 30 100 60 100 S90 120 120 120 S150 110 180 110 S210 110 240 110 S270 110 300 110 S330 110 360 110 S390 110 420 110 S450 110 500 110" />
-              <path d="M0 110 L55 110 L65 105 L75 116 L85 110 L165 110 L175 104 L185 113 L195 110 L235 110 L245 24 L255 196 L265 62 L275 142 L285 110 L350 110 L360 106 L370 115 L380 110 L500 110" />
-            </svg>
-            <span class="research-visual-caption">RESIDUAL SIGNAL / REAL TIME</span>
-          </div>
-
-          <div class="research-project-copy">
-            <p class="eyebrow">Project 01 · 独立研究项目 · 神经科学 × 工程</p>
+          <header class="research-project-head">
+            <div class="research-project-kicker">
+              <span class="research-project-index" aria-hidden="true">01</span>
+              <span class="research-project-rule" aria-hidden="true"></span>
+              <p class="eyebrow">独立研究项目 · 神经科学 × 工程</p>
+            </div>
             <h3>残差触发数据采集</h3>
             <p class="research-project-lede">不检测重要的，预测不重要的：用陀螺仪副本预测自运动视流并减掉，残差大的片段才触发存储。3.4% 存储打赢 4 倍预算均匀采样，0.17 ms/帧常开成本。</p>
-            <div class="research-project-tags">
-              <span class="pill">小脑启发</span>
-              <span class="pill">具身智能</span>
-              <span class="pill">零训练</span>
-              <span class="pill">0.17 ms / 帧</span>
+          </header>
+
+          <figure class="research-project-visual">
+            <svg class="research-signal" viewBox="0 0 1200 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <defs>
+                <radialGradient id="rsBurst" cx="0" cy="0" r="1" gradientTransform="translate(720 185) scale(190 150)" gradientUnits="userSpaceOnUse">
+                  <stop offset="0" stop-color="#ffffff" stop-opacity="0.13" />
+                  <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
+                </radialGradient>
+                <linearGradient id="rsArea" x1="0" y1="170" x2="0" y2="340" gradientUnits="userSpaceOnUse">
+                  <stop offset="0" stop-color="#ffffff" stop-opacity="0.10" />
+                  <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
+                </linearGradient>
+                <filter id="rsBlur" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="5" />
+                </filter>
+              </defs>
+              <rect width="1200" height="340" fill="url(#rsBurst)" />
+              <path class="rs-grid" d="M0 68H1200M0 136H1200M0 204H1200M0 272H1200M120 0V340M240 0V340M360 0V340M480 0V340M600 0V340M720 0V340M840 0V340M960 0V340M1080 0V340" />
+              <path class="rs-area" d="M0 190 L120 190 L150 188 L210 190 L260 189 L320 190 L380 191 L440 190 L500 189 L560 190 L620 190 L650 186 L665 194 L678 190 L688 190 L696 92 L704 268 L712 64 L720 244 L728 118 L736 208 L744 140 L752 196 L760 176 L770 190 L810 190 L860 189 L920 190 L980 191 L1040 190 L1100 190 L1200 190 L1200 340 L0 340 Z" />
+              <path class="rs-faint" d="M0 190 C80 190 110 188 180 190 S280 191 360 190 S460 189 540 190 S620 190 690 190 S800 190 900 190 S1040 190 1200 190" />
+              <path class="rs-glow" d="M0 190 L620 190 L650 186 L665 194 L678 190 L688 190 L696 92 L704 268 L712 64 L720 244 L728 118 L736 208 L744 140 L752 196 L760 176 L770 190 L810 190 L1200 190" />
+              <path class="rs-main" d="M0 190 L620 190 L650 186 L665 194 L678 190 L688 190 L696 92 L704 268 L712 64 L720 244 L728 118 L736 208 L744 140 L752 196 L760 176 L770 190 L810 190 L1200 190" />
+              <path class="rs-accent" d="M0 124H1200" stroke-dasharray="2 9" />
+            </svg>
+            <figcaption class="research-visual-caption">RESIDUAL SIGNAL / REAL TIME</figcaption>
+            <div class="research-visual-meta">
+              <span>3.4% 存储</span>
+              <span>0.17 ms / 帧</span>
             </div>
-            <dl class="research-project-stats">
-              <div><dt>存储占用</dt><dd>3.4%</dd></div>
-              <div><dt>常开成本</dt><dd>0.17 ms</dd></div>
-              <div><dt>训练依赖</dt><dd>零训练</dd></div>
-            </dl>
-            <div class="research-project-actions">
-              <a class="research-project-link" href="project-residual-trigger.html">查看项目详情 →</a>
-              <a class="research-project-doc" href="https://hcnqd9x8ite5.feishu.cn/wiki/Syn4wHrxeiQSIRk5zTScW6ohncH" target="_blank" rel="noreferrer noopener">完整项目文档 ↗</a>
+          </figure>
+
+          <div class="research-project-body">
+            <div class="research-project-main">
+              <div class="research-project-tags">
+                <span class="pill">小脑启发</span>
+                <span class="pill">具身智能</span>
+                <span class="pill">零训练</span>
+                <span class="pill">0.17 ms / 帧</span>
+              </div>
+              <dl class="research-project-stats">
+                <div><dt>存储占用</dt><dd>3.4%</dd></div>
+                <div><dt>常开成本</dt><dd>0.17 ms</dd></div>
+                <div><dt>训练依赖</dt><dd>零训练</dd></div>
+              </dl>
             </div>
-            <div class="research-project-code">
-              <span class="eyebrow">Code &amp; Data</span>
-              <a class="research-project-repo" href="https://github.com/AperLumen/Cerebellum-style-residual-triggered-datacollection" target="_blank" rel="noreferrer noopener">GitHub 仓库 ↗</a>
+            <div class="research-project-side">
+              <div class="research-project-actions">
+                <a class="research-project-link" href="project-residual-trigger.html">查看项目详情 →</a>
+                <a class="research-project-doc" href="https://hcnqd9x8ite5.feishu.cn/wiki/Syn4wHrxeiQSIRk5zTScW6ohncH" target="_blank" rel="noreferrer noopener">完整项目文档 ↗</a>
+              </div>
+              <div class="research-project-code">
+                <span class="eyebrow">Code &amp; Data</span>
+                <a class="research-project-repo" href="https://github.com/AperLumen/Cerebellum-style-residual-triggered-datacollection" target="_blank" rel="noreferrer noopener">GitHub 仓库 ↗</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ===== Project 02 ===== -->
+        <article class="research-project" id="project-kakeya-ai-prototype">
+          <header class="research-project-head">
+            <div class="research-project-kicker">
+              <span class="research-project-index" aria-hidden="true">02</span>
+              <span class="research-project-rule" aria-hidden="true"></span>
+              <p class="eyebrow">独立研究项目 · AI for Math</p>
+            </div>
+            <h3>Kakeya AI Prototype</h3>
+            <p class="research-project-lede">把三维 Kakeya 型问题的几何建模、体积下界估计与 AI 辅助推理做成可运行、可独立复核的研究原型：纯函数数值主干配可选 C++ 加速，候选路径经共用守卫筛选，每一步落成带哈希链的 .kpt 轨迹。</p>
+          </header>
+
+          <figure class="research-project-visual">
+            <canvas id="kakeya-canvas" class="research-kakeya-canvas" role="img" aria-label="三维 Kakeya 管束：细管沿空间各个方向穿过中心区域，可用鼠标或手指拖动旋转">三维 Kakeya 管束示意。</canvas>
+            <figcaption class="research-visual-caption">3D KAKEYA SET / TUBES IN EVERY DIRECTION</figcaption>
+            <button class="research-visual-toggle is-live" id="kakeya-spin" type="button" aria-pressed="true" title="点击暂停旋转；拖动可旋转">
+              <span class="research-hint-dot" aria-hidden="true"></span>
+              <span id="kakeya-spin-label">自动旋转中</span>
+            </button>
+            <div class="research-visual-meta">
+              <span>6 段主干</span>
+              <span>kpt/1</span>
+            </div>
+          </figure>
+
+          <div class="research-project-body">
+            <div class="research-project-main">
+              <div class="research-project-tags">
+                <span class="pill">三维 Kakeya</span>
+                <span class="pill">几何建模</span>
+                <span class="pill">体积下界</span>
+                <span class="pill">AI 辅助推理</span>
+                <span class="pill">.kpt 轨迹</span>
+              </div>
+              <dl class="research-project-stats">
+                <div><dt>数值主干</dt><dd>6 段</dd></div>
+                <div><dt>Move 策略</dt><dd>3 条</dd></div>
+                <div><dt>计算后端</dt><dd>3 种</dd></div>
+              </dl>
+            </div>
+            <div class="research-project-side">
+              <div class="research-project-actions">
+                <a class="research-project-link" href="project-kakeya-ai-prototype.html">查看项目详情 →</a>
+                <a class="research-project-doc" href="https://github.com/AperLumen/Kakeya-AI-Prototype#readme" target="_blank" rel="noreferrer noopener">仓库 README ↗</a>
+              </div>
+              <div class="research-project-code">
+                <span class="eyebrow">Code &amp; Data</span>
+                <a class="research-project-repo" href="https://github.com/AperLumen/Kakeya-AI-Prototype" target="_blank" rel="noreferrer noopener">GitHub 仓库 ↗</a>
+              </div>
             </div>
           </div>
         </article>
@@ -112,6 +199,268 @@
     </footer>
   </div>
   <script src="page-transition.js?v=45"></script>
+  <script>
+    (() => {
+      const canvas = document.getElementById('kakeya-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const spinButton = document.getElementById('kakeya-spin');
+      const spinLabel = document.getElementById('kakeya-spin-label');
+      const GOLDEN = Math.PI * (3 - Math.sqrt(5));
+      const TUBES = [];
+      let W = 0;
+      let H = 0;
+      let CX = 0;
+      let CY = 0;
+      let focal = 600;
+      let yaw = -0.7;
+      let pitch = -0.35;
+      let dragging = false;
+      let spinning = !reduceMotion;
+      let onScreen = true;
+      let scrolling = false;
+      let needsDraw = true;
+      let lastRender = performance.now();
+      let scrollTimer = 0;
+      let lastX = 0;
+      let lastY = 0;
+
+      for (let i = 0; i < 34; i += 1) {
+        const y = 1 - (i + 0.5) * 2 / 34;
+        const r = Math.sqrt(Math.max(0, 1 - y * y));
+        const phi = i * GOLDEN;
+        TUBES.push({
+          d: [r * Math.cos(phi), y, r * Math.sin(phi)],
+          o: [Math.sin(i * 2.3) * 0.3, Math.cos(i * 1.7) * 0.3, Math.sin(i * 1.1) * 0.3],
+          len: 1.16 + ((i * 7) % 5) * 0.03,
+          accent: i % 13 === 0
+        });
+      }
+
+      function resize() {
+        const rect = canvas.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.max(1, Math.round(rect.width * dpr));
+        canvas.height = Math.max(1, Math.round(rect.height * dpr));
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        W = rect.width;
+        H = rect.height;
+        CX = W * 0.5;
+        CY = H * 0.53;
+        focal = H * 1.85;
+        needsDraw = true;
+        if (W > 0 && H > 0) {
+          draw();
+          needsDraw = false;
+        }
+      }
+
+      function syncSpin() {
+        if (!spinButton) return;
+        spinButton.classList.toggle('is-live', spinning);
+        spinButton.setAttribute('aria-pressed', String(spinning));
+        spinButton.title = spinning ? '点击暂停旋转；拖动可旋转' : '点击继续自动旋转；拖动可旋转';
+        if (spinLabel) {
+          spinLabel.textContent = spinning
+            ? (reduceMotion ? '旋转中' : '自动旋转中')
+            : (reduceMotion ? '播放旋转' : '继续旋转');
+        }
+      }
+
+      function rot(p) {
+        const cy = Math.cos(yaw);
+        const sy = Math.sin(yaw);
+        const cp = Math.cos(pitch);
+        const sp = Math.sin(pitch);
+        const x1 = p[0] * cy - p[2] * sy;
+        const z1 = p[0] * sy + p[2] * cy;
+        return [x1, p[1] * cp - z1 * sp, p[1] * sp + z1 * cp];
+      }
+
+      function proj(p) {
+        const s = focal / Math.max(0.1, 5.2 - p[2]);
+        return [CX + p[0] * s, CY - p[1] * s, s];
+      }
+
+      function line(a, b, width, alpha, accent) {
+        const A = proj(rot(a));
+        const B = proj(rot(b));
+        ctx.beginPath();
+        ctx.moveTo(A[0], A[1]);
+        ctx.lineTo(B[0], B[1]);
+        ctx.lineWidth = width;
+        ctx.strokeStyle = accent
+          ? `rgba(158, 226, 190, ${alpha})`
+          : `rgba(255, 255, 255, ${alpha})`;
+        ctx.stroke();
+      }
+
+      function drawCircle(kind) {
+        ctx.beginPath();
+        for (let i = 0; i <= 72; i += 1) {
+          const t = (i / 72) * Math.PI * 2;
+          const c = Math.cos(t) * 1.48;
+          const s = Math.sin(t) * 1.48;
+          const p = kind === 'xy' ? [c, s, 0] : kind === 'yz' ? [0, c, s] : [c, 0, s];
+          const q = proj(rot(p));
+          if (i === 0) ctx.moveTo(q[0], q[1]);
+          else ctx.lineTo(q[0], q[1]);
+        }
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+        ctx.stroke();
+      }
+
+      function drawFloor() {
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.055)';
+        for (let i = -4; i <= 4; i += 1) {
+          const a = proj(rot([i, -1.12, -3.2]));
+          const b = proj(rot([i, -1.12, 0.8]));
+          ctx.beginPath();
+          ctx.moveTo(a[0], a[1]);
+          ctx.lineTo(b[0], b[1]);
+          ctx.stroke();
+          const c = proj(rot([-4, -1.12, i * 0.55]));
+          const d = proj(rot([4, -1.12, i * 0.55]));
+          ctx.beginPath();
+          ctx.moveTo(c[0], c[1]);
+          ctx.lineTo(d[0], d[1]);
+          ctx.stroke();
+        }
+      }
+
+      function drawAxes() {
+        ctx.lineWidth = 1;
+        ctx.font = '10px ui-monospace, SFMono-Regular, Menlo, monospace';
+        const o = [-1.22, -1.22, -1.22];
+        const axes = [[[1.86, -1.22, -1.22], 'x'], [[-1.22, 1.86, -1.22], 'y'], [[-1.22, -1.22, 1.86], 'z']];
+        axes.forEach(([p, label]) => {
+          const a = proj(rot(o));
+          const b = proj(rot(p));
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.32)';
+          ctx.beginPath();
+          ctx.moveTo(a[0], a[1]);
+          ctx.lineTo(b[0], b[1]);
+          ctx.stroke();
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.58)';
+          ctx.fillText(label, b[0] + 5, b[1] + 3);
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        ctx.lineCap = 'round';
+
+        const glow = ctx.createRadialGradient(CX, CY, 0, CX, CY, Math.min(W, H) * 0.52);
+        glow.addColorStop(0, 'rgba(255, 255, 255, 0.04)');
+        glow.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        ctx.fillStyle = glow;
+        ctx.fillRect(0, 0, W, H);
+
+        drawFloor();
+        drawCircle('xy');
+        drawCircle('yz');
+        drawCircle('xz');
+
+        const sorted = TUBES.map((t) => {
+          const a = [t.o[0] - t.d[0] * t.len, t.o[1] - t.d[1] * t.len, t.o[2] - t.d[2] * t.len];
+          const b = [t.o[0] + t.d[0] * t.len, t.o[1] + t.d[1] * t.len, t.o[2] + t.d[2] * t.len];
+          return { a, b, z: rot(a)[2] + rot(b)[2], accent: t.accent };
+        }).sort((m, n) => m.z - n.z);
+
+        sorted.forEach((t) => {
+          const depth = Math.max(0, Math.min(1, (t.z + 3.2) / 6.4));
+          const alpha = 0.06 + depth * 0.52;
+          const width = 0.5 + depth * 2.1;
+          line(t.a, t.b, width, alpha, t.accent);
+        });
+
+        const h = 1.22;
+        const V = [
+          [-h, -h, -h], [h, -h, -h], [h, h, -h], [-h, h, -h],
+          [-h, -h, h], [h, -h, h], [h, h, h], [-h, h, h]
+        ];
+        const E = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+        ctx.lineWidth = 1.3;
+        E.forEach(([a, b]) => {
+          const A = proj(rot(V[a]));
+          const B = proj(rot(V[b]));
+          ctx.beginPath();
+          ctx.moveTo(A[0], A[1]);
+          ctx.lineTo(B[0], B[1]);
+          ctx.stroke();
+        });
+
+        drawAxes();
+      }
+
+      function frame(now) {
+        requestAnimationFrame(frame);
+        if (!onScreen || document.hidden || scrolling) {
+          lastRender = now;
+          return;
+        }
+        if (now - lastRender < 32) return;
+        const dt = Math.min(0.06, (now - lastRender) / 1000);
+        lastRender = now;
+        if (spinning && !dragging) {
+          yaw += 0.22 * dt;
+          needsDraw = true;
+        }
+        if (!needsDraw) return;
+        draw();
+        needsDraw = false;
+      }
+
+      canvas.addEventListener('pointerdown', (event) => {
+        dragging = true;
+        lastX = event.clientX;
+        lastY = event.clientY;
+        canvas.setPointerCapture(event.pointerId);
+      });
+
+      canvas.addEventListener('pointermove', (event) => {
+        if (!dragging) return;
+        yaw += (event.clientX - lastX) * 0.006;
+        pitch = Math.max(-1.15, Math.min(1.15, pitch + (event.clientY - lastY) * 0.006));
+        lastX = event.clientX;
+        lastY = event.clientY;
+        needsDraw = true;
+      });
+
+      const endDrag = () => { dragging = false; };
+      canvas.addEventListener('pointerup', endDrag);
+      canvas.addEventListener('pointercancel', endDrag);
+
+      if (spinButton) {
+        spinButton.addEventListener('click', () => {
+          spinning = !spinning;
+          needsDraw = true;
+          syncSpin();
+        });
+      }
+
+      window.addEventListener('scroll', () => {
+        scrolling = true;
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(() => {
+          scrolling = false;
+          lastRender = performance.now();
+        }, 140);
+      }, { passive: true });
+
+      new ResizeObserver(resize).observe(canvas);
+      new IntersectionObserver((entries) => { onScreen = entries[0].isIntersecting; }, { threshold: 0.01 }).observe(canvas);
+      resize();
+      syncSpin();
+      draw();
+      needsDraw = false;
+      requestAnimationFrame(frame);
+    })();
+  </script>
 
 </body>
 </html>

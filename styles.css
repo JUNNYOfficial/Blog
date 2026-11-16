@@ -3919,98 +3919,273 @@ body[data-theme="dark"] .wiki-tree-toggle-btn:hover {
 }
 
 .research-project {
-  display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-  gap: 48px;
-  align-items: stretch;
-  padding: 32px;
-  border: 1px solid #e5e5e5;
-  border-radius: 4px;
-  background: #ffffff;
+  position: relative;
+  padding-top: 44px;
+  border-top: 1px solid #ececec;
 }
 
+.research-project:first-of-type {
+  padding-top: 4px;
+  border-top: 0;
+}
+
+.research-project + .research-project {
+  margin-top: 84px;
+}
+
+.research-project-head {
+  max-width: 780px;
+  margin-bottom: 28px;
+}
+
+.research-project-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+}
+
+.research-project-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 24px;
+  padding: 0 8px;
+  border: 1px solid #dedede;
+  border-radius: 5px;
+  color: #555555;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+}
+
+.research-project-rule {
+  width: 32px;
+  height: 1px;
+  background: #dedede;
+}
+
+.research-project-kicker .eyebrow {
+  margin: 0;
+}
+
+.research-project-head h3 {
+  margin: 16px 0 14px;
+  font-size: clamp(2rem, 3.4vw, 2.7rem);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+
+.research-project-lede {
+  max-width: 64ch;
+  margin: 0;
+  color: #484848;
+  font-size: 1.02rem;
+  line-height: 1.85;
+}
+
+/* 项目视觉：深色图版 */
 .research-project-visual {
   position: relative;
-  display: grid;
-  place-items: center;
-  min-height: 300px;
-  padding: 28px;
-  border: 1px solid #ececec;
-  border-radius: 4px;
-  background: #fafafa;
+  min-height: 320px;
+  margin: 0;
+  border: 1px solid #1d1d21;
+  border-radius: 20px;
+  background: radial-gradient(130% 180% at 24% 0%, #2b2b33 0%, #17171b 44%, #09090b 100%);
   overflow: hidden;
+  box-shadow: 0 34px 80px -58px rgba(0, 0, 0, 0.75);
+}
+
+.research-project-visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, 0.45) 100%);
+  pointer-events: none;
 }
 
 .research-signal {
+  display: block;
   width: 100%;
-  overflow: visible;
+  height: 320px;
+}
+
+.research-kakeya-canvas {
+  display: block;
+  width: 100%;
+  height: 320px;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.research-kakeya-canvas:active {
+  cursor: grabbing;
+}
+
+.research-visual-toggle {
+  position: absolute;
+  left: 24px;
+  bottom: 18px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: rgba(255, 255, 255, 0.44);
+  font: inherit;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.research-visual-toggle:hover {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.research-hint-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(158, 226, 190, 0.85);
+  box-shadow: 0 0 10px rgba(158, 226, 190, 0.5);
+}
+
+.research-visual-toggle.is-live .research-hint-dot {
+  animation: researchPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes researchPulse {
+  0%, 100% { opacity: 0.45; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .research-visual-toggle.is-live .research-hint-dot {
+    animation: none;
+  }
 }
 
 .research-signal path {
   fill: none;
-  stroke: #111111;
-  stroke-width: 1.5;
+  stroke: rgba(255, 255, 255, 0.72);
+  stroke-width: 1.2;
   vector-effect: non-scaling-stroke;
 }
 
-.research-signal .research-signal-faint {
-  opacity: 0.22;
+.research-signal .rs-grid {
+  stroke: rgba(255, 255, 255, 0.055);
+  stroke-width: 1;
+}
+
+.research-signal .rs-faint {
+  stroke: rgba(255, 255, 255, 0.16);
+}
+
+.research-signal .rs-main {
+  stroke: rgba(255, 255, 255, 0.92);
+  stroke-width: 1.3;
+}
+
+.research-signal .rs-glow {
+  stroke: rgba(255, 255, 255, 0.28);
+  stroke-width: 3;
+  filter: url(#rsBlur);
+}
+
+.research-signal .rs-area {
+  fill: url(#rsArea);
+  stroke: none;
+}
+
+.research-signal .rs-accent {
+  stroke: rgba(158, 226, 190, 0.55);
+  stroke-width: 1;
 }
 
 .research-visual-caption {
   position: absolute;
-  left: 20px;
-  top: 16px;
-  color: #9a9a9a;
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
+  left: 24px;
+  top: 20px;
+  z-index: 1;
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
 }
 
-.research-project-copy {
+.research-visual-meta {
+  position: absolute;
+  right: 22px;
+  bottom: 18px;
+  z-index: 1;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.research-visual-meta span {
+  padding: 5px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(6px);
+}
+
+/* 项目信息区 */
+.research-project-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+  gap: 28px 64px;
+  margin-top: 28px;
+}
+
+.research-project-main {
   min-width: 0;
-}
-
-.research-project-copy h3 {
-  margin: 12px 0 14px;
-  font-size: clamp(1.5rem, 2.2vw, 1.9rem);
-  letter-spacing: -0.01em;
-}
-
-.research-project-lede {
-  margin: 0 0 20px;
-  color: #424242;
-  font-size: 0.98rem;
-  line-height: 1.85;
 }
 
 .research-project-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 24px;
+  margin: 0 0 24px;
 }
 
 .research-project-tags .pill {
-  font-size: 0.85rem;
-  padding: 6px 13px;
+  padding: 5px 12px;
+  border-color: #e2e2e2;
+  background: transparent;
+  color: #555555;
+  font-size: 0.82rem;
   cursor: default;
 }
 
 .research-project-stats {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  margin: auto 0 0;
+  margin: 0;
   padding-top: 20px;
   border-top: 1px solid #ececec;
 }
 
 .research-project-stats div {
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 4px;
+  padding-right: 18px;
+  border-right: 1px solid #ececec;
+}
+
+.research-project-stats div + div {
+  padding-left: 22px;
+}
+
+.research-project-stats div:last-child {
+  padding-right: 0;
+  border-right: 0;
 }
 
 .research-project-stats dt {
@@ -4020,25 +4195,32 @@ body[data-theme="dark"] .wiki-tree-toggle-btn:hover {
 }
 
 .research-project-stats dd {
-  margin: 0;
+  margin: 6px 0 0;
   color: #111111;
-  font-size: 1.45rem;
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
   font-weight: 600;
-  letter-spacing: -0.01em;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.research-project-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
 }
 
 .research-project-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 12px 24px;
-  margin-top: 24px;
+  gap: 12px 20px;
 }
 
 .research-project-link {
   display: inline-flex;
   align-items: center;
-  padding: 10px 18px;
+  padding: 11px 20px;
   border-radius: 999px;
   background: #111111;
   color: #ffffff;
@@ -4067,9 +4249,10 @@ body[data-theme="dark"] .wiki-tree-toggle-btn:hover {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 10px 24px;
-  margin-top: 24px;
-  padding-top: 18px;
+  gap: 10px 16px;
+  width: 100%;
+  margin-top: 26px;
+  padding-top: 16px;
   border-top: 1px solid #ececec;
 }
 
@@ -4082,9 +4265,9 @@ body[data-theme="dark"] .wiki-tree-toggle-btn:hover {
   align-items: center;
   gap: 8px;
   padding: 8px 14px;
-  border: 1px solid #e5e5e5;
+  border: 1px solid #e2e2e2;
   border-radius: 999px;
-  color: #8f8f8f;
+  color: #6b6b6b;
   font-size: 0.85rem;
   transition: border-color 0.2s ease, color 0.2s ease;
 }
@@ -4095,7 +4278,9 @@ body[data-theme="dark"] .wiki-tree-toggle-btn:hover {
 }
 
 .research-project-note {
-  margin: 24px 0 0;
+  margin: 64px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid #ececec;
   color: #9a9a9a;
   font-size: 0.85rem;
   letter-spacing: 0.04em;
@@ -4123,12 +4308,33 @@ body[data-theme="dark"] .wiki-tree-toggle-btn:hover {
   }
 
   .research-project {
+    padding-top: 36px;
+  }
+
+  .research-project + .research-project {
+    margin-top: 64px;
+  }
+
+  .research-project-body {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 26px;
   }
 
   .research-project-visual {
-    min-height: 220px;
+    min-height: 260px;
+  }
+
+  .research-signal,
+  .research-kakeya-canvas {
+    height: 260px;
+  }
+
+  .research-project-side {
+    width: 100%;
+  }
+
+  .research-project-code {
+    margin-top: 20px;
   }
 }
 
@@ -4138,25 +4344,105 @@ body[data-theme="dark"] .wiki-tree-toggle-btn:hover {
   }
 
   .research-project {
-    gap: 20px;
-    padding: 20px;
+    padding-top: 32px;
+  }
+
+  .research-project + .research-project {
+    margin-top: 56px;
+  }
+
+  .research-project-head {
+    margin-bottom: 22px;
+  }
+
+  .research-project-head h3 {
+    margin-top: 12px;
+    font-size: 1.9rem;
+  }
+
+  .research-project-lede {
+    font-size: 0.96rem;
+    line-height: 1.8;
+  }
+
+  .research-project-visual {
+    min-height: 210px;
+    border-radius: 16px;
+  }
+
+  .research-signal,
+  .research-kakeya-canvas {
+    height: 210px;
+  }
+
+  .research-visual-toggle {
+    left: 16px;
+    bottom: 12px;
+    font-size: 0.62rem;
+  }
+
+  .research-visual-caption {
+    left: 16px;
+    top: 14px;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+  }
+
+  .research-visual-meta {
+    right: 14px;
+    bottom: 12px;
+    gap: 5px;
+  }
+
+  .research-visual-meta span {
+    padding: 4px 8px;
+    font-size: 0.64rem;
   }
 
   .research-focus-tags .pill,
   .research-project-tags .pill {
     display: inline-flex;
     width: auto;
-    padding: 6px 13px;
-    font-size: 0.85rem;
+    padding: 5px 11px;
+    font-size: 0.8rem;
+  }
+
+  .research-project-tags {
+    margin-bottom: 20px;
   }
 
   .research-project-stats {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
+    padding-top: 16px;
+  }
+
+  .research-project-stats div {
+    padding-right: 10px;
+  }
+
+  .research-project-stats div + div {
+    padding-left: 12px;
   }
 
   .research-project-stats dd {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
+  }
+
+  .research-project-stats dt {
+    font-size: 0.76rem;
+  }
+
+  .research-project-actions {
+    gap: 10px 16px;
+  }
+
+  .research-project-link {
+    padding: 9px 16px;
+    font-size: 0.86rem;
+  }
+
+  .research-project-note {
+    margin-top: 48px;
   }
 }
 
@@ -4179,44 +4465,47 @@ body[data-theme="dark"] .wiki-tree-toggle-btn:hover {
   body:not([data-theme="light"]) .research-status-note {
     color: #9a9a9a;
   }
-  body:not([data-theme="light"]) .research-project-visual {
-    border-color: #2a2a2a;
-  }
   body:not([data-theme="light"]) .research-project {
-    border-color: #2a2a2a;
-    background: #1a1a1a;
-  }
-  body:not([data-theme="light"]) .research-project-code {
-    border-top-color: #2a2a2a;
-  }
-  body:not([data-theme="light"]) .research-project-repo {
-    border-color: #3a3a3a;
-    color: #9a9a9a;
-  }
-  body:not([data-theme="light"]) .research-project-repo:hover {
-    border-color: #ffffff;
-    color: #ffffff;
+    border-top-color: #242424;
   }
   body:not([data-theme="light"]) .research-project-visual {
-    background: #1a1a1a;
+    border-color: #2a2a2a;
   }
-  body:not([data-theme="light"]) .research-signal path {
-    stroke: #f0f0f0;
+  body:not([data-theme="light"]) .research-project-index {
+    border-color: #383838;
+    color: #b8b8b8;
   }
-  body:not([data-theme="light"]) .research-visual-caption,
-  body:not([data-theme="light"]) .research-project-note {
-    color: #9a9a9a;
+  body:not([data-theme="light"]) .research-project-rule {
+    background: #383838;
   }
   body:not([data-theme="light"]) .research-project-lede {
     color: #b8b8b8;
   }
+  body:not([data-theme="light"]) .research-project-tags .pill {
+    border-color: #333333;
+    color: #aaaaaa;
+  }
   body:not([data-theme="light"]) .research-project-stats {
-    border-top-color: #2a2a2a;
+    border-top-color: #242424;
+  }
+  body:not([data-theme="light"]) .research-project-stats div {
+    border-right-color: #242424;
   }
   body:not([data-theme="light"]) .research-project-stats dt {
     color: #9a9a9a;
   }
   body:not([data-theme="light"]) .research-project-stats dd {
+    color: #ffffff;
+  }
+  body:not([data-theme="light"]) .research-project-code {
+    border-top-color: #242424;
+  }
+  body:not([data-theme="light"]) .research-project-repo {
+    border-color: #333333;
+    color: #9a9a9a;
+  }
+  body:not([data-theme="light"]) .research-project-repo:hover {
+    border-color: #ffffff;
     color: #ffffff;
   }
   body:not([data-theme="light"]) .research-project-link {
@@ -4225,6 +4514,10 @@ body[data-theme="dark"] .wiki-tree-toggle-btn:hover {
   }
   body:not([data-theme="light"]) .research-project-link:hover {
     background: #d8d8d8;
+  }
+  body:not([data-theme="light"]) .research-project-note {
+    border-top-color: #242424;
+    color: #888888;
   }
   body:not([data-theme="light"]) .research-project-doc,
   body:not([data-theme="light"]) .research-crosslink {
@@ -4256,39 +4549,31 @@ body[data-theme="dark"] .research-section-head > p:last-child,
 body[data-theme="dark"] .research-status-note {
   color: #9a9a9a;
 }
-body[data-theme="dark"] .research-project-visual {
-  border-color: #2a2a2a;
-}
 body[data-theme="dark"] .research-project {
-  border-color: #2a2a2a;
-  background: #1a1a1a;
-}
-body[data-theme="dark"] .research-project-code {
-  border-top-color: #2a2a2a;
-}
-body[data-theme="dark"] .research-project-repo {
-  border-color: #3a3a3a;
-  color: #9a9a9a;
-}
-body[data-theme="dark"] .research-project-repo:hover {
-  border-color: #ffffff;
-  color: #ffffff;
+  border-top-color: #242424;
 }
 body[data-theme="dark"] .research-project-visual {
-  background: #1a1a1a;
+  border-color: #2a2a2a;
 }
-body[data-theme="dark"] .research-signal path {
-  stroke: #f0f0f0;
+body[data-theme="dark"] .research-project-index {
+  border-color: #383838;
+  color: #b8b8b8;
 }
-body[data-theme="dark"] .research-visual-caption,
-body[data-theme="dark"] .research-project-note {
-  color: #9a9a9a;
+body[data-theme="dark"] .research-project-rule {
+  background: #383838;
 }
 body[data-theme="dark"] .research-project-lede {
   color: #b8b8b8;
 }
+body[data-theme="dark"] .research-project-tags .pill {
+  border-color: #333333;
+  color: #aaaaaa;
+}
 body[data-theme="dark"] .research-project-stats {
-  border-top-color: #2a2a2a;
+  border-top-color: #242424;
+}
+body[data-theme="dark"] .research-project-stats div {
+  border-right-color: #242424;
 }
 body[data-theme="dark"] .research-project-stats dt {
   color: #9a9a9a;
@@ -4296,9 +4581,24 @@ body[data-theme="dark"] .research-project-stats dt {
 body[data-theme="dark"] .research-project-stats dd {
   color: #ffffff;
 }
+body[data-theme="dark"] .research-project-code {
+  border-top-color: #242424;
+}
+body[data-theme="dark"] .research-project-repo {
+  border-color: #333333;
+  color: #9a9a9a;
+}
+body[data-theme="dark"] .research-project-repo:hover {
+  border-color: #ffffff;
+  color: #ffffff;
+}
 body[data-theme="dark"] .research-project-link {
   background: #ffffff;
   color: #111111;
+}
+body[data-theme="dark"] .research-project-note {
+  border-top-color: #242424;
+  color: #888888;
 }
 body[data-theme="dark"] .research-project-link:hover {
   background: #d8d8d8;

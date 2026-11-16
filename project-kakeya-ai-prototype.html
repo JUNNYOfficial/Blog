@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <title>Kakeya AI Prototype · 项目展示 · zhilinOfficial Blog</title>
+  <meta name="description" content="面向三维 Kakeya 型问题的研究原型：几何建模、体积下界估计、AI 辅助推理与带哈希链的 .kpt 证明轨迹。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Kakeya AI Prototype · 项目展示" />
+  <meta property="og:description" content="把三维 Kakeya 型问题做成可运行、可独立复核的计算实验。" />
+  <meta property="og:url" content="https://junnyshang.online/project-kakeya-ai-prototype.html" />
+  <meta property="og:image" content="https://junnyshang.online/avatar.jpg" />
+  <meta property="og:site_name" content="zhilinOfficial Blog" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="theme-color" content="#111111" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23111'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='60' font-family='system-ui' font-weight='700'%3EJ%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css?v=55" />
+  <link rel="stylesheet" href="project.css?v=11" />
+  <style>
+    /* ===== Kakeya 项目页专属 ===== */
+    .kp-six { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .kp-side {
+      border: 1px solid #e9e9e9;
+      border-radius: 18px;
+      padding: 22px;
+      background: #fafafa;
+    }
+    .kp-side h4 { margin: 0 0 10px; font-size: 1rem; }
+    .kp-side p { margin: 0 0 10px; color: #555; font-size: 0.9rem; line-height: 1.7; }
+    .kp-side p:last-child { margin-bottom: 0; }
+    .kp-side b { color: #111; }
+    .kp-code {
+      margin: 18px 0 0;
+      padding: 18px 20px;
+      border-radius: 14px;
+      background: #111111;
+      color: #e8e8e8;
+      font-size: 0.84rem;
+      line-height: 1.85;
+      overflow-x: auto;
+      font-variant-ligatures: none;
+    }
+    .kp-code code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .kp-code .kp-comment { color: #8a8a8a; }
+    @media (max-width: 1024px) {
+      .rt-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 780px) {
+      .kp-six { grid-template-columns: 1fr; }
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) .kp-side { background: #141414; border-color: #2a2a2a; }
+      body:not([data-theme="light"]) .kp-side p { color: #9a9a9a; }
+      body:not([data-theme="light"]) .kp-side b { color: #e0e0e0; }
+    }
+    body[data-theme="dark"] .kp-side { background: #141414; border-color: #2a2a2a; }
+    body[data-theme="dark"] .kp-side p { color: #9a9a9a; }
+    body[data-theme="dark"] .kp-side b { color: #e0e0e0; }
+  </style>
+</head>
+<body data-page="project">
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand">
+        <img class="brand-mark" src="avatar.jpg" alt="zhilinOfficial" />
+        <div>
+          <p class="eyebrow">zhilinOfficial</p>
+          <h1>项目展示</h1>
+        </div>
+      </div>
+      <nav class="nav-links" aria-label="主导航">
+        <a href="index.html">首页</a>
+        <a href="research.html" class="active" aria-current="page">研究</a>
+        <a href="articles.html">文章</a>
+        <a href="cooperate.html">合作</a>
+        <a href="contact.html">联系</a>
+        <a href="about.html">关于</a>
+      </nav>
+    </header>
+
+    <main class="rt-main">
+      <!-- ===== Hero ===== -->
+      <section class="rt-hero" id="kp-hero">
+        <div class="rt-hero-copy">
+          <p class="eyebrow">独立研究项目 · AI for Math</p>
+          <h1>Kakeya AI Prototype</h1>
+          <p class="rt-lede">
+            一个面向三维 Kakeya 型问题的研究原型：把<strong>几何建模、体积下界估计与 AI 辅助推理</strong>做成可运行、可独立复核的计算实验。
+            数值主干保持纯函数，C++ 内核缺失时自动回退 NumPy；候选路径由 surrogate 与 LLM 打分，并统一经过共用守卫；
+            每一步都可以落成<strong>带哈希链的 <code>.kpt</code> 证明轨迹</strong>。
+          </p>
+          <ul class="rt-tags">
+            <li>三维 Kakeya</li>
+            <li>几何建模</li>
+            <li>体积下界</li>
+            <li>AI 辅助推理</li>
+            <li>.kpt 轨迹</li>
+            <li>研究原型</li>
+          </ul>
+          <div class="rt-hero-links">
+            <a href="https://github.com/AperLumen/Kakeya-AI-Prototype" target="_blank" rel="noreferrer noopener">打开 GitHub 仓库 ↗</a>
+            <a href="research.html" class="rt-ghost">返回研究版块</a>
+          </div>
+        </div>
+        <aside class="rt-hero-meta" aria-label="项目概况">
+          <dl>
+            <div><dt>项目类型</dt><dd>独立研究 · 研究原型 / 实验平台</dd></div>
+            <div><dt>数学对象</dt><dd>三维 Kakeya 型管集</dd></div>
+            <div><dt>技术栈</dt><dd>Python · NumPy · C++ / pybind11 · Ollama</dd></div>
+            <div><dt>当前状态</dt><dd><span class="rt-dot"></span>v0.3.0 · 原型可用</dd></div>
+          </dl>
+          <p class="rt-hero-meta-note">研究原型，不是生产级系统。</p>
+        </aside>
+      </section>
+
+      <!-- ===== 核心数字 ===== -->
+      <section class="panel-section">
+        <div class="section-header">
+          <p class="eyebrow">Headline Numbers</p>
+          <h3>结构性规模，而非性能承诺</h3>
+        </div>
+        <div class="rt-stats">
+          <div class="rt-stat rt-accent"><b>6<small> 段</small></b><span>数值主干：primitives → wolff_axioms → grains → moves → proof_orchestrator → trace_format</span></div>
+          <div class="rt-stat"><b>3<small> 条</small></b><span>Move 启发式路径，三条共用同一套条件检查与有效性守卫</span></div>
+          <div class="rt-stat"><b>3<small> 种</small></b><span>体积计算后端：C++ float32、C++ float64 与 NumPy 参考实现</span></div>
+          <div class="rt-stat"><b>kpt/1</b><span>自包含的证明轨迹协议：几何输入、逐步指纹与哈希链一起落盘</span></div>
+        </div>
+        <p class="rt-note" style="margin-top:18px;">这些数字只描述仓库当前的结构，不是性能指标；页面不引用仓库之外的数字。</p>
+      </section>
+
+      <!-- ===== 项目定位 ===== -->
+      <section class="panel-section" id="kp-overview">
+        <div class="section-header">
+          <p class="eyebrow">Overview</p>
+          <h3>把数学想法变成可复跑的计算实验</h3>
+        </div>
+        <p class="rt-note rt-sec-lede">
+          项目围绕三维 Kakeya 型问题，提供四层能力：<b>几何结构建模</b>表达管状集合、方向与几何关系；<b>数值估计与验证</b>评估体积下界与实验结果；
+          <b>启发式搜索与推理</b>用 surrogate 与 LLM 打分器探索候选路径；<b>调度与资源建模</b>把提问拆成可测的调度主链，并配套芯片预算模型。
+        </p>
+
+        <div class="rt-table-wrap">
+          <table class="rt-exp-table">
+            <thead><tr><th>层</th><th class="rt-exp-hide">位置</th><th>仓库里的实际职责</th></tr></thead>
+            <tbody>
+              <tr><td>数值主干</td><td class="rt-exp-hide"><code>src/kakeya_ai</code></td><td>从几何原语到证明轨迹的六个阶段；纯函数数值内核，结论可独立复核</td></tr>
+              <tr><td>加速内核</td><td class="rt-exp-hide"><code>cpp/</code></td><td>pybind11 + C ABI；按可用性选择 C++ 后端，缺失时回退 NumPy</td></tr>
+              <tr><td>调度与芯片预算</td><td class="rt-exp-hide"><code>nano/</code></td><td>架构清单、chip_model、动态调度器与多租户资源裁定</td></tr>
+              <tr><td>轨迹工具</td><td class="rt-exp-hide"><code>kakeya-kpt</code></td><td>head / steps / show / verify / json 五个子命令</td></tr>
+              <tr><td>架构图</td><td class="rt-exp-hide"><code>docs/diagrams</code></td><td>调度主链、数据流、Move 选择三张 Mermaid 源图</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="rt-boundary" style="margin-top:22px;">
+          <h4>定位边界 <span class="rt-verdict rt-verdict-warn">研究原型</span></h4>
+          <p>README 明确把这套代码定位为“研究原型”和“实验平台”，而不是生产级系统。它适合研究、教学与算法验证，不承诺工程 SLA，也不把数值复核等同于形式化证明。</p>
+        </div>
+      </section>
+
+      <!-- ===== 数值主干 ===== -->
+      <section class="panel-section" id="kp-spine">
+        <div class="section-header">
+          <p class="eyebrow">Numeric Spine</p>
+          <h3>六段主干：从管集到可复核轨迹</h3>
+        </div>
+        <p class="rt-note rt-sec-lede">主干每一步都对应一次真实的数值计算。加速与 AI 打分是可关闭的横向旁路：关掉任何一条，主干仍能跑通，只是更慢或少了搜索建议。</p>
+        <div class="rt-pipeline kp-six">
+          <div class="rt-pipe-step"><span class="rt-pipe-num">01</span><h4>几何原语</h4><p class="rt-pipe-en">Primitives</p><p>用显式的管、方向与 shading 表达输入，让后续每一步都有可序列化的几何对象。</p></div>
+          <div class="rt-pipe-step"><span class="rt-pipe-num">02</span><h4>非聚集检查</h4><p class="rt-pipe-en">Wolff Axioms</p><p>检查管族是否满足后续推理所需的非聚集条件——这是 Move 能否应用的前提。</p></div>
+          <div class="rt-pipe-step"><span class="rt-pipe-num">03</span><h4>方向对齐分解</h4><p class="rt-pipe-en">Grains</p><p>把管集按方向对齐拆成 grains，为局部修正与体积估计提供可操作的几何单元。</p></div>
+          <div class="rt-pipe-step"><span class="rt-pipe-num">04</span><h4>三条 Move</h4><p class="rt-pipe-en">Moves</p><p>Move #1 / #2 / #3 对应不同的几何修正路径；先计算条件，再决定哪一条真正可执行。</p></div>
+          <div class="rt-pipe-step"><span class="rt-pipe-num">05</span><h4>证明路径搜索</h4><p class="rt-pipe-en">Proof Orchestrator</p><p>“状态 → 检查 → 选择 Move → 应用 → 再检查”的主循环，直到成功或预算耗尽。</p></div>
+          <div class="rt-pipe-step"><span class="rt-pipe-num">06</span><h4>轨迹与复核</h4><p class="rt-pipe-en">Trace Format</p><p>把几何输入、每步指纹与哈希链写入 <code>.kpt</code>；<code>verify</code> 可独立重算并逐步定位差异。</p></div>
+        </div>
+        <p class="rt-figure-caption">可选的横向旁路包括 <code>grains_fast / grains_cpp</code> 加速、<code>volume</code> 体积校验，以及 <code>surrogate_scorer / model_router</code> 等 AI 打分路径；它们不改变主干语义。</p>
+      </section>
+
+      <!-- ===== AI 推理与守卫 ===== -->
+      <section class="panel-section" id="kp-ai">
+        <div class="section-header">
+          <p class="eyebrow">AI Reasoning</p>
+          <h3>打分可以关闭，采纳必须过守卫</h3>
+        </div>
+        <p class="rt-note rt-sec-lede">在 Move 选择这条路径上，AI 只提出候选，不直接改写几何状态。所有来源的建议都要经过同一套条件检查与有效性守卫；被拦下的建议退回启发式，并显式记入 notes。</p>
+        <div class="rt-duo">
+          <div class="kp-side">
+            <h4>候选搜索：surrogate + LLM</h4>
+            <p>仓库提供 surrogate 打分器与 LLM 打分器两条实验路径，以及 beam search、两阶段打分、专家路由等接口；LLM 侧通过本地 Ollama 运行，README 示例使用 <code>qwen3.5:4b</code>。</p>
+            <p>打分器给出的候选只有在 gap 超过阈值时才会进入守卫；没有 Ollama 时，相关用例会自动跳过或打桩，测试仍可运行。</p>
+          </div>
+          <div class="kp-side">
+            <h4>共用守卫：什么才算“生效”</h4>
+            <p>条件检查 <code>m1_ok / m2_ok / m3_ok</code> 在三条路径之前统一计算。候选必须通过 <code>_scored_action_allowed</code>：条件已满足的 Move 会被拒绝，同状态下试过且指标逐位不变的 Move 也会被拒绝。</p>
+            <p>被守卫拦下不是错误——它退回启发式，但会显式记录，避免把“给了答案但没用”统计成“生效”。</p>
+          </div>
+        </div>
+        <div class="rt-boundary" style="margin-top:18px;">
+          <h4>仓库记录的一次真实修复 <span class="rt-verdict rt-verdict-warn">修复前数据</span></h4>
+          <p>在共用守卫修复前，surrogate 选出的 Move 有效率只有 <b>12%</b>（36 次空转 / 5 次有效），低于启发式的 <b>33%</b>。原因是前两条打分路径绕过了条件检查，空转建议也被算进了“生效”。修复后，条件检查前置、建议统一过守卫，被拦下的建议会进入 notes。</p>
+        </div>
+      </section>
+
+      <!-- ===== 调度与芯片预算 ===== -->
+      <section class="panel-section" id="kp-scheduler">
+        <div class="section-header">
+          <p class="eyebrow">Scheduling</p>
+          <h3>从提问到计划，只调度、不执行</h3>
+        </div>
+        <p class="rt-note rt-sec-lede">调度主链把“提问 → 子问题 → 模块/资源 → 执行顺序 → 计划”拆成可测试的步骤。chip_model 判断算力还是带宽受限，predict_schedule 依据单核墙钟选择线程数。</p>
+        <div class="rt-pipeline">
+          <div class="rt-pipe-step"><span class="rt-pipe-num">01</span><h4>提问</h4><p class="rt-pipe-en">Query</p><p>接收自然语言提问，作为调度主链的输入。</p></div>
+          <div class="rt-pipe-step"><span class="rt-pipe-num">02</span><h4>拆子问题</h4><p class="rt-pipe-en">Decompose</p><p>按关键词拆成 <code>SubQuestion[]</code>，每个子问题带自己的 ModuleKind。</p></div>
+          <div class="rt-pipe-step"><span class="rt-pipe-num">03</span><h4>逐子问题规划</h4><p class="rt-pipe-en">Plan Query</p><p>消费 chip_model 与 predict_schedule，产出“模块 + 后端 + 线程数”的 TaskPlan。</p></div>
+          <div class="rt-pipe-step"><span class="rt-pipe-num">04</span><h4>执行顺序</h4><p class="rt-pipe-en">Execution Order</p><p>拓扑分层后按核预算裁定：并发需求超订就串行，否则并行或让 host 任务重叠。</p></div>
+          <div class="rt-pipe-step"><span class="rt-pipe-num">05</span><h4>计划</h4><p class="rt-pipe-en">SchedulePlan</p><p>只产出计划，不执行计算；真正的执行仍走 accel 与各个 kernel。</p></div>
+        </div>
+        <p class="rt-figure-caption">expert_router 是另一条分工线：它决定“用哪个模型回答”，不决定“调哪些计算模块”。架构清单是芯片/调度/内核的单一真源，<code>scheduler_flow.mmd</code> 由清单生成，手改会被守门测试判红。</p>
+      </section>
+
+      <!-- ===== 可展示的成果 ===== -->
+      <section class="panel-section" id="kp-engineering">
+        <div class="section-header">
+          <p class="eyebrow">Deliverables</p>
+          <h3>可以直接打开、运行与复核的东西</h3>
+        </div>
+        <div class="rt-table-wrap">
+          <table class="rt-exp-table">
+            <thead><tr><th>成果</th><th>入口</th><th class="rt-exp-hide">说明</th></tr></thead>
+            <tbody>
+              <tr><td><code>.kpt</code> 轨迹与 CLI</td><td><code>kakeya-kpt</code></td><td class="rt-exp-hide">自包含 JSONL + 头部参数 + 哈希链；可独立复核</td></tr>
+              <tr><td>数值内核</td><td><code>src/kakeya_ai</code> + <code>cpp/</code></td><td class="rt-exp-hide">纯函数参考实现；C++ 不可用时自动回退 NumPy</td></tr>
+              <tr><td>架构图</td><td><code>docs/diagrams</code></td><td class="rt-exp-hide">三张 Mermaid 源图：调度主链、数据流、Move 选择</td></tr>
+              <tr><td>架构清单</td><td><code>nano/manifest</code></td><td class="rt-exp-hide">单一真源；与 C++、Python 三方同源由测试守门</td></tr>
+              <tr><td>测试</td><td><code>tests/</code></td><td class="rt-exp-hide">覆盖 geometry / ai / orchestration / scheduling / resource / tooling</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <pre class="kp-code"><code><span class="kp-comment"># 安装后即可使用；轨迹文件由 proof_orchestrator 生成</span>
+kakeya-kpt head   trace.kpt --json   <span class="kp-comment"># 只读头部：规模 / 结论 / 参数</span>
+kakeya-kpt steps  trace.kpt -n 10    <span class="kp-comment"># 流式逐步读出</span>
+kakeya-kpt show   trace.kpt          <span class="kp-comment"># 完整渲染成可读文本</span>
+kakeya-kpt verify trace.kpt          <span class="kp-comment"># 验哈希链 + 重算体积下界</span>
+kakeya-kpt json   trace.kpt --pretty <span class="kp-comment"># 结构化输出</span></code></pre>
+
+        <p class="rt-figure-caption">轨迹的浮点按 <code>float.hex()</code> 参与哈希，逐位精确；哈希链能定位到具体哪一步被改动，而不是只报“整个文件坏了”。</p>
+      </section>
+
+      <!-- ===== 边界 ===== -->
+      <section class="panel-section" id="kp-boundary">
+        <div class="section-header">
+          <p class="eyebrow">Honest Boundaries</p>
+          <h3>这些说法，项目自己先划清</h3>
+        </div>
+        <div class="rt-boundary">
+          <h4>研究原型，不是生产系统 <span class="rt-verdict rt-verdict-warn">定位</span></h4>
+          <p>README 的原始定位就是“研究原型”与“实验平台”。它用于研究、教学和算法验证，不承诺生产环境的性能、稳定性或运维能力。</p>
+        </div>
+        <div class="rt-boundary">
+          <h4>哈希链只保证完整性，不是认证 <span class="rt-verdict rt-verdict-bad">安全边界</span></h4>
+          <p><code>.kpt</code> 的哈希链能防意外损坏、传输错误和事后悄悄改数；但没有密钥，有动机的攻击者可以改内容后重算整条链。要抵抗这种场景需要签名，项目明确说明暂未实现，也不假装实现。</p>
+        </div>
+        <div class="rt-boundary">
+          <h4>独立复核 ≠ 形式化证明 <span class="rt-verdict rt-verdict-warn">证据边界</span></h4>
+          <p><code>verify</code> 会重新计算每一步的体积下界并与文件比对，这是“解释器”的自洽检查，不是 Lean 之类的形式化证明。数值结论可以复跑，但不因此自动获得定理地位。</p>
+        </div>
+        <div class="rt-boundary">
+          <h4>调度器只出计划，不执行计算 <span class="rt-verdict rt-verdict-warn">职责边界</span></h4>
+          <p><code>SchedulePlan</code> 描述模块、后端、线程数与执行顺序，但不触发实际计算。真正的执行仍由 accel 与各个 kernel 完成，避免“计划”和“执行”混成一个不可审计的黑箱。</p>
+        </div>
+      </section>
+
+      <!-- ===== 入口 ===== -->
+      <section class="panel-section" id="kp-links">
+        <div class="section-header">
+          <p class="eyebrow">Repository</p>
+          <h3>代码、架构图与测试</h3>
+        </div>
+        <p class="rt-note rt-sec-lede">项目的全部代码、三张架构图源文件与测试都在 GitHub。仓库采用 AGPL-3.0 与商业授权双许可，学术/非商业使用适用 AGPL-3.0。</p>
+        <div class="rt-hero-links">
+          <a href="https://github.com/AperLumen/Kakeya-AI-Prototype" target="_blank" rel="noreferrer noopener">打开 GitHub 仓库 ↗</a>
+          <a href="research.html" class="rt-ghost">返回研究版块</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>zhilinOfficial Blog • 2026</p>
+    </footer>
+  </div>
+
+  <script src="script.js?v=53"></script>
+  <script src="page-transition.js?v=45"></script>
+</body>
+</html>
